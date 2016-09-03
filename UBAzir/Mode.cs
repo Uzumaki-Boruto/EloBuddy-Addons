@@ -495,8 +495,11 @@ namespace UBAzir
                     if (target.IsValid() && Minion == null && !Player.Instance.IsUnderEnemyturret()
                         && target.IsInRange(ObjManager.Soldier_Nearest_Enemy, Spells.WFocus.Range))
                     {
-                        Player.IssueOrder(GameObjectOrder.AttackUnit, target);
-                        Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                        Orbwalker.ForcedTarget = target;
+                    }
+                    else
+                    {
+                        Orbwalker.ForcedTarget = TargetSelector.SelectedTarget;
                     }
                 }
             }

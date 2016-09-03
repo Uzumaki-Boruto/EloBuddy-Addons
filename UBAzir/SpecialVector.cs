@@ -196,9 +196,15 @@ namespace UBAzir
                                                ObjManager.Soldier_Nearest_Enemy.Extend(minion.Position, Spells.WLine.Range), 50f)
                                            where polygon.IsInside(TargetPos)
                                            select minion)
-                    {
-                        Player.IssueOrder(GameObjectOrder.AttackUnit, minion);
-                    }
+
+                        if (minion != null)
+                        {
+                            Orbwalker.ForcedTarget = minion;
+                        }
+                        else
+                        {
+                            Orbwalker.ForcedTarget = TargetSelector.SelectedTarget;
+                        }
 
                     foreach (var monster in from monster in monsters
                                             let polygon = new Geometry.Polygon.Rectangle(
@@ -206,9 +212,14 @@ namespace UBAzir
                                                ObjManager.Soldier_Nearest_Enemy.Extend(monster.Position, Spells.WLine.Range), 50f)
                                             where polygon.IsInside(TargetPos)
                                             select monster)
-                    {
-                        Player.IssueOrder(GameObjectOrder.AttackUnit, monster);
-                    }
+                        if (monster != null)
+                        {
+                            Orbwalker.ForcedTarget = monster;
+                        }
+                        else
+                        {
+                            Orbwalker.ForcedTarget = TargetSelector.SelectedTarget;
+                        }
 
                     foreach (var champ in from champ in champs
                                           let polygon = new Geometry.Polygon.Rectangle(
@@ -217,13 +228,13 @@ namespace UBAzir
                                           where polygon.IsInside(TargetPos)
                                           select champ)
                     {
-                        if (!Orbwalker.CanAutoAttack || Orbwalker.IsAutoAttacking)
+                        if (champ != null)
                         {
-                            return;
+                            Orbwalker.ForcedTarget = champ;
                         }
                         else
                         {
-                            Player.IssueOrder(GameObjectOrder.AttackUnit, champ);
+                            Orbwalker.ForcedTarget = TargetSelector.SelectedTarget;
                         }
                     }
                 }
