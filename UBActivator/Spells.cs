@@ -132,22 +132,21 @@ namespace UBActivator
             {
                 if (Config.Spell["eHeal"].Cast<CheckBox>().CurrentValue
                  && Player.Instance.HealthPercent <= Config.Spell["myHPHeal"].Cast<Slider>().CurrentValue
-                 && ObjectManager.Player.CountEnemiesInRange(1200) >= 1)
+                 && Player.Instance.CountEnemiesInRange(1200) >= 1)
                 {
                     Heal.Cast();
                 }
-                foreach (
-                    var ally in EntityManager.Heroes.Allies.Where(a => !a.IsDead))
+                foreach (var ally in EntityManager.Heroes.Allies.Where(a => !a.IsDead))
                 {
-                    if (ally != null)
+                    if (EntityManager.Heroes.Allies.Where(a => !a.IsDead) != null)
                     {
                         if (Config.Spell["eHealAlly"].Cast<CheckBox>().CurrentValue
                             && ally.CountEnemiesInRange(1200) >= 1
-                            && ObjectManager.Player.Position.Distance(ally) <= 800
+                            && Player.Instance.Position.Distance(ally) <= 800
                             && Config.Spell["heal" + ally.ChampionName].Cast<CheckBox>().CurrentValue
                             && ally.HealthPercent <= Config.Spell["allyHPHeal"].Cast<Slider>().CurrentValue)
                         {
-                            Heal.Cast(ally);
+                            Heal.Cast();
                         }
                     }
                 }
