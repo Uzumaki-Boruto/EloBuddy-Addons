@@ -102,8 +102,8 @@ namespace UBAzir
                     {
                         continue;
                     }
-                    var Special_X = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -10 : 0;
-                    var Special_Y = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -12 : 9;
+                    var Special_X = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -12 : 0;
+                    var Special_Y = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -3 : 9;
 
                     var DamagePercent = ((unit.TotalShieldHealth() - damage) > 0
                         ? (unit.TotalShieldHealth() - damage)

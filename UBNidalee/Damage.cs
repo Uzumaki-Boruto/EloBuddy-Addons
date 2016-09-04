@@ -156,12 +156,15 @@ namespace UBNidalee
                        : 0) / (unit.MaxHealth + unit.AllShield + unit.AttackShield + unit.MagicShield);
                     var currentHealthPercent = unit.TotalShieldHealth() / (unit.MaxHealth + unit.AllShield + unit.AttackShield + unit.MagicShield);
 
-                    var startPoint = new Vector2((int)(unit.HPBarPosition.X + damagePercentinCougar * BarWidth) + 1,
-                       (int)unit.HPBarPosition.Y + 9);
-                    var midPoint = new Vector2((int)(unit.HPBarPosition.X + damagePercentinHuman * BarWidth) + 1,
-                        (int)unit.HPBarPosition.Y + 9);
-                    var endPoint = new Vector2((int)(unit.HPBarPosition.X + currentHealthPercent * BarWidth) + 1,
-                        (int)unit.HPBarPosition.Y + 9);
+                    var Special_X = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -12 : 0;
+                    var Special_Y = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -3 : 9;
+
+                    var startPoint = new Vector2((int)(unit.HPBarPosition.X + Special_X + damagePercentinCougar * BarWidth) + 1,
+                       (int)unit.HPBarPosition.Y + Special_Y);
+                    var midPoint = new Vector2((int)(unit.HPBarPosition.X + Special_X + damagePercentinHuman * BarWidth) + 1,
+                        (int)unit.HPBarPosition.Y + Special_Y);
+                    var endPoint = new Vector2((int)(unit.HPBarPosition.X + Special_X + currentHealthPercent * BarWidth) + 1,
+                        (int)unit.HPBarPosition.Y + Special_Y);
 
                     Drawing.DrawLine(startPoint, endPoint, 9.8f, Colour.Gold);
                     Drawing.DrawLine(midPoint, endPoint, 10f, Colour.LimeGreen);

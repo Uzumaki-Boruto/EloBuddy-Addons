@@ -138,7 +138,7 @@ namespace UBActivator
                 }
                 foreach (var ally in EntityManager.Heroes.Allies.Where(a => !a.IsDead))
                 {
-                    if (EntityManager.Heroes.Allies.Where(a => !a.IsDead) != null)
+                    if (EntityManager.Heroes.Allies.Where(a => !a.IsDead) != null && ally.ChampionName != Player.Instance.ChampionName)
                     {
                         if (Config.Spell["eHealAlly"].Cast<CheckBox>().CurrentValue
                             && ally.CountEnemiesInRange(1200) >= 1

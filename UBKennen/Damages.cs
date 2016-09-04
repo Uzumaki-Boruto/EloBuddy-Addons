@@ -64,18 +64,18 @@ namespace UBKennen
                     {
                         continue;
                     }
-                    //var Special_X = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -10 : 0;
-                    //var Special_Y = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -12 : 9;
+                    var Special_X = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -12 : 0;
+                    var Special_Y = unit.ChampionName == "Jhin" || unit.ChampionName == "Annie" ? -3 : 9;
 
                     var DamagePercent = ((unit.TotalShieldHealth() - damage) > 0
                         ? (unit.TotalShieldHealth() - damage)
                         : 0) / (unit.MaxHealth + unit.AllShield + unit.AttackShield + unit.MagicShield);
                     var currentHealthPercent = unit.TotalShieldHealth() / (unit.MaxHealth + unit.AllShield + unit.AttackShield + unit.MagicShield);
 
-                    var StartPoint = new Vector2((int)(unit.HPBarPosition.X + DamagePercent * 107) + 1,
-                        (int)unit.HPBarPosition.Y);
-                    var EndPoint = new Vector2((int)(unit.HPBarPosition.X + currentHealthPercent * 107) + 1,
-                        (int)unit.HPBarPosition.Y);
+                    var StartPoint = new Vector2((int)(unit.HPBarPosition.X + Special_X + DamagePercent * 107) + 1,
+                        (int)unit.HPBarPosition.Y + Special_Y);
+                    var EndPoint = new Vector2((int)(unit.HPBarPosition.X + Special_X + currentHealthPercent * 107) + 1,
+                        (int)unit.HPBarPosition.Y + Special_Y);
                     var Color = Config.DrawMenu["Color"].Cast<ColorPicker>().CurrentValue;
                     Drawing.DrawLine(StartPoint, EndPoint, 9.82f, Color);
                 }

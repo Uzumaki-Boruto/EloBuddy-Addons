@@ -30,7 +30,7 @@ namespace UBActivator
             || (Type == BuffType.Fear && Config.Clean["Fear"].Cast<CheckBox>().CurrentValue)
             || (Type == BuffType.NearSight && Config.Clean["Nearsight"].Cast<CheckBox>().CurrentValue)
             || (Type == BuffType.Polymorph && Config.Clean["Polymorph"].Cast<CheckBox>().CurrentValue)
-            || (Type == BuffType.Taunt && Config.Clean["Taught"].Cast<CheckBox>().CurrentValue)
+            || (Type == BuffType.Taunt && Config.Clean["Taunt"].Cast<CheckBox>().CurrentValue)
             || (Type == BuffType.Slow && Config.Clean["Slow"].Cast<CheckBox>().CurrentValue)
             || (Type == BuffType.Stun && Config.Clean["Stun"].Cast<CheckBox>().CurrentValue)
             || (Type == BuffType.Snare && Config.Clean["Snare"].Cast<CheckBox>().CurrentValue)
