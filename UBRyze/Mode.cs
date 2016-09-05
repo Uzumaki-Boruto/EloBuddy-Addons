@@ -813,8 +813,8 @@ namespace UBRyze
                 && sender != null
                 && sender.IsEnemy
                 && sender.IsValid
-                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 100 || args.End.IsInRange(Player.Instance, Spells.W.Range))
-                && sender.Spellbook.CastEndTime <= Spells.W.CastDelay
+                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 100 /*|| args.End.IsInRange(Player.Instance, Spells.W.Range)*/)
+                && (sender.Spellbook.CastEndTime - Game.Time) * 1000 <= Spells.E.CastDelay
                 && Config.MiscMenu["gapcloser"].Cast<CheckBox>().CurrentValue)
             {
                 Spells.W.Cast(sender);

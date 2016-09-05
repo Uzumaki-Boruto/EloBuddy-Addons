@@ -67,7 +67,7 @@ namespace UBAzir
                 && sender != null
                 && sender.IsEnemy
                 && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 100 || args.End.IsInRange(Player.Instance, Spells.R.Range))
-                && sender.Spellbook.CastEndTime <= Spells.R.CastDelay
+                && (sender.Spellbook.CastEndTime - Game.Time) * 1000 <= Spells.E.CastDelay
                 && Config.MiscMenu["gap"].Cast<CheckBox>().CurrentValue
                 && Config.MiscMenu["gap" + sender.ChampionName].Cast<CheckBox>().CurrentValue)
             {
