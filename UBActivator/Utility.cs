@@ -15,6 +15,7 @@ namespace UBActivator
             Items.Tear_of_the_Goddess, Items.Archangel_Staff, Items.Manamune,
         };
         public static float LastStack;
+        public static float LastRemind;
         public static bool IsReady
         {
             get { return ItemTear.Any(i =>i.IsOwned() && Game.Time - LastStack > 1.5f); }
@@ -273,6 +274,14 @@ namespace UBActivator
                     default:
                         break;
                 #endregion
+                }
+            }
+            if (Player.Instance.IsInShopRange() && Player.Instance.Level >= 9 && Player.Instance.Level < 12 && Config.Utility["remind"].Cast<CheckBox>().CurrentValue)
+            {
+                if (Game.Time - LastRemind > 15f)
+                {
+                    Chat.Print("Change your Trinket");
+                    LastRemind = Game.Time;
                 }
             }
         }      

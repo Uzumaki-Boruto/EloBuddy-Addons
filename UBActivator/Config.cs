@@ -305,6 +305,8 @@ namespace UBActivator
 
             Utility = Menu.AddSubMenu("Other Settings");
             {
+                Utility.AddGroupLabel("Remind Trinkets");
+                Utility.Add("remind", new CheckBox("Remind me to change Trinkets"));
                 Utility.AddGroupLabel("Auto Tear");
                 Utility.Add("etear", new CheckBox("Auto stack Tear"));
                 Utility.AddGroupLabel("Mod Skin");
