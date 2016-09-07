@@ -58,8 +58,10 @@ namespace UBRyze
                 {
                     var On = new SimpleNotification("Auto Harass status:", "Activated. ");
                     var Off = new SimpleNotification("Auto Harass status:", "Disable. ");
-
-                    Notifications.Show(HarassKey.CurrentValue ? On : Off, 2000);
+                    if (Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue && Config.DrawMenu["notif"].Cast<CheckBox>().CurrentValue)
+                    {
+                        Notifications.Show(HarassKey.CurrentValue ? On : Off, 2000);
+                    }
                 };
                 HarassMenu.Add("autohrmng", new Slider("Stop auto harass if my MP  below {0}%", 80));
             }
@@ -103,6 +105,7 @@ namespace UBRyze
             {
                 AutoBox = AutoMenu.Add("autofl", new ComboBox("Auto W when flash", 1, "None", "W", "E + W"));
                 AutoBox.OnValueChange += AutoBox_OnValueChange;
+                AutoMenu.Add("R", new KeyBind("R & Zhonya to nearest turret", false, KeyBind.BindTypes.HoldActive));
                 //AutoMenu.AddSeparator();
                 //AutoMenu.Add("Rzh", new Slider("Auto use Zhonya & R to your nearesr Nexus if around you >= {0}", 5, 1, 6));
                 //AutoMenu.Add("Rzhe", new Slider("Get enemy around you {0}0 distance", 50, 0, 150));
@@ -125,6 +128,7 @@ namespace UBRyze
             DrawMenu = Menu.AddSubMenu("Drawing");
             {
                 DrawMenu.Add("draw", new CheckBox("Enable Drawing"));
+                DrawMenu.Add("notif", new CheckBox("Enable Notification"));
                 DrawMenu.Add("drQ", new CheckBox("Draw Q"));
                 DrawMenu.Add("drW", new CheckBox("Draw W + E"));
                 DrawMenu.Add("drR", new CheckBox("Draw R"));

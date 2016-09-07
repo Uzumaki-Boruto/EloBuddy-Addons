@@ -1,4 +1,5 @@
-﻿using EloBuddy;
+﻿using System;
+using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
 
@@ -10,10 +11,8 @@ namespace UBRyze
         public static Spell.Targeted W { get; private set; }
         public static Spell.Targeted E { get; private set; }
         public static Spell.Skillshot R { get; private set; }
-        public static Spell.Skillshot R2 { get; private set; }
 
-        public static int[] Range = { 1500, 3000 };
-
+        public static Item Zhonya = new Item(ItemId.Zhonyas_Hourglass);
 
         public static void InitSpells()
         {
@@ -23,10 +22,17 @@ namespace UBRyze
             
             E = new Spell.Targeted(SpellSlot.E, 600);
 
-            R = new Spell.Skillshot(SpellSlot.R, 1500, SkillShotType.Circular, 2250, int.MaxValue, 475);
-
-            R2 = new Spell.Skillshot(SpellSlot.R, 3000, SkillShotType.Circular, 2250, int.MaxValue, 475);
+            R = new Spell.Skillshot(SpellSlot.R, 1750, SkillShotType.Circular, 2250, int.MaxValue, 475);
                            
         }
+
+        public static void UpdateSpells(EventArgs args)
+        {
+            if (R.Level == 2 && R.Range == 1750)
+            {
+                R = new Spell.Skillshot(SpellSlot.R, 3000, SkillShotType.Circular, 2250, int.MaxValue, 475);
+            }
+        }
+
     }
 }

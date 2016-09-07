@@ -17,16 +17,19 @@ namespace UBRyze
         {
             if (Player.Instance.ChampionName != "Ryze") return;
 
-            var notStart = new SimpleNotification("UBRyze Load Status", "UBRyze sucessfully loaded.");
-            Notifications.Show(notStart, 5000);
-
             Config.Dattenosa();
             Spells.InitSpells();
             InitEvents();
         }
         private static void InitEvents()
         {
+            if (Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue && Config.DrawMenu["notif"].Cast<CheckBox>().CurrentValue)
+            {
+                var notStart = new SimpleNotification("UBRyze Load Status", "UBRyze sucessfully loaded.");
+                Notifications.Show(notStart, 5000);
+            }
             Game.OnTick += GameOnTick;
+            Game.OnTick += Mode.Zhonya;
             Game.OnUpdate += Mode.AutoHarass;
             Game.OnUpdate += Mode.Killsteal;
 
@@ -45,7 +48,6 @@ namespace UBRyze
               
         private static void GameOnTick(EventArgs args)
         {
-            Orbwalker.ForcedTarget = null;
             if (Player.Instance.IsDead) return;
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
@@ -75,10 +77,6 @@ namespace UBRyze
             if (Config.DrawMenu["drR"].Cast<CheckBox>().CurrentValue && Player.Instance.Level < 11)
             {
                 Circle.Draw(Spells.R.IsLearned ? Color.Green : Color.Zero, Spells.R.Range, Player.Instance.Position);
-            }
-            if (Config.DrawMenu["drR"].Cast<CheckBox>().CurrentValue && Player.Instance.Level >= 11)
-            {
-                Circle.Draw(Spells.R.IsLearned ? Color.Green : Color.Zero, Spells.R2.Range, Player.Instance.Position);
             }
         }
     }

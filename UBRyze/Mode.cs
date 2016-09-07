@@ -650,6 +650,26 @@ namespace UBRyze
         }
         #endregion
 
+        #region Zhonya & Flee
+        public static void Zhonya(EventArgs args)
+        {
+            if (Config.AutoMenu["R"].Cast<KeyBind>().CurrentValue && Spells.R.IsReady() && Spells.Zhonya.IsOwned() && Spells.Zhonya.IsReady())
+            {
+                var NearestTurret = EntityManager.Turrets.Allies.Where(x => !x.IsDead).OrderBy(x => x.Distance(Player.Instance.Position)).FirstOrDefault();
+                if (Spells.R.IsInRange(NearestTurret))
+                {
+                    Spells.R.Cast(NearestTurret);
+                    Spells.Zhonya.Cast();
+                }
+                else 
+                {
+                    Spells.R.Cast(Player.Instance.Position.Extend(NearestTurret, Spells.R.Range).To3D());
+                    Spells.Zhonya.Cast();
+                }
+            }
+        }
+        #endregion
+
         #region On_Unkillable_Minion
         public static void On_Unkillable_Minion(Obj_AI_Base unit, Orbwalker.UnkillableMinionArgs args)
         {
