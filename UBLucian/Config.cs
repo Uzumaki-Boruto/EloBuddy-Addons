@@ -173,7 +173,7 @@ namespace UBLucian
                         }
                     }
                 };
-                FleeMenu.Add("jumptype", new ComboBox("Jump Type", 0, "Don't E jump", "Flee Active", "Auto Jump"));
+                FleeMenu.Add("jumptype", new ComboBox("Dash Type", 0, "Don't E Dash", "Flee Active", "Auto Dash"));
                 FleeMenu.Add("jumpclickrange", new Slider("Range of Click", 50, 20, 100));
             }
 
