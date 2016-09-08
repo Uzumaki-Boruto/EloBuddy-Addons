@@ -63,7 +63,7 @@ namespace UBLucian
 
         public static void DrawJumpSpot(EventArgs agrs)
         {
-            if (Config.DrawMenu.Checked("spot"))
+            if (Config.DrawMenu.Checked("spot") && Config.DrawMenu.Checked("draw"))
             {
                 foreach (var spot in JumpSpots.Where(s => Player.Instance.Distance(s[0]) <= 2000))
                 {

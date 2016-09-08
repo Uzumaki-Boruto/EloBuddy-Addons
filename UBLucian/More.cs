@@ -36,13 +36,10 @@ namespace UBLucian
 
             Gapcloser.OnGapcloser += Mode.Gapcloser_OnGapcloser;
 
-            if (Config.DrawMenu.Checked("draw"))
-            {
-                if (Game.MapId == GameMapId.SummonersRift)
+            if (Game.MapId == GameMapId.SummonersRift)
                     Drawing.OnDraw += Flee.DrawJumpSpot;
-                Drawing.OnDraw += OnDraw;
-                Drawing.OnEndScene += Damages.Damage_Indicator;
-            }
+            Drawing.OnDraw += OnDraw;
+            Drawing.OnEndScene += Damages.Damage_Indicator;            
 
             Orbwalker.OnUnkillableMinion += Mode.On_Unkillable_Minion;
             Orbwalker.OnPostAttack += Mode.Orbwalker_OnPostAttack;
@@ -71,6 +68,7 @@ namespace UBLucian
         }
         private static void OnDraw(EventArgs args)
         {
+            if (!Config.DrawMenu.Checked("draw")) return;
             if (Config.DrawMenu.Checked("Qdr"))
             {
                 Circle.Draw(Spells.Q.IsLearned ? Color.HotPink : Color.Zero, Spells.Q.Range, Player.Instance.Position);
