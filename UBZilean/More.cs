@@ -21,7 +21,7 @@ namespace UBZilean
         }
         private static void InitEvents()
         {
-            if (Config.DrawMenu["notif"].Cast<CheckBox>().CurrentValue && Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue)
+            if (Config.DrawMenu.Checked("notif") && Config.DrawMenu.Checked("draw"))
             {
                 var notStart = new SimpleNotification("UBZilean Load Status", "UBZilean sucessfully loaded.");
                 Notifications.Show(notStart, 5000);
@@ -37,11 +37,8 @@ namespace UBZilean
             Gapcloser.OnGapcloser += Mode.Gapcloser_OnGapcloser;
             Interrupter.OnInterruptableSpell += Mode.Interrupter_OnInterruptableSpell;
 
-            if (Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue)
-            {
-                Drawing.OnDraw += OnDraw;
-                Drawing.OnEndScene += Damages.Damage_Indicator;
-            }
+            Drawing.OnDraw += OnDraw;
+            Drawing.OnEndScene += Damages.Damage_Indicator;
         }       
 
         private static void GameOnTick(EventArgs args)
@@ -63,6 +60,7 @@ namespace UBZilean
         }
         private static void OnDraw(EventArgs args)
         {
+            if (Config.DrawMenu.Checked("draw")) return;
             if (Config.DrawMenu["Qdr"].Cast<CheckBox>().CurrentValue)
             {
                 Circle.Draw(Spells.Q.IsLearned ? Color.HotPink : Color.Zero, Spells.Q.Range, Player.Instance.Position);
