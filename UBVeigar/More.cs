@@ -83,6 +83,11 @@ namespace UBVeigar
             {
                 Circle.Draw(Spells.R.IsLearned ? Color.Green : Color.Zero, Spells.R.Range, Player.Instance.Position);
             }
+            if (Config.DrawMenu.Checked("drEring") && Spells.E.IsInRange(Game.CursorPos))
+            {
+                var Ring = new Geometry.Polygon.Ring(Game.CursorPos, 300f, 375f);
+                Ring.Draw(Colour.Cyan, 2);
+            }
             if (Config.DrawMenu.Checked("drminion"))
             {
                 var minions = EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, Player.Instance.Position, Spells.Q.Range).Where(m => m.Health <= Damage.QDamage(m)).ToArray() ;
