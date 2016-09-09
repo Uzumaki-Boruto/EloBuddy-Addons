@@ -3,7 +3,6 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Rendering;
-using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Notifications;
 using SharpDX;
 
@@ -61,13 +60,13 @@ namespace UBZilean
         private static void OnDraw(EventArgs args)
         {
             if (Config.DrawMenu.Checked("draw")) return;
-            if (Config.DrawMenu["Qdr"].Cast<CheckBox>().CurrentValue)
+            if (Config.DrawMenu.Checked("Qdr"))
             {
                 Circle.Draw(Spells.Q.IsLearned ? Color.HotPink : Color.Zero, Spells.Q.Range, Player.Instance.Position);
-            }            
-            if (Config.DrawMenu["Edr"].Cast<CheckBox>().CurrentValue)
+            }
+            if (Config.DrawMenu.Checked("Edr"))
             {
-                Circle.Draw(Spells.E.IsLearned ? Color.AliceBlue : Color.Zero, Spells.E.Range, Player.Instance.Position);
+                Circle.Draw(Spells.E.IsLearned ? Color.Cyan : Color.Zero, Spells.E.Range, Player.Instance.Position);
             }
         }
     }

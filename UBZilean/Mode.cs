@@ -101,7 +101,7 @@ namespace UBZilean
             {
                 W_And_Cast(Target);
             }
-            if (Config.ComboMenu.GetValue("E", false) > 0 && Spells.E.IsReady())
+            if (Config.ComboMenu.GetValue("E", false) > 0 && Spells.E.IsReady() && !Player.Instance.HasEBuff())
             {
                 var target = TargetSelector.GetTarget(Spells.E.Range, DamageType.Mixed);
                 var Enemies = EntityManager.Heroes.Enemies.Where(x => !x.IsDead && x.IsValidTarget(1200));
@@ -288,7 +288,7 @@ namespace UBZilean
             {
                 Spells.E.Cast(Player.Instance);
             }
-            if (Spells.W.IsReady() && !Spells.E.IsReady() && !Player.Instance.HasBuff("TimeWarp"))
+            if (Spells.W.IsReady() && !Spells.E.IsReady() && !Player.Instance.HasEBuff())
             {
                 Spells.W.Cast();
             }
@@ -409,14 +409,21 @@ namespace UBZilean
                             case Gapcloser.GapcloserType.Skillshot:
                                 {
                                     var Ally = EntityManager.Heroes.Allies.Where(x => !x.IsDead && Spells.Q.IsInRange(x)).OrderBy(x => x.Distance(args.End)).First();
-                                    if (sender.IsAttackingPlayer || Ally.Distance(args.End) < 175 || args.End.IsInRange(Player.Instance, Spells.Q.Range))
-                                    //if (args.Sender.Spellbook.CastEndTime
-                                    //(sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 100 || args.End.IsInRange(Player.Instance, Spells.R.Range))
+                                    if (sender.IsAttackingPlayer || (Ally.Distance(args.End) < 225 && args.End.IsInRange(Player.Instance, Spells.Q.Range)))
                                     {
-                                        Spells.Q.Cast(args.End);
-                                        W_And_Cast(args.End);
+                                        if (Spells.E.IsInRange(Ally) && Spells.E.IsReady())
+                                        {
+                                            Spells.E.Cast(Ally);
+                                        }
+                                        if (Spells.Q.IsReady())
+                                        {
+                                            Spells.Q.Cast(args.End);
+                                        }
+                                        else
+                                        {
+                                            W_And_Cast(args.End);
+                                        }
                                     }
-
                                 }
                                 break;
                             case Gapcloser.GapcloserType.Targeted:
@@ -436,9 +443,9 @@ namespace UBZilean
                                                 case 1:
                                                     {
                                                         var Ally = EntityManager.Heroes.Allies.Where(x => !x.IsDead && Spells.E.IsInRange(x)).OrderBy(x => x.Distance(args.End)).First();
-                                                        if (sender.IsAttackingPlayer || Ally.Distance(args.End) < 175 || args.End.IsInRange(Player.Instance, Spells.E.Range))
+                                                        if (sender.IsAttackingPlayer || Ally.Distance(args.End) < 175 || Spells.E.IsInRange(args.End))
                                                         {
-                                                            if (sender.IsValid && Spells.E.IsInRange(sender))
+                                                            if (sender.IsValid && Spells.E.IsInRange(sender) && !sender.HasEBuff())
                                                             {
                                                                 Spells.E.Cast(sender);
                                                             }
@@ -448,7 +455,7 @@ namespace UBZilean
                                                 case 2:
                                                     {
                                                         var Ally = EntityManager.Heroes.Allies.Where(x => !x.IsDead && Spells.E.IsInRange(x)).OrderBy(x => x.Distance(args.End)).First();
-                                                        if (sender.IsAttackingPlayer || Ally.Distance(args.End) < 175 || args.End.IsInRange(Player.Instance, Spells.E.Range))
+                                                        if (sender.IsAttackingPlayer || Ally.Distance(args.End) < 175 || Spells.E.IsInRange(args.End))
                                                         {
                                                             if (Ally.IsValid && Spells.E.IsInRange(Ally))
                                                             {
@@ -499,14 +506,27 @@ namespace UBZilean
                                 }
                                 if (Spells.E.IsReady() && Config.GapCloser.Checked("gapE"))
                                 {
-
-                                    var Ally = EntityManager.Heroes.Allies.Where(x => !x.IsDead && Spells.E.IsInRange(x)).OrderBy(x => x.Distance(args.End)).First();
-                                    if (sender.IsAttackingPlayer || Ally.Distance(args.End) < 175 || args.End.IsInRange(Player.Instance, Spells.E.Range))
+                                    var Enemy = args.Target;
+                                    if (sender.IsAttackingPlayer || Enemy.Distance(args.End) < 225 || args.End.IsInRange(Player.Instance, Spells.E.Range))
                                     {
-                                        if (Ally.IsValid && Spells.E.IsInRange(Ally))
+                                        if (sender.IsValid && Spells.E.IsInRange(sender))
                                         {
-                                            Spells.E.Cast(Ally);
+                                            Spells.E.Cast(sender);
                                         }
+                                    }
+                                }
+                            }
+                        }
+                        if (args.Type == Gapcloser.GapcloserType.Skillshot)
+                        {
+                            if (Spells.E.IsReady() && Config.GapCloser.Checked("gapE"))
+                            {
+                                var Enemy = args.Target;
+                                if (sender.IsAttackingPlayer || Enemy.Distance(args.End) < 225 || args.End.IsInRange(Player.Instance, Spells.E.Range))
+                                {
+                                    if (sender.IsValid && Spells.E.IsInRange(sender))
+                                    {
+                                        Spells.E.Cast(sender);
                                     }
                                 }
                             }

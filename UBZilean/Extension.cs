@@ -29,7 +29,14 @@ namespace UBZilean
             {
                 return target.HasBuff("ZileanQEnemyBomb");
             }
-            return target.HasBuff("ZileanQAllyBomb");
+            else
+            {
+                return target.HasBuff("ZileanQAllyBomb");
+            }
+        }
+        public static bool HasEBuff(this Obj_AI_Base target)
+        {
+            return target.HasBuff("TimeWarp");
         }
         public static bool Unkillable(this AIHeroClient target)
         {
