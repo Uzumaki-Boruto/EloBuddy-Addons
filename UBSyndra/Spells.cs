@@ -32,7 +32,7 @@ namespace UBSyndra
 
             R = new Spell.Targeted(SpellSlot.R, 675);
 
-            QE = new Spell.Skillshot(SpellSlot.E, 1200, SkillShotType.Linear, 500, 2500, 65)
+            QE = new Spell.Skillshot(SpellSlot.E, 1200, SkillShotType.Linear, 800, 2500, 65)
             {
                 AllowedCollisionCount = int.MaxValue,
             };
