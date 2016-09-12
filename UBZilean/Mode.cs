@@ -166,26 +166,18 @@ namespace UBZilean
         #region AutoR
         public static void AutoR(EventArgs args)
         {
-            if (Config.ComboMenu.Checked("R") && Spells.R.IsReady())
+            if (Config.RMenu.Checked("R") && Spells.R.IsReady())
             {
-                var Allies = EntityManager.Heroes.Allies.Where(x => !x.IsDead && x.IsValid && x.HealthPercent <= Config.ComboMenu.GetValue("HP" + x.ChampionName) && Spells.R.IsInRange(x)).OrderBy(x => x.Health);
+                var Allies = EntityManager.Heroes.Allies.Where(x => !x.IsDead && x.IsValid && x.HealthPercent <= Config.RMenu.GetValue("HP" + x.ChampionName) && Spells.R.IsInRange(x)).OrderByDescending(x => x.GetPriority(true));
                 foreach (var Ally in Allies)
                 {                  
-                    if (Config.ComboMenu.Checked("R" + Ally.ChampionName))
+                    if (Config.RMenu.Checked("R" + Ally.ChampionName))
                     {
-                        Spells.R.Cast(Ally);
-                    }
-                }
-                if (Config.ComboMenu.Checked("R" + Player.Instance.ChampionName))
-                {
-                    var prediction = Prediction.Health.GetPrediction(Player.Instance, 2000);
-                    if (prediction <= 0)
-                    {
-                        Spells.R.Cast(Player.Instance);
-                    }
-                    if (Player.Instance.HealthPercent < Config.ComboMenu.GetValue("HP" + Player.Instance.ChampionName))
-                    {
-                        Spells.R.Cast(Player.Instance);
+                        if ((Config.RMenu.Checked("predition" + Ally.ChampionName) && Prediction.Health.GetPrediction(Ally, 2000) <= 0) || !Config.RMenu.Checked("predition" + Ally.ChampionName))
+                        {
+                            if (Spells.R.IsReady())
+                                Spells.R.Cast(Ally);                         
+                        }
                     }
                 }
             }

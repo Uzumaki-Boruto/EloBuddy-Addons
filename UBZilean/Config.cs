@@ -9,6 +9,7 @@ namespace UBZilean
     {
         public static Menu Menu;
         public static Menu ComboMenu;
+        public static Menu RMenu;
         public static Menu HarassMenu;
         public static Menu LaneClear;
         public static Menu JungleClear;
@@ -29,17 +30,23 @@ namespace UBZilean
                 ComboMenu.Add("Q", new ComboBox("Q style", 2, "Don't use Q", "Q Normal", "Q Smart"));
                 ComboMenu.Add("W", new CheckBox("Use W"));
                 ComboMenu.Add("Wcast", new Slider("Don't W if Q will Ready in {0} seconds", 1, 0, 4));
-                ComboMenu.Add("E", new ComboBox("E style", 3, "Don't use E", "E Slow", "E Speed", "Smart"));
-                ComboMenu.AddGroupLabel("R Settings");
-                ComboMenu.Add("R", new CheckBox("Use R"));
-                foreach (var champ in EntityManager.Heroes.Allies)
-                {
-                    ComboMenu.Add("R" + champ.ChampionName, new CheckBox("Use on " + champ.ChampionName));
-                    ComboMenu.Add("HP" + champ.ChampionName, new Slider("Use R if " + champ.ChampionName + "'s HP below {0}%", 20, 0, 100));
-                    ComboMenu.AddSeparator();
-                }
+                ComboMenu.Add("E", new ComboBox("E style", 3, "Don't use E", "E Slow", "E Speed", "Smart"));                
             }
 
+            RMenu = Menu.AddSubMenu("R Config");
+            {
+                RMenu.AddGroupLabel("R Settings");
+                RMenu.Add("R", new CheckBox("Use R"));
+                RMenu.AddSeparator();
+                foreach (var champ in EntityManager.Heroes.Allies)
+                {
+                    RMenu.Add("R" + champ.ChampionName, new CheckBox("Use on " + champ.ChampionName));
+                    RMenu.Add("predition" + champ.ChampionName, new CheckBox("Use Prediction"));
+                    RMenu.Add("HP" + champ.ChampionName, new Slider("Use R if " + champ.ChampionName + "'s HP below {0}%", 20, 0, 100));
+                    RMenu.Add("priority" + champ.ChampionName, new Slider(champ.ChampionName + "'s priority", champ.GetPriority(), 1, 5));
+                    RMenu.AddSeparator();
+                }
+            }
             HarassMenu = Menu.AddSubMenu("Harass");
             {
                 HarassMenu.AddGroupLabel("Harass Settings");
