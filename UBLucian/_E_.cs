@@ -198,13 +198,26 @@ namespace UBLucian
             var Path = Intersection_Of_2Circle(PlayerPos, ERange, pos, ERange);
             if (Path.Count() > 0)
             {
-                if (Path.Count(x => IsNotDangerPosition(x)) == 2)
+                switch (Path.Count(x => IsNotDangerPosition(x)))
                 {
-                    Corrected = Path.OrderByDescending(x => Get_Rate_Position(x)).FirstOrDefault(x => x.IsInRange(Nearest, Player.Instance.GetAutoAttackRange(Nearest))).To3D();
-                }
-                else
-                {
-                    Corrected = Path.OrderByDescending(x => Get_Rate_Position(x)).FirstOrDefault().To3D();
+                    case 0:
+                        {
+                            Corrected = Vector3.Zero;
+                        }
+                        break;
+                    case 1:
+                        {
+                            Corrected = Path.FirstOrDefault(x => IsNotDangerPosition(x)).To3D();
+
+                        }
+                        break;
+                    case 2:
+                        {
+                            Corrected = Path.OrderByDescending(x => Get_Rate_Position(x)).FirstOrDefault(x => x.IsInRange(Nearest, Player.Instance.GetAutoAttackRange(Nearest))).To3D();
+
+                        }
+                        break;
+
                 }
             }
             else
