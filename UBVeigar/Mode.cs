@@ -401,5 +401,28 @@ namespace UBVeigar
             }
         }
         #endregion
+
+        #region AutoW
+        public static void AIHeroClient_OnBuffGain(Obj_AI_Base sender, Obj_AI_BaseBuffGainEventArgs args)
+        {
+            if (sender.IsEnemy && !sender.IsMonster && !sender.IsMinion && sender.IsValidTarget(Spells.W.Range) && Config.ComboMenu.Checked("W.auto"))
+            {
+                if (sender.HasBuffOfType(BuffType.Stun)
+                 || sender.HasBuffOfType(BuffType.Snare)
+                 || sender.HasBuffOfType(BuffType.Knockup)
+                 || sender.HasBuffOfType(BuffType.Charm)
+                 || sender.HasBuffOfType(BuffType.Fear)
+                 || sender.HasBuffOfType(BuffType.Knockback)
+                 || sender.HasBuffOfType(BuffType.Taunt)
+                 || sender.HasBuffOfType(BuffType.Suppression)
+                 || sender.HasBuffOfType(BuffType.Disarm)
+                 || sender.HasBuffOfType(BuffType.Flee)
+                 || sender.HasBuffOfType(BuffType.Polymorph))
+                {
+                    Spells.W.Cast(sender);
+                }
+            }
+        }
+        #endregion
     }
 }

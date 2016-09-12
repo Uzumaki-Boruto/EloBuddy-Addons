@@ -30,6 +30,7 @@ namespace UBVeigar
                 ComboMenu.Add("Qcb", new CheckBox("Use Q"));
                 ComboMenu.Add("Wcb", new CheckBox("Use W"));
                 ComboMenu.Add("W.cc", new CheckBox("W only on cc target"));
+                ComboMenu.Add("W.auto", new CheckBox("Auto W on cc target"));
                 ComboMenu.Add("Ecb", new CheckBox("Use E"));
                 ComboMenu.Add("Ebox", new Slider("E if boxed {0} enemy", 3, 2, 5));
             }

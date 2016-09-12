@@ -44,9 +44,7 @@ namespace UBVeigar
 
             Orbwalker.OnUnkillableMinion += Mode.On_Unkillable_Minion;
 
-            //Obj_AI_Base.OnProcessSpellCast += Spells.Obj_AI_Base_OnProcessSpellCast;
-            //Obj_AI_Base.OnCreate += BallManager.GameObject_OnCreate;
-            //Obj_AI_Base.OnDelete += BallManager.GameObject_OnDelete;
+            AIHeroClient.OnBuffGain += Mode.AIHeroClient_OnBuffGain;
 
         }
         private static void GameOnTick(EventArgs args)
