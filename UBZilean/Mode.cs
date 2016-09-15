@@ -170,14 +170,22 @@ namespace UBZilean
             {
                 var Allies = EntityManager.Heroes.Allies.Where(x => !x.IsDead && x.IsValid && x.HealthPercent <= Config.RMenu.GetValue("HP" + x.ChampionName) && Spells.R.IsInRange(x)).OrderByDescending(x => x.GetPriority(true));
                 foreach (var Ally in Allies)
-                {                  
+                {
                     if (Config.RMenu.Checked("R" + Ally.ChampionName))
                     {
                         if ((Config.RMenu.Checked("predition" + Ally.ChampionName) && Prediction.Health.GetPrediction(Ally, 2000) <= 0) || !Config.RMenu.Checked("predition" + Ally.ChampionName))
                         {
                             if (Spells.R.IsReady())
-                                Spells.R.Cast(Ally);                         
+                                Spells.R.Cast(Ally);
                         }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        continue;
                     }
                 }
             }
