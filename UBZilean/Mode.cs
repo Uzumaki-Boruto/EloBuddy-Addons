@@ -173,7 +173,7 @@ namespace UBZilean
                 {
                     if (Config.RMenu.Checked("R" + Ally.ChampionName))
                     {
-                        if ((Config.RMenu.Checked("predition" + Ally.ChampionName) && Prediction.Health.GetPrediction(Ally, 2000) <= 0) || !Config.RMenu.Checked("predition" + Ally.ChampionName))
+                        if ((Config.RMenu.Checked("predition" + Ally.ChampionName) && Prediction.Health.GetPrediction(Ally, 2000) <= 0) || !Config.RMenu.Checked("predition" + Ally.ChampionName) || Ally.CountEnemiesInRange(1200) >= 1)
                         {
                             if (Spells.R.IsReady())
                                 Spells.R.Cast(Ally);
