@@ -64,6 +64,7 @@ namespace UBRyze
         }
         public static void Damage_Indicator(EventArgs args)
         {
+            if (!Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue) return;
             if (Config.DrawMenu["drdamage"].Cast<CheckBox>().CurrentValue)
             {
                 foreach (var unit in EntityManager.Heroes.Enemies.Where(u => u.IsValidTarget() && u.IsHPBarRendered)

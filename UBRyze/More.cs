@@ -66,6 +66,7 @@ namespace UBRyze
         }
         private static void OnDraw(EventArgs args)
         {
+            if (!Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue) return;
             if (Config.DrawMenu["drQ"].Cast<CheckBox>().CurrentValue)
             {
                 Circle.Draw(Spells.Q.IsLearned ? Color.HotPink : Color.Zero, Spells.Q.Range, Player.Instance.Position);
