@@ -59,7 +59,7 @@ namespace UBZilean
         }
         private static void OnDraw(EventArgs args)
         {
-            if (Config.DrawMenu.Checked("draw")) return;
+            if (!Config.DrawMenu.Checked("draw")) return;
             if (Config.DrawMenu.Checked("Qdr"))
             {
                 Circle.Draw(Spells.Q.IsLearned ? Color.HotPink : Color.Zero, Spells.Q.Range, Player.Instance.Position);
