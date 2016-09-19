@@ -2,6 +2,7 @@
 using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK;
+using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
 using SharpDX;
 using Modes = EloBuddy.SDK.Orbwalker.ActiveModes;
@@ -346,5 +347,26 @@ namespace UBTaliyah
             }
         }
         #endregion
+
+        #region Interupt
+        public static void Interrupter_OnInterruptableSpell(Obj_AI_Base sender, Interrupter.InterruptableSpellEventArgs e)
+        {
+            var Value = Config.MiscMenu.GetValue("interrupt.level", false);
+            var Danger = Value == 2 ? DangerLevel.High : Value == 1 ? DangerLevel.Medium : Value == 0 ? DangerLevel.Low : DangerLevel.High;
+            if (sender != null
+                && sender.IsEnemy
+                && Config.MiscMenu.Checked("interrupt")
+                && sender.IsValidTarget(Spells.W.Range)
+                && e.DangerLevel == Danger)
+            {
+                if (Spells.W.IsInRange(sender) && Spells.W.IsReady())
+                {
+                    var pred = Spells.W.GetPrediction(sender);
+                    var StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3D();
+                    Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
+                }
+            }
+        }
+        #endregion 
     }
 }

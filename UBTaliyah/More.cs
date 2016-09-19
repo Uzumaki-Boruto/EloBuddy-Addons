@@ -35,6 +35,7 @@ namespace UBTaliyah
             GameObject.OnDelete += Obj_Manager.Obj_GeneralParticleEmitter_OnDelete;
 
             Gapcloser.OnGapcloser += Mode.Gapcloser_OnGapcloser;
+            Interrupter.OnInterruptableSpell += Mode.Interrupter_OnInterruptableSpell;
 
             Drawing.OnDraw += OnDraw;
             Drawing.OnEndScene += Damages.Damage_Indicator;            
@@ -42,6 +43,7 @@ namespace UBTaliyah
             Orbwalker.OnUnkillableMinion += Mode.On_Unkillable_Minion;
             
         }
+
         private static void GameOnTick(EventArgs args)
         {
             if (Player.Instance.IsDead) return;

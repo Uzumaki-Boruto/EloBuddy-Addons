@@ -68,6 +68,20 @@ namespace UBTaliyah
                 LasthitMenu.Add("lh", new Slider("If mana percent below {0}% stop use skill to lasthit", 50));
             }
 
+            MiscMenu = Menu.AddSubMenu("MiscMenu");
+            {
+                MiscMenu.AddGroupLabel("KillSteal Settings");
+                MiscMenu.Add("Qks", new CheckBox("Use Q to KillSteal"));
+                MiscMenu.Add("Wks", new CheckBox("Use W to KillSteal"));
+                MiscMenu.Add("Eks", new CheckBox("Use E to KillSteal"));
+                MiscMenu.AddGroupLabel("GapCloser");
+                MiscMenu.Add("gap", new CheckBox("Use W to anti GapCloser"));
+                MiscMenu.AddGroupLabel("Interrupter");
+                MiscMenu.Add("interrupt", new CheckBox("Use W to Interrupt"));
+                MiscMenu.Add("interrupt.level", new ComboBox("Danger Level", 2, "Low", "Normal", "High"));
+
+            }
+
             DrawMenu = Menu.AddSubMenu("Drawings");
             {
                 DrawMenu.Add("draw", new CheckBox("Enable Drawing"));
@@ -79,17 +93,6 @@ namespace UBTaliyah
                 DrawMenu.Add("Rdr", new CheckBox("Draw R"));
                 DrawMenu.Add("dmg", new CheckBox("Draw Damage Indicator"));
                 DrawMenu.Add("color", new ColorPicker("Damage Indicator Color", System.Drawing.Color.FromArgb(255, 255, 236, 0)));
-            }
-
-            MiscMenu = Menu.AddSubMenu("MiscMenu");
-            {
-                MiscMenu.AddGroupLabel("KillSteal Settings");
-                MiscMenu.Add("Qks", new CheckBox("Use Q to KillSteal"));
-                MiscMenu.Add("Wks", new CheckBox("Use W to KillSteal"));
-                MiscMenu.Add("Eks", new CheckBox("Use E to KillSteal"));
-                MiscMenu.AddGroupLabel("GapCloser");
-                MiscMenu.Add("gap", new CheckBox("Use W to anti GapCloser"));
-
             }
         }
     }
