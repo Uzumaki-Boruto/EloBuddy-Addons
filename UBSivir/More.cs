@@ -97,13 +97,13 @@ namespace UBSivir
             {
                 Core.DelayAction(() => Spells.E.Cast(),
                     (int)(args.Start.Distance(Player.Instance) / args.SData.MissileSpeed * 1000) -
-                    (int)(args.End.Distance(Player.Instance) / args.SData.MissileSpeed) - 500);
+                    (int)(args.End.Distance(Player.Instance) / args.SData.MissileSpeed));
             }
             if (unit.ChampionName.Equals("Zyra"))
             {
                 Core.DelayAction(() => Spells.E.Cast(),
                     (int)(args.Start.Distance(Player.Instance) / args.SData.MissileSpeed * 1000) -
-                    (int)(args.End.Distance(Player.Instance) / args.SData.MissileSpeed) - 500);
+                    (int)(args.End.Distance(Player.Instance) / args.SData.MissileSpeed));
             }
             if (args.End.Distance(Player.Instance) < 250)
             {
@@ -123,14 +123,14 @@ namespace UBSivir
                 {
                     Core.DelayAction(() => Spells.E.Cast(),
                         (int)(args.Start.Distance(Player.Instance) / args.SData.MissileSpeed * 1000) -
-                        (int)(args.End.Distance(Player.Instance) / args.SData.MissileSpeed) - 500);
+                        (int)(args.End.Distance(Player.Instance) / args.SData.MissileSpeed));
                 }
                 else if (unit.ChampionName.Equals("Amumu"))
                 {
                     if (sender.Distance(Player.Instance) < 1100)
                         Core.DelayAction(() => Spells.E.Cast(),
                             (int)(args.Start.Distance(Player.Instance) / args.SData.MissileSpeed * 1000) -
-                            (int)(args.End.Distance(Player.Instance) / args.SData.MissileSpeed) - 500);
+                            (int)(args.End.Distance(Player.Instance) / args.SData.MissileSpeed));
                 }
             }
 
