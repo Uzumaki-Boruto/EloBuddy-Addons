@@ -15,10 +15,7 @@ namespace UBTaliyah
 
         public static void InitSpells()
         {
-            Q = new Spell.Skillshot(SpellSlot.Q, 1000, SkillShotType.Linear, 250, 3600, 50)
-            {
-                AllowedCollisionCount = 0,
-            };
+            Q = new Spell.Skillshot(SpellSlot.Q, 1000, SkillShotType.Linear, 250, 3600, 50);
 
             W = new Spell.Skillshot(SpellSlot.W, 900, SkillShotType.Circular, 500, int.MaxValue, 80)
             {
