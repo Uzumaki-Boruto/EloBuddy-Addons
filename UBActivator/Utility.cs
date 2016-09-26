@@ -298,7 +298,6 @@ namespace UBActivator
             for (var i = 1; i <= Player.Instance.Level; i++)
             {
                 switch (Config.Utility[i.ToString() + Player.Instance.ChampionName].Cast<ComboBox>().CurrentValue)
-                //switch (Config.SkillOrder[i -1])
                 {
                     case 0:
                         break;

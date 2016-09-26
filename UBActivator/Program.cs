@@ -28,6 +28,10 @@ namespace UBActivator
         }
         static void InitEvent()
         {
+            if (Config.SkinSlider.CurrentValue != Player.Instance.SkinId && Config.Utility["eskin"].Cast<CheckBox>().CurrentValue)
+            {
+                Player.SetSkinId(Config.SkinSlider.CurrentValue);
+            }
             if (Config.OnTickButton.CurrentValue == true)
             {
                 Game.OnTick += _Game;
