@@ -20,6 +20,7 @@ namespace UBActivator
         public static Menu Spell { get; private set; }
         public static Menu Ward { get; private set; }
         public static Menu Utility { get; private set; }
+        public static Menu Level { get; private set; }
         public static int[] SkillOrder;
         public static CheckBox OnTickButton;
         public static CheckBox OnUpdateButton;
@@ -313,12 +314,36 @@ namespace UBActivator
                 Utility.Add("eskin", new CheckBox("Enable Modskin", false));
                 SkinSlider = Utility.Add("skin", new Slider("Drag for skin", 0, 0, 15));
                 SkinSlider.OnValueChange += SkinSlider_OnValueChange;
-                Utility.AddSeparator();
-                Utility.AddGroupLabel("Auto Level Up");
-                Utility.Add("lvl", new CheckBox("Enable Auto Level UP"));
-                RandomButton = Utility.Add("lvlrandom", new CheckBox("Use Random Value", false));
+            }
+
+            Level = Menu.AddSubMenu("Auto Level");
+            {
+                Level.AddGroupLabel("Auto Level Up");
+                Level.Add("lvl", new CheckBox("Enable Auto Level UP"));
+                RandomButton = Level.Add("lvlrandom", new CheckBox("Use Random Value", false));
+                var button = Level.Add("reset", new CheckBox("Click here to reset", false));
+                button.OnValueChange += delegate(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
+                {
+                    switch (args.NewValue)
+                    {
+                        case true:
+                            {
+                                for (var i = 1; i <= 18; i++)
+                                {
+                                    Level[i.ToString() + Player.Instance.ChampionName].Cast<ComboBox>().CurrentValue = SkillOrder[i - 1];
+                                }
+                                button.DisplayName = "Reseted";
+                                button.CurrentValue = false;
+                            }
+                            break;
+                        case false:
+                            {
+                            }
+                            break;
+                    }
+                };
                 RandomButton.OnValueChange += RandomButton_OnValueChange;
-                RandomSlider = Utility.Add("lvldelay", new Slider("Delay", 500, 0, 2000));
+                RandomSlider = Level.Add("lvldelay", new Slider("Delay", 500, 0, 2000));
 
                 #region Champion Skill Order
                 switch (Player.Instance.ChampionName)
@@ -853,9 +878,10 @@ namespace UBActivator
 
                 for (var i = 1; i <= 18; i++)
                 {
-                    Utility.Add(i.ToString() + Player.Instance.ChampionName, new ComboBox("Level " + i, SkillOrder[i - 1], "None", "Q", "W", "E", "R"));
+                    Level.Add(i.ToString() + Player.Instance.ChampionName, new ComboBox("Level " + i, SkillOrder[i - 1], "None", "Q", "W", "E", "R"));
                 }
-            }            
+
+            }
         }
 
         #region Value Change

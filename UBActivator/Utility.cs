@@ -287,7 +287,7 @@ namespace UBActivator
         }      
         public static void Game_OnTick()
         {
-            if (!Config.Utility["lvl"].Cast<CheckBox>().CurrentValue) return;
+            if (!Config.Level["lvl"].Cast<CheckBox>().CurrentValue) return;
             var QLevel = Player.GetSpell(SpellSlot.Q).Level + Extensions.QOff;
             var WLevel = Player.GetSpell(SpellSlot.W).Level + Extensions.WOff;
             var ELevel = Player.GetSpell(SpellSlot.E).Level + Extensions.EOff;
@@ -297,7 +297,7 @@ namespace UBActivator
 
             for (var i = 1; i <= Player.Instance.Level; i++)
             {
-                switch (Config.Utility[i.ToString() + Player.Instance.ChampionName].Cast<ComboBox>().CurrentValue)
+                switch (Config.Level[i.ToString() + Player.Instance.ChampionName].Cast<ComboBox>().CurrentValue)
                 {
                     case 0:
                         break;
@@ -338,8 +338,8 @@ namespace UBActivator
         }
         public static void LevelUp(SpellSlot slot)
         {
-            var Time = Config.Utility["lvldelay"].Cast<Slider>().CurrentValue;
-            var Delay = Config.Utility["lvlrandom"].Cast<CheckBox>().CurrentValue ?
+            var Time = Config.Level["lvldelay"].Cast<Slider>().CurrentValue;
+            var Delay = Config.Level["lvlrandom"].Cast<CheckBox>().CurrentValue ?
                 new Random().Next(0, Time) :
                 Time;
             if (Player.Instance.Spellbook.CanSpellBeUpgraded(slot))
