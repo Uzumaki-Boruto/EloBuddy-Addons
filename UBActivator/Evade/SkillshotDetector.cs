@@ -72,10 +72,6 @@ namespace UBActivator
 #if DEBUG
             if (missile.SpellCaster is AIHeroClient)
             {
-                Console.WriteLine(
-                    Environment.TickCount + " Projectile Created: " + missile.SData.Name + " distance: " +
-                    missile.StartPosition.Distance(missile.EndPosition) + "Radius: " +
-                    missile.SData.CastRadiusSecondaryArray[0] + " Speed: " + missile.SData.MissileSpeed);
             }
 
 #endif
@@ -157,8 +153,6 @@ namespace UBActivator
             }
 
 #if DEBUG
-            Console.WriteLine(
-                "Missile deleted: " + missile.SData.Name + " D: " + missile.EndPosition.Distance(missile.Position));
 #endif
 
             detectedSkillShots.RemoveAll(

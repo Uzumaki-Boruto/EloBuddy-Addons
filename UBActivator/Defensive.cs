@@ -375,7 +375,6 @@ namespace UBActivator
                 {
                     if (spell.SpellName.Equals("-1"))
                     {
-                        Console.WriteLine(args.SData.Name);
                     }
 
                     var condition = true;
@@ -515,7 +514,6 @@ namespace UBActivator
             {
                 foreach (var buff in unit.Buffs)
                 {
-                    Console.WriteLine(buff.Name + " " + buff.Count);
                 }
             }
             return BuffCount == 0 ? unit.HasBuff(BuffName) : unit.GetBuffCount(BuffName).Equals(BuffCount);
@@ -615,7 +613,6 @@ namespace UBActivator
                     var d = unit.Distance(Player.Instance);
                     var travelTime = d / args.SData.MissileSpeed;
                     var delay = travelTime * 1000 + 1150;
-                    Console.WriteLine("TT: " + travelTime + " " + delay);
                     Core.DelayAction(() => Items.Zhonya_Hourglass.Cast(), (int)delay);
                     return;
                 }
