@@ -801,7 +801,7 @@ namespace UBActivator
             {
                 var predMissingHP = Player.Instance.Health - Prediction.Health.GetPrediction(Player.Instance, 2500);
                 var ShieldValue = (150 + 0.2 * Player.Instance.Mana) * Config.SerSlider.CurrentValue / 100;
-                if (predMissingHP >= ShieldValue)
+                if (predMissingHP >= ShieldValue || Player.Instance.HealthPercent <= 20 || Prediction.Health.GetPrediction(Player.Instance, 2500) <= 0)
                 {
                     if (Items.Seraph_s_Embrace.IsOwned() && Items.Seraph_s_Embrace.IsReady())
                     {

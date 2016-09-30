@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using EloBuddy;
 using EloBuddy.SDK;
+using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Enumerations;
 
@@ -52,7 +54,7 @@ namespace UBActivator
         }
         public static void KillSteal()
         {
-            if (Config.Spell["eIg"].Cast<CheckBox>().CurrentValue && Ignite != null)
+            if (Ignite != null && Config.Spell["eIg"].Cast<CheckBox>().CurrentValue)
             {
                 switch (Config.Spell["Igstyle"].Cast<ComboBox>().CurrentValue)
                 {
@@ -82,7 +84,7 @@ namespace UBActivator
                         break;
                 }
             }
-            if (Config.Spell["esmiteKs"].Cast<CheckBox>().CurrentValue && Smite != null && Extensions.CanUseOnChamp)
+            if (Smite != null && Config.Spell["esmiteKs"].Cast<CheckBox>().CurrentValue && Extensions.CanUseOnChamp)
             {
                 var target = EntityManager.Heroes.Enemies.Where(t =>
                             t.IsValidTarget(Smite.Range) &&
@@ -96,9 +98,9 @@ namespace UBActivator
         }
         public static void JungSteal()
         {
-            var Important = Config.Spell["esmite3r"].Cast<CheckBox>().CurrentValue;
-            if (Spells.Smite != null)
+            if (Smite != null)
             {
+                var Important = Config.Spell["esmite3r"].Cast<CheckBox>().CurrentValue;
                 var minion = ObjectManager.Get<Obj_AI_Minion>().FirstOrDefault(m => m.IsMonster && m.IsValidTarget(Smite.Range) && Extensions.IsImportant(m));
                 var Red = ObjectManager.Get<Obj_AI_Minion>().Where(r => r.IsMonster && r.IsValidTarget(Smite.Range) && r.Name.Contains("Red")).OrderBy(x => x.MaxHealth).LastOrDefault();
                 var Blue = ObjectManager.Get<Obj_AI_Minion>().Where(b => b.IsMonster && b.IsValidTarget(Smite.Range) && b.Name.Contains("Blue")).OrderBy(x => x.MaxHealth).LastOrDefault();
@@ -151,6 +153,140 @@ namespace UBActivator
                     }
                 }
             }
+        }
+        public static void Interrupter_OnInterruptableSpell(Obj_AI_Base sender, Interrupter.InterruptableSpellEventArgs args)
+        {
+            if (Exhaust == null || !Exhaust.IsReady()) return;
+            if (!Config.Spell["exhaust"].Cast<CheckBox>().CurrentValue || !Config.Spell["danger"].Cast<CheckBox>().CurrentValue) return;
+            if (sender.IsEnemy && args.DangerLevel == DangerLevel.High)
+            {
+               if (Exhaust.IsInRange(sender))
+               {
+                   Exhaust.Cast(sender);
+               }
+            }
+        }
+    }
+    public static class Exhaust
+    {
+        static Exhaust()
+        {
+            new Advance("Ahri", SpellSlot.R).Add();
+            new Advance("Akali", SpellSlot.R).Add();
+            new Advance("Annie", SpellSlot.R).Add();
+            new Advance("Kennen", SpellSlot.R).Add();
+            new Advance("Rengar", SpellSlot.R).Add();
+            new Advance("Riven", SpellSlot.R).Add();
+            new Advance("Syndra", SpellSlot.R).Add();
+            new Advance("Veigar", SpellSlot.R).Add();
+            new Advance("Viktor", SpellSlot.R).Add();
+            new Advance("Yasuo", SpellSlot.R).Add();
+            new Advance("Zed", SpellSlot.R).Add();
+
+            Config.Spell.AddGroupLabel("Exhaust Setting");
+            Config.Spell.Add("exhaust", new CheckBox("Use Exhaust"));
+            Config.Spell.Add("danger", new CheckBox("Use Exhaust on danger spell"));
+            foreach (var Dangerous in Advance.GetDispellList().Where(d => EntityManager.Heroes.Enemies.Any(h => h.ChampionName == d.ChampionName)))
+            {
+                Config.Spell.Add("Exhaust" + Dangerous.ChampionName + Dangerous.Slot, new CheckBox("Exhaust " + Dangerous.ChampionName + " - " + Dangerous.Slot, true));
+            }
+
+            AIHeroClient.OnProcessSpellCast += AIHeroClient_OnProcessSpellCast;
+        }
+
+        static void AIHeroClient_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            var caster = sender as AIHeroClient;
+            if (Config.Spell["Exhaust" + caster.ChampionName + args.Slot].Cast<CheckBox>().CurrentValue && Config.Spell["exhaust"].Cast<CheckBox>().CurrentValue)
+            {
+                if (Spells.Exhaust != null && Spells.Exhaust.IsReady())
+                {
+                    Spells.Exhaust.Cast(caster);
+                }
+            }
+        }
+
+        public static List<Advance> Dangerous
+        {
+            get { return Advance.GetDispellList(); }
+        }
+
+        public static void Initialize()
+        {
+
+        }
+    }
+    public static class Barrier
+    {
+        static Barrier()
+        {
+            new Advance("Ahri", SpellSlot.R).Add();
+            new Advance("Akali", SpellSlot.R).Add();
+            new Advance("Annie", SpellSlot.R).Add();
+            new Advance("Kennen", SpellSlot.R).Add();
+            new Advance("Rengar", SpellSlot.Q).Add();
+            new Advance("Riven", SpellSlot.R).Add();
+            new Advance("Syndra", SpellSlot.R).Add();
+            new Advance("Veigar", SpellSlot.R).Add();
+            new Advance("Viktor", SpellSlot.R).Add();
+            new Advance("Yasuo", SpellSlot.R).Add();
+            new Advance("Zed", SpellSlot.R).Add();
+
+            Config.Spell.AddGroupLabel("Barrier Setting");
+            foreach (var Dangerous in Advance.GetDispellList().Where(d => EntityManager.Heroes.Enemies.Any(h => h.ChampionName == d.ChampionName)))
+            {
+                Config.Spell.Add("Barrier" + Dangerous.ChampionName + Dangerous.Slot, new CheckBox("Barrier " + Dangerous.ChampionName + " - " + Dangerous.Slot, true));
+            }
+
+            AIHeroClient.OnProcessSpellCast += AIHeroClient_OnProcessSpellCast;
+        }
+
+        static void AIHeroClient_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            var caster = sender as AIHeroClient;
+            if (args.End.Distance(Player.Instance) <= 500 || (args.Target != null && args.Target.IsMe))
+            {
+                if (Config.Spell["Barrier" + caster.ChampionName + args.Slot].Cast<CheckBox>().CurrentValue)
+                {
+                    if (Spells.Barrier != null && Spells.Barrier.IsReady())
+                    {
+                        Spells.Barrier.Cast(caster);
+                    }
+                }
+            }
+        }
+
+        public static List<Advance> Dangerous
+        {
+            get { return Advance.GetDispellList(); }
+        }
+
+        public static void Initialize()
+        {
+
+        }
+    }
+
+    public class Advance
+    {
+        private static readonly List<Advance> DispellList = new List<Advance>();
+        public string ChampionName;
+        public SpellSlot Slot;
+
+        public Advance(string champName, SpellSlot slot)
+        {
+            ChampionName = champName;
+            Slot = slot;
+        }
+
+        public void Add()
+        {
+            DispellList.Add(this);
+        }
+
+        public static List<Advance> GetDispellList()
+        {
+            return DispellList;
         }
     }
 }

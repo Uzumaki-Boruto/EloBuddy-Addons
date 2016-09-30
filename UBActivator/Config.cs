@@ -124,6 +124,10 @@ namespace UBActivator
                 Offensive.Add("HG", new CheckBox("Use Hextech Gunblade"));
                 Offensive.Add("MyHPT", new Slider("My HP", 80));
                 Offensive.Add("TargetHPT", new Slider("Target HP", 80));
+                Offensive.AddSeparator();
+                Offensive.Add("HGks", new CheckBox("Hextech Gunblade Killsteal"));
+                Offensive.Add("BCks", new CheckBox("Bilgewater Cutlass Ks"));
+                Offensive.Add("Borkks", new CheckBox("Blade of Ruined King Ks"));
                 Offensive.AddGroupLabel("AOE Item");
                 Offensive.AddLabel("Versus Champion");
                 Offensive.Add("Tiamat", new ComboBox("Use Tiamat/Hydra/Titanic", 4, "None", "Harass Only", "Combo Only", "Both", "Auto Use"));
@@ -237,36 +241,42 @@ namespace UBActivator
 
             Spell = Menu.AddSubMenu("Spells");
             {
-                Spell.AddGroupLabel("Smite");
-                Spell.Add("esmite3r", new CheckBox("Use smite to Jungle Steal"));
-                Spell.AddLabel("Only work on Baron/ Dragon/ Hearald");
-                Spell.Add("esmitered", new CheckBox("JungleSteal Red buff", false));
-                Spell.Add("esmiteblue", new CheckBox("JungleSteal Blue buff", false));
-                Spell.Add("esmiteKs", new CheckBox("Use Smite to Killsteal"));
-                foreach (var enemy in EntityManager.Heroes.Enemies)
+                if (Spells.Smite != null)
                 {
-                    Spell.Add("Smite" + enemy.ChampionName, new CheckBox("Use Smite on " + enemy.ChampionName));
+                    Spell.AddGroupLabel("Smite");
+                    Spell.Add("esmite3r", new CheckBox("Use smite to Jungle Steal"));
+                    Spell.AddLabel("Only work on Baron/ Dragon/ Hearald");
+                    Spell.Add("esmitered", new CheckBox("JungleSteal Red buff", false));
+                    Spell.Add("esmiteblue", new CheckBox("JungleSteal Blue buff", false));
+                    Spell.Add("esmiteKs", new CheckBox("Use Smite to Killsteal"));
+                    foreach (var enemy in EntityManager.Heroes.Enemies)
+                    {
+                        Spell.Add("Smite" + enemy.ChampionName, new CheckBox("Use Smite on " + enemy.ChampionName));
+                    }
                 }
-                Spell.AddGroupLabel("Ignite");
-                Spell.Add("eIg", new CheckBox("Use Ig to KillSteal"));
-                Spell.Add("Igstyle", new ComboBox("Damage Calculator:", 0, "Full Damage", "First Tick"));
-                foreach (var enemy in EntityManager.Heroes.Enemies)
+                if (Spells.Heal != null)
                 {
-                    Spell.Add("Ig" + enemy.ChampionName, new CheckBox("Use Ignite on " + enemy.ChampionName));
+                    Spell.AddGroupLabel("Heal");
+                    Spell.Add("eHeal", new CheckBox("Use Heal"));
+                    Spell.Add("myHPHeal", new Slider("Use Heal if my HP below {0}%", 30));
+                    Spell.Add("eHealAlly", new CheckBox("Use Heal on Ally"));
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        if (ally.ChampionName != Player.Instance.ChampionName)
+                            Spell.Add("heal" + ally.ChampionName, new CheckBox("Heal " + ally.ChampionName));
+                    }
+                    Spell.Add("allyHPHeal", new Slider("If ally's HP blow {0}% use Heal", 15));
                 }
-                Spell.AddGroupLabel("Heal");
-                Spell.Add("eHeal", new CheckBox("Use Heal"));
-                Spell.Add("myHPHeal", new Slider("Use Heal if my HP below {0}%", 30));
-                Spell.Add("eHealAlly", new CheckBox("Use Heal on Ally"));
-                foreach (var ally in EntityManager.Heroes.Allies)
+                if (Spells.Ignite != null)
                 {
-                    if (ally.ChampionName != Player.Instance.ChampionName)
-                        Spell.Add("heal" + ally.ChampionName, new CheckBox("Heal " + ally.ChampionName));
+                    Spell.AddGroupLabel("Ignite");
+                    Spell.Add("eIg", new CheckBox("Use Ig to KillSteal"));
+                    Spell.Add("Igstyle", new ComboBox("Damage Calculator:", 0, "Full Damage", "First Tick"));
+                    foreach (var enemy in EntityManager.Heroes.Enemies)
+                    {
+                        Spell.Add("Ig" + enemy.ChampionName, new CheckBox("Use Ignite on " + enemy.ChampionName));
+                    }
                 }
-                Spell.Add("allyHPHeal", new Slider("If ally's HP blow {0}% use Heal", 15));
-                Spell.AddGroupLabel("Ghost");
-                Spell.Add("Ghost", new CheckBox("Use Ghost"));
-
             }
 
             Ward = Menu.AddSubMenu("Auto Reveal");

@@ -54,6 +54,7 @@
     <Compile Include="Clean.cs" />
     <Compile Include="Combat.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="Damage.cs" />
     <Compile Include="Defensive.cs" />
     <Compile Include="Evade\Collision.cs" />
     <Compile Include="Evade\Config.cs" />

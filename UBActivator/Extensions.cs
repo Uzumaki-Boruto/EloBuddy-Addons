@@ -6,7 +6,11 @@ using EloBuddy.SDK;
 
 namespace UBActivator
 {
-    class Extensions
+    public enum HextechItem
+    {
+        Ice, Fire, Gunblade
+    }
+    public static class Extensions
     {
         public static bool IsImportant(Obj_AI_Minion minion)
         {
@@ -56,6 +60,30 @@ namespace UBActivator
                 else
                     return false;
            }
+        }
+        public static bool Unkillable(this AIHeroClient target)
+        {
+            if (target.Buffs.Any(b => b.IsValid() && b.DisplayName == "UndyingRage"))
+            {
+                return true;
+            }
+            if (target.Buffs.Any(b => b.IsValid() && b.DisplayName == "ChronoShift"))
+            {
+                return true;
+            }
+            if (target.Buffs.Any(b => b.IsValid() && b.DisplayName == "JudicatorIntervention"))
+            {
+                return true;
+            }
+            if (target.Buffs.Any(b => b.IsValid() && b.DisplayName == "kindredrnodeathbuff"))
+            {
+                return true;
+            }
+            if (target.HasBuffOfType(BuffType.Invulnerability))
+            {
+                return true;
+            }
+            return target.IsInvulnerable;
         }
     }
 }

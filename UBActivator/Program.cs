@@ -20,10 +20,14 @@ namespace UBActivator
             var notStart = new SimpleNotification("UBActivator Load Status", "UBActivator sucessfully loaded.");
             Notifications.Show(notStart, 5000);
 
-            Config.Dattenosa();
             Spells.InitSpells();
+            Config.Dattenosa();
             Items.InitItems();
             Zhonya.Initialize();
+            if (Spells.Exhaust != null)
+            Exhaust.Initialize();
+            if (Spells.Barrier != null)
+            Barrier.Initialize();
             InitEvent();
         }
         static void InitEvent()
@@ -51,6 +55,8 @@ namespace UBActivator
 
                 Gapcloser.OnGapcloser += Offensive.Gapcloser_OnGapcloser;
 
+                Interrupter.OnInterruptableSpell += Spells.Interrupter_OnInterruptableSpell;
+
                 Obj_AI_Base.OnProcessSpellCast += Defense.OnProcessSpellCast;
                 Obj_AI_Base.OnProcessSpellCast += Defensive.OnProcessSpellCast;
                 Obj_AI_Base.OnProcessSpellCast += Ward.Obj_AI_Base_OnProcessSpellCast;
@@ -60,7 +66,6 @@ namespace UBActivator
             }
             else return;
         }
-
        
         static void _Game(EventArgs args)
         {

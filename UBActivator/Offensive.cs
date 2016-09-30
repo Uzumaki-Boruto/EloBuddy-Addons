@@ -218,34 +218,73 @@ namespace UBActivator
         public static void KillSteal()
         {
             //if (Items.Hextech_GLP_800 == null && Items.Hextech_Protobelt_01 == null && Items.Tiamat == null && Items.Ravenous_Hydra == null) return;
-            var HextechTarget = TargetSelector.GetTarget(750, DamageType.Magical);
+            var FireTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
+                    && t.IsValidTarget()
+                    && t.Unkillable()
+                    && t.IsInRange(Player.Instance, 750)
+                    && t.Health <= Damage.HextechDamage(t, HextechItem.Fire)), DamageType.Magical);
+            var IceTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
+                    && t.IsValidTarget()
+                    && t.Unkillable()
+                    && t.IsInRange(Player.Instance, 750)
+                    && t.Health <= Damage.HextechDamage(t, HextechItem.Ice)), DamageType.Magical);
+            var GunTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
+                    && t.IsValidTarget()
+                    && t.Unkillable()
+                    && t.IsInRange(Player.Instance, 750)
+                    && t.Health <= Damage.HextechDamage(t, HextechItem.Gunblade)), DamageType.Magical);
+            var CutlassTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
+                    && t.IsValidTarget()
+                    && t.Unkillable()
+                    && t.IsInRange(Player.Instance, 550)
+                    && t.Health <= Damage.CutlassDamage(t)), DamageType.Magical);
+            var BorkTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
+                    && t.IsValidTarget()
+                    && t.Unkillable()
+                    && t.IsInRange(Player.Instance, 550)
+                    && t.Health <= Damage.BladeDamage(t)), DamageType.Physical);
             var TiamatTarget = TargetSelector.GetTarget(400, DamageType.Physical);
-            if (HextechTarget != null
+            if (IceTarget != null
                 && Items.Hextech_GLP_800.IsOwned()
+                && Items.Hextech_GLP_800.IsReady()
                 && Config.Offensive["Hextech800style"].Cast<ComboBox>().CurrentValue >= 2)
             {
-                var Damage = Player.Instance.CalculateDamageOnUnit(
-                    HextechTarget, DamageType.Magical,
-                    (new[] { 0f, 100f, 106f, 112f, 118f, 124f, 130f, 136f, 141f, 147f, 153f, 159f, 165f, 171f, 176f, 182f, 188f, 194f, 200f}[Player.Instance.Level]) + 0.35f * Player.Instance.TotalMagicalDamage);
-                var Pred = Prediction.Position.PredictLinearMissile(HextechTarget, 750f, 60, 150, 1150, int.MaxValue);
-                if (Items.Hextech_GLP_800.IsOwned() && Items.Hextech_GLP_800.IsReady() 
-                && HextechTarget.Health <= Damage)
-                {
-                    Items.Hextech_GLP_800.Cast(Pred.CastPosition);
-                }
+                var Pred = Prediction.Position.PredictLinearMissile(FireTarget, 750f, 60, 150, 1150, int.MaxValue);
+                Items.Hextech_GLP_800.Cast(Pred.CastPosition);
             }
-            if (HextechTarget != null
-                && Items.Hextech_Protobelt_01.IsOwned()
+            if (FireTarget != null
                 && Config.Offensive["Hextech01Ks"].Cast<CheckBox>().CurrentValue)
             {
-                var Damage = Player.Instance.CalculateDamageOnUnit(
-                    HextechTarget, DamageType.Magical,
-                    (new[] { 0f, 75f, 79f, 83f, 88f, 92f, 97f, 101f, 106f, 110f, 115f, 119f, 124f, 128f, 132f, 137f, 141f, 146f, 150f }[Player.Instance.Level]) + 0.35f * Player.Instance.TotalMagicalDamage);
-                var Pred = Prediction.Position.PredictLinearMissile(HextechTarget, 750, 60, 150, 1150, 0);
-                if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady()
-                && HextechTarget.Health <= Damage)
+                var Pred = Prediction.Position.PredictLinearMissile(FireTarget, 750, 60, 150, 1150, 0);
+                if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
                 {
                     Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(Pred.CastPosition, 275).To3D());
+                }
+            }
+            if (GunTarget != null
+                && Config.Offensive["HGks"].Cast<CheckBox>().CurrentValue)
+            {
+                var Pred = Prediction.Position.PredictLinearMissile(FireTarget, 750, 60, 150, 1150, 0);
+                if (Items.Hextech_Gunblade.IsOwned() && Items.Hextech_Gunblade.IsReady())
+                {
+                    Items.Hextech_Gunblade.Cast(Player.Instance.Position.Extend(Pred.CastPosition, 275).To3D());
+                }
+            }
+            if (BorkTarget != null
+                && Config.Offensive["Borkks"].Cast<CheckBox>().CurrentValue)
+            {
+                var Pred = Prediction.Position.PredictLinearMissile(FireTarget, 750, 60, 150, 1150, 0);
+                if (Items.Blade_Of_The_Ruined_King.IsOwned() && Items.Blade_Of_The_Ruined_King.IsReady())
+                {
+                    Items.Blade_Of_The_Ruined_King.Cast(BorkTarget);
+                }
+            }
+            if (CutlassTarget != null
+                && Config.Offensive["BCks"].Cast<CheckBox>().CurrentValue)
+            {
+                if (Items.Bilgewater_Cutlass.IsOwned() && Items.Bilgewater_Cutlass.IsReady())
+                {
+                    Items.Bilgewater_Cutlass.Cast(CutlassTarget);
                 }
             }
             if (TiamatTarget != null && (Items.Tiamat.IsOwned() || Items.Ravenous_Hydra.IsOwned())
