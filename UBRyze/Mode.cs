@@ -39,20 +39,16 @@ namespace UBRyze
                                 if (target != null && target.IsValid() && target.HasBuff("RyzeE"))
                                 {
                                     var pred = Spells.Q.GetPrediction(target);
-                                    var CollisionObject = pred.GetCollisionObjects<Obj_AI_Base>().ToList();
-                                    var CollisionObjectE = pred.GetCollisionObjects<Obj_AI_Base>().Where(x => x.HasBuff("RyzeE")).OrderBy(x => x.Distance(target));
-                                    if (!CollisionObject.Any())
+                                    var CollisionObjectE = pred.GetCollisionObjects<Obj_AI_Base>();
+                                    if (!CollisionObjectE.Any())
                                     {
                                         Spells.Q.Cast(pred.CastPosition);
                                     }
                                     else
                                     {
-                                        if (CollisionObjectE.Any())
+                                        if (CollisionObjectE.First().HasBuff("RyzeE") && CollisionObjectE.First().Distance(target) <= 300)
                                         {
-                                            if (CollisionObjectE.First().Distance(target) <= 300)
-                                            {
-                                                Spells.Q.Cast(CollisionObjectE.First());
-                                            }
+                                            Spells.Q.Cast(CollisionObjectE.First());
                                         }
                                         else
                                         {
