@@ -158,37 +158,36 @@ namespace UBActivator
         public static void OnTick4()
         {
             if (!Items.Hextech_Protobelt_01.IsOwned()) return;
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) return;
+            if (Config.Offensive["Hextech01"].Cast<CheckBox>().CurrentValue) return;
+            var target = TargetSelector.GetTarget(750, DamageType.Magical);
+            if (target != null && target.IsValid)
             {
-                var target = TargetSelector.GetTarget(750, DamageType.Magical);
-                if (target != null && target.IsValidTarget(200, true, Player.Instance.Position))
+                var pred = Prediction.Position.PredictLinearMissile(target, 750, 70, 150, 1150, int.MaxValue, Player.Instance.Position);
+                switch (Config.Offensive["Hextech01gap"].Cast<ComboBox>().CurrentValue)
                 {
-                    var pred = Prediction.Position.PredictLinearMissile(target, 750, 70, 150, 1150, int.MaxValue, Player.Instance.Position);
-                    switch (Config.Offensive["Hextech01gap"].Cast<ComboBox>().CurrentValue)
-                    {
-                        case 0:
-                            break;
-                        case 1:
+                    case 0:
+                        break;
+                    case 1:
+                        {
+                            if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
                             {
-                                if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
-                                {
-                                    Items.Hextech_Protobelt_01.Cast(Game.CursorPos);
-                                }
+                                Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(Game.CursorPos, 275).To3D());
                             }
-                            break;
-                        case 2:
+                        }
+                        break;
+                    case 2:
+                        {
+                            if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
                             {
-                                if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
-                                {
-                                    if (!Player.Instance.IsInAutoAttackRange(target) && Player.Instance.Distance(pred.UnitPosition) <= Player.Instance.GetAutoAttackRange() + 325)
-                                        Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(pred.CastPosition, 275));
-                                }
+                                if (!Player.Instance.IsInAutoAttackRange(target) && Player.Instance.Distance(pred.UnitPosition) <= Player.Instance.GetAutoAttackRange() + 325)
+                                    Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(pred.CastPosition, 275).To3D());
                             }
-                            break;
-                    }
+                        }
+                        break;
                 }
             }
         }
-
         public static void Gapcloser_OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
         {
             if (sender.IsAlly) return;
@@ -347,7 +346,6 @@ namespace UBActivator
                             {
                                 Items.Titanic_Hydra.Cast();
                                 Orbwalker.ResetAutoAttack();
-                                Player.IssueOrder(GameObjectOrder.AttackTo, target);
                             }
                         }
                         break;
@@ -357,7 +355,6 @@ namespace UBActivator
                             {
                                 Items.Titanic_Hydra.Cast();
                                 Orbwalker.ResetAutoAttack();
-                                Player.IssueOrder(GameObjectOrder.AttackTo, target);
                             }
                         }
                         break;
@@ -367,7 +364,6 @@ namespace UBActivator
                             {
                                 Items.Titanic_Hydra.Cast();
                                 Orbwalker.ResetAutoAttack();
-                                Player.IssueOrder(GameObjectOrder.AttackTo, target);
                             }
                         }
                         break;

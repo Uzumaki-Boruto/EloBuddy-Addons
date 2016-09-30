@@ -25,9 +25,6 @@ namespace UBActivator
         public static CheckBox OnTickButton;
         public static CheckBox OnUpdateButton;
         public static CheckBox RandomButton;
-        public static CheckBox OmenButton;
-        public static CheckBox GloryButton;
-        public static CheckBox TargetButton;
         public static CheckBox WardButton;
         public static CheckBox CleanDelay;
         public static Slider SkinSlider;
@@ -121,8 +118,7 @@ namespace UBActivator
             Offensive = Menu.AddSubMenu("Offensive Config");
             {
                 Offensive.AddGroupLabel("Targeted Item");
-                TargetButton = Offensive.Add("cbitem", new CheckBox("Now is Auto use (Check to change)", false));
-                TargetButton.OnValueChange += TargetButton_OnValueChange;
+                Offensive.Add("cbitem", new CheckBox("Use On Combo Only"));
                 Offensive.Add("BC", new CheckBox("Use Bilgewater Cutlass"));
                 Offensive.Add("Bork", new CheckBox("Use Blade of Ruined King"));
                 Offensive.Add("HG", new CheckBox("Use Hextech Gunblade"));
@@ -142,7 +138,7 @@ namespace UBActivator
                 Offensive.Add("TiamatJc", new CheckBox("Use on JungClear"));
                 Offensive.Add("TiamatJccount", new Slider("Use only around me ≥ {0} monster(s), use anyway with Baron/Dragon/Herald", 2, 1, 4));
                 Offensive.AddGroupLabel("Movement Item");
-                Offensive.Add("cbmvitem", new CheckBox("Only use item on Combo Flag"));
+                Offensive.Add("cbmvitem", new CheckBox("Use On Combo Only"));
                 Offensive.Add("Youmuu", new CheckBox("Youmuu's Ghostblade"));
                 Offensive.AddSeparator();
                 Offensive.Add("Hextech01", new CheckBox("Use HT_Protobelt_01"));
@@ -200,13 +196,11 @@ namespace UBActivator
             Combat = Menu.AddSubMenu("Combat Item");
             {
                 Combat.Add("Randuin", new CheckBox("Use Randuin"));
-                OmenButton = Combat.Add("RanduinCb", new CheckBox("Use on Combo only(Check to change)"));
-                OmenButton.OnValueChange += OmenButton_OnValueChange;
+                Combat.Add("RanduinCb", new CheckBox("Use On Combo Only"));
                 Combat.Add("Randuincount", new Slider("Use Randuin On {0} Enemies", 2, 1, 5));
                 Combat.AddSeparator();
                 Combat.Add("Glory", new CheckBox("Auto use Righteous Glory"));
-                GloryButton = Combat.Add("GloryCb", new CheckBox("Use on Combo only(Check to change)"));
-                GloryButton.OnValueChange += GloryButton_OnValueChange;
+                Combat.Add("GloryCb", new CheckBox("Use On Combo Only"));
                 Combat.Add("Glorycountally", new Slider("Use it if buff {0} ally", 3, 1, 4));
 
             }
@@ -923,56 +917,6 @@ namespace UBActivator
         static void SolariSlider_OnValueChange(ValueBase<int> sender, ValueBase<int>.ValueChangeArgs args)
         {
             SolariLabel.DisplayName = "This mean Use Solari if the basic attack or spell ≥ " + (75 + 15 * Player.Instance.Level) * args.NewValue / 100 + " damage";
-        }
-        private static void GloryButton_OnValueChange(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
-        {
-            switch (args.NewValue)
-            {
-                case true:
-                    {
-                        GloryButton.DisplayName = "Use on Combo only (Check to change)";
-                    }
-                    break;
-                case false:
-                    {
-                        GloryButton.DisplayName = "Now is Auto use (Check to change)";
-                    }
-                    break;
-            }
-        }
-
-        private static void OmenButton_OnValueChange(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
-        {
-            switch (args.NewValue)
-            {
-                case true:
-                    {
-                        OmenButton.DisplayName = "Use on Combo only (Check to change)";
-                    }
-                    break;
-                case false:
-                    {
-                        OmenButton.DisplayName = "Now is Auto use (Check to change)";
-                    }
-                    break;
-            }
-        }
-
-        private static void TargetButton_OnValueChange(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
-        {
-            switch (args.NewValue)
-            {
-                case true:
-                    {
-                        TargetButton.DisplayName = "Use on Combo only (Check to change)";
-                    }
-                    break;
-                case false:
-                    {
-                        TargetButton.DisplayName = "Now is Auto use (Check to change)";
-                    }
-                    break;
-            }
         }
         static void WardButton_OnValueChange(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
         {
