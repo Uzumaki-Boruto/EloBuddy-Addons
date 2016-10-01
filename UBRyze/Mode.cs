@@ -36,26 +36,6 @@ namespace UBRyze
                                     var pred = Spells.Q.GetPrediction(target);
                                     Spells.Q.Cast(pred.CastPosition);
                                 }
-                                if (target != null && target.IsValid() && target.HasBuff("RyzeE"))
-                                {
-                                    var pred = Spells.Q.GetPrediction(target);
-                                    var CollisionObjectE = pred.GetCollisionObjects<Obj_AI_Base>();
-                                    if (!CollisionObjectE.Any())
-                                    {
-                                        Spells.Q.Cast(pred.CastPosition);
-                                    }
-                                    else
-                                    {
-                                        if (CollisionObjectE.First().HasBuff("RyzeE") && CollisionObjectE.First().Distance(target) <= 300)
-                                        {
-                                            Spells.Q.Cast(CollisionObjectE.First());
-                                        }
-                                        else
-                                        {
-                                            return;
-                                        }
-                                    }
-                                }
                             }
                         }
                         if (Config.ComboMenu["useEcb"].Cast<CheckBox>().CurrentValue && Spells.E.IsReady() && !Spells.Q.IsReady()
@@ -125,30 +105,6 @@ namespace UBRyze
                                     var pred = Spells.Q.GetPrediction(target);
                                     Spells.Q.Cast(pred.CastPosition);
                                 }
-                                if (target != null && target.IsValid() && target.HasBuff("RyzeE"))
-                                {
-                                    var pred = Spells.Q.GetPrediction(target);
-                                    var CollisionObject = pred.GetCollisionObjects<Obj_AI_Base>().ToList();
-                                    var CollisionObjectE = pred.GetCollisionObjects<Obj_AI_Base>().Where(x => x.HasBuff("RyzeE")).OrderBy(x => x.Distance(target));
-                                    if (!CollisionObject.Any())
-                                    {
-                                        Spells.Q.Cast(pred.CastPosition);
-                                    }
-                                    else
-                                    {
-                                        if (CollisionObjectE.Any())
-                                        {
-                                            if (CollisionObjectE.First().Distance(target) <= 300)
-                                            {
-                                                Spells.Q.Cast(CollisionObjectE.First());
-                                            }
-                                        }
-                                        else
-                                        {
-                                            return;
-                                        }
-                                    }
-                                }
                             }
                         }
                         if (Config.ComboMenu["useEcb"].Cast<CheckBox>().CurrentValue && Spells.E.IsReady() && !Spells.Q.IsReady())
@@ -204,30 +160,6 @@ namespace UBRyze
                                     {
                                         var pred = Spells.Q.GetPrediction(target);
                                         Spells.Q.Cast(pred.CastPosition);
-                                    }
-                                    if (target != null && target.IsValid() && target.HasBuff("RyzeE"))
-                                    {
-                                        var pred = Spells.Q.GetPrediction(target);
-                                        var CollisionObject = pred.GetCollisionObjects<Obj_AI_Base>().ToList();
-                                        var CollisionObjectE = pred.GetCollisionObjects<Obj_AI_Base>().Where(x => x.HasBuff("RyzeE")).OrderBy(x => x.Distance(target));
-                                        if (!CollisionObject.Any())
-                                        {
-                                            Spells.Q.Cast(pred.CastPosition);
-                                        }
-                                        else
-                                        {
-                                            if (CollisionObjectE.Any())
-                                            {
-                                                if (CollisionObjectE.First().Distance(target) <= 300)
-                                                {
-                                                    Spells.Q.Cast(CollisionObjectE.First());
-                                                }
-                                            }
-                                            else
-                                            {
-                                                return;
-                                            }
-                                        }
                                     }
                                 }
                             }
@@ -371,23 +303,6 @@ namespace UBRyze
                     {
                         var pred = Spells.Q.GetPrediction(target);
                         Spells.Q.Cast(pred.CastPosition);
-                    }
-                    if (target != null && target.IsValid() && target.HasBuff("RyzeE"))
-                    {
-                        var pred = Spells.Q.GetPrediction(target);
-                        var CollisionObject = pred.GetCollisionObjects<Obj_AI_Base>().ToList();
-                        var CollisionObjectE = pred.GetCollisionObjects<Obj_AI_Base>().Where(x => x.HasBuff("RyzeE")).OrderBy(x => x.Distance(target)).FirstOrDefault();
-                        if (!CollisionObject.Any())
-                        {
-                            Spells.Q.Cast(pred.CastPosition);
-                        }
-                        else
-                        {
-                            if (CollisionObjectE.Distance(target) <= 300)
-                            {
-                                Spells.Q.Cast(CollisionObjectE);
-                            }
-                        }
                     }
                 }
             }
@@ -616,30 +531,6 @@ namespace UBRyze
                             var pred = Spells.Q.GetPrediction(target);
                             Spells.Q.Cast(pred.CastPosition);
                         }
-                        if (target != null && target.IsValid() && target.HasBuff("RyzeE"))
-                        {
-                            var pred = Spells.Q.GetPrediction(target);
-                            var CollisionObject = pred.GetCollisionObjects<Obj_AI_Base>().ToList();
-                            var CollisionObjectE = pred.GetCollisionObjects<Obj_AI_Base>().Where(x => x.HasBuff("RyzeE")).OrderBy(x => x.Distance(target));
-                            if (!CollisionObject.Any())
-                            {
-                                Spells.Q.Cast(pred.CastPosition);
-                            }
-                            else
-                            {
-                                if (CollisionObjectE.Any())
-                                {
-                                    if (CollisionObjectE.First().Distance(target) <= 300)
-                                    {
-                                        Spells.Q.Cast(CollisionObjectE.First());
-                                    }
-                                }
-                                else
-                                {
-                                    return;
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -654,12 +545,12 @@ namespace UBRyze
                 var NearestTurret = EntityManager.Turrets.Allies.Where(x => !x.IsDead).OrderBy(x => x.Distance(Player.Instance.Position)).FirstOrDefault();
                 if (Spells.R.IsInRange(NearestTurret))
                 {
-                    Spells.R.Cast(NearestTurret);
+                    if (Spells.R.Cast(NearestTurret))
                     Spells.Zhonya.Cast();
                 }
                 else 
                 {
-                    Spells.R.Cast(Player.Instance.Position.Extend(NearestTurret, Spells.R.Range).To3D());
+                    if(Spells.R.Cast(Player.Instance.Position.Extend(NearestTurret, Spells.R.Range).To3D()))
                     Spells.Zhonya.Cast();
                 }
             }
@@ -746,23 +637,6 @@ namespace UBRyze
                     {
                         var pred = Spells.Q.GetPrediction(target);
                         Spells.Q.Cast(pred.CastPosition);
-                    }
-                    if (target != null && target.IsValid() && target.HasBuff("RyzeE"))
-                    {
-                        var pred = Spells.Q.GetPrediction(target);
-                        var CollisionObject = pred.GetCollisionObjects<Obj_AI_Base>().ToList();
-                        var CollisionObjectE = pred.GetCollisionObjects<Obj_AI_Base>().Where(x => x.HasBuff("RyzeE")).OrderBy(x => x.Distance(target)).FirstOrDefault();
-                        if (!CollisionObject.Any())
-                        {
-                            Spells.Q.Cast(pred.CastPosition);
-                        }
-                        else
-                        {
-                            if (CollisionObjectE.Distance(target) <= 300)
-                            {
-                                Spells.Q.Cast(CollisionObjectE);
-                            }
-                        }
                     }
                 }
             }
