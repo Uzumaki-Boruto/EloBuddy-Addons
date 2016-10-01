@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using EloBuddy;
 using EloBuddy.SDK;
+using EloBuddy.SDK.Notifications;
 using EloBuddy.SDK.Menu.Values;
 
 namespace UBActivator
@@ -278,12 +278,22 @@ namespace UBActivator
             }
             if (Player.Instance.IsInShopRange() && Player.Instance.Level >= 9 && Player.Instance.Level < 12 && Config.Utility["remind"].Cast<CheckBox>().CurrentValue)
             {
-                if (Game.Time - LastRemind > 15f)
+                if (Game.Time - LastRemind > 6f)
                 {
-                    Chat.Print("Change your Trinket");
-                    LastRemind = Game.Time;
+                    var notif = new SimpleNotification("UBActivator Notification", "Change your trinket");
+                    Notifications.Show(notif, 5000);
                 }
             }
+            if (Config.Utility["lantern"] != null && Config.Utility["lantern"].Cast<CheckBox>().CurrentValue)
+            {
+                var lantern = ObjectManager.Get<Obj_AI_Base>().FirstOrDefault(l => l.IsValid && l.IsAlly && l.Name == "ThreshLantern");
+                var LanternCast = new Spell.Targeted((SpellSlot)62, 500);
+                if (lantern != null && lantern.IsVisible && Player.Instance.Distance(lantern) <= 500)
+                {
+                    LanternCast.Cast(lantern);
+                }
+            }
+
         }      
         public static void Game_OnTick()
         {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Menu.Values;
-using SharpDX;
 
 namespace UBActivator
 {

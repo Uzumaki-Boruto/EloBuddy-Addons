@@ -2,10 +2,9 @@
 using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Menu;
+using EloBuddy.SDK.Notifications;
 using EloBuddy.SDK.Menu.Values;
-using EloBuddy.SDK.Rendering;
 
 namespace UBActivator
 {
@@ -243,6 +242,8 @@ namespace UBActivator
             {
                 if (Spells.Smite != null)
                 {
+                    var notif = new SimpleNotification("UBActivator Notification", "Detected Smite as a summoner spell.");
+                    Notifications.Show(notif, 5000);
                     Spell.AddGroupLabel("Smite");
                     Spell.Add("esmite3r", new CheckBox("Use smite to Jungle Steal"));
                     Spell.AddLabel("Only work on Baron/ Dragon/ Hearald");
@@ -256,6 +257,8 @@ namespace UBActivator
                 }
                 if (Spells.Heal != null)
                 {
+                    var notif = new SimpleNotification("UBActivator Notification", "Detected Heal as a summoner spell.");
+                    Notifications.Show(notif, 5000);
                     Spell.AddGroupLabel("Heal");
                     Spell.Add("eHeal", new CheckBox("Use Heal"));
                     Spell.Add("myHPHeal", new Slider("Use Heal if my HP below {0}%", 30));
@@ -269,6 +272,9 @@ namespace UBActivator
                 }
                 if (Spells.Ignite != null)
                 {
+                    var notif = new SimpleNotification("UBActivator Notification", "Detected Ignite as a summoner spell.");
+                    Notifications.Show(notif, 5000);
+
                     Spell.AddGroupLabel("Ignite");
                     Spell.Add("eIg", new CheckBox("Use Ig to KillSteal"));
                     Spell.Add("Igstyle", new ComboBox("Damage Calculator:", 0, "Full Damage", "First Tick"));
@@ -310,6 +316,12 @@ namespace UBActivator
 
             Utility = Menu.AddSubMenu("Other Settings");
             {
+                if (EntityManager.Heroes.Allies.Any(x => x.Hero == Champion.Thresh && !x.IsMe))
+                {
+                    var notif = new SimpleNotification("UBActivator Notification", "Detected Thresh in team.");
+                    Notifications.Show(notif, 5000);
+                    Utility.Add("lantern", new CheckBox("Auto Lantern"));
+                }
                 Utility.AddGroupLabel("Remind Trinkets");
                 Utility.Add("remind", new CheckBox("Remind me to change Trinkets"));
                 Utility.AddGroupLabel("Auto Tear");

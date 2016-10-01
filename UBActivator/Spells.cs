@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Enumerations;
+using EloBuddy.SDK.Notifications;
 
 namespace UBActivator
 {
@@ -183,6 +183,9 @@ namespace UBActivator
             new Advance("Yasuo", SpellSlot.R).Add();
             new Advance("Zed", SpellSlot.R).Add();
 
+            var notif = new SimpleNotification("UBActivator Notification", "Detected Exhaust as a summoner spell.");
+            Notifications.Show(notif, 5000);
+
             Config.Spell.AddGroupLabel("Exhaust Setting");
             Config.Spell.Add("exhaust", new CheckBox("Use Exhaust"));
             Config.Spell.Add("danger", new CheckBox("Use Exhaust on danger spell"));
@@ -231,6 +234,9 @@ namespace UBActivator
             new Advance("Viktor", SpellSlot.R).Add();
             new Advance("Yasuo", SpellSlot.R).Add();
             new Advance("Zed", SpellSlot.R).Add();
+
+            var notif = new SimpleNotification("UBActivator Notification", "Detected Barrier as a summoner spell.");
+            Notifications.Show(notif, 5000);
 
             Config.Spell.AddGroupLabel("Barrier Setting");
             foreach (var Dangerous in Advance.GetDispellList().Where(d => EntityManager.Heroes.Enemies.Any(h => h.ChampionName == d.ChampionName)))
