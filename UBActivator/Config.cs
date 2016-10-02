@@ -323,7 +323,7 @@ namespace UBActivator
                     Utility.Add("lantern", new CheckBox("Auto Lantern"));
                 }
                 Utility.AddGroupLabel("Remind Trinkets");
-                Utility.Add("remind", new CheckBox("Remind me to change Trinkets"));
+                Utility.Add("remind", new ComboBox("Remind me to change Trinkets", 2, "Disable", "Print Chat", "Notification"));
                 Utility.AddGroupLabel("Auto Tear");
                 Utility.Add("etear", new CheckBox("Auto stack Tear"));
                 Utility.AddGroupLabel("Mod Skin");

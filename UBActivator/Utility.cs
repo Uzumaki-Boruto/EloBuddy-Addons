@@ -276,12 +276,25 @@ namespace UBActivator
                 #endregion
                 }
             }
-            if (Player.Instance.IsInShopRange() && Player.Instance.Level >= 9 && Player.Instance.Level < 12 && Config.Utility["remind"].Cast<CheckBox>().CurrentValue)
+            if (Player.Instance.IsInShopRange() && Player.Instance.Level >= 9 && Player.Instance.Level < 12 && Config.Utility["remind"].Cast<ComboBox>().CurrentValue > 0)
             {
                 if (Game.Time - LastRemind > 6f)
                 {
-                    var notif = new SimpleNotification("UBActivator Notification", "Change your trinket");
-                    Notifications.Show(notif, 5000);
+                    switch (Config.Utility["remind"].Cast<ComboBox>().CurrentValue)
+                    {
+                        case 1:
+                            {
+                                Chat.Print("Change your trinket", System.Drawing.Color.HotPink);
+                            }
+                            break;
+                        case 2:
+                            {
+                                var notif = new SimpleNotification("UBActivator Notification", "Change your trinket");
+                                Notifications.Show(notif, 5000);
+                                LastRemind = Game.Time;
+                            }
+                            break;
+                }
                 }
             }
             if (Config.Utility["lantern"] != null && Config.Utility["lantern"].Cast<CheckBox>().CurrentValue)
