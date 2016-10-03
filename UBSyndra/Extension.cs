@@ -8,6 +8,7 @@ namespace UBSyndra
 {
     static class Extension
     {
+        public static string AddonName = "UBSyndra";
         public static bool QEcomboing;
         public static int GetValue(this Menu menu, string id, bool IsSlider = true)
         {
