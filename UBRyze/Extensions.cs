@@ -3,12 +3,28 @@ using System.Linq;
 using System.Collections.Generic;
 using EloBuddy;
 using EloBuddy.SDK;
+using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
 namespace UBRyze
 {
-    class Extensions
+    static class Extensions
     {
+        public static string AddonName = "UBRyze";
+        public static int GetValue(this Menu menu, string id, bool IsSlider = true)
+        {
+            if (IsSlider)
+                return menu[id].Cast<Slider>().CurrentValue;
+            else
+                return menu[id].Cast<ComboBox>().CurrentValue;
+        }
+        public static bool Checked(this Menu menu, string id, bool IsCheckBox = true)
+        {
+            if (IsCheckBox)
+                return menu[id].Cast<CheckBox>().CurrentValue;
+            else
+                return menu[id].Cast<KeyBind>().CurrentValue;
+        }
         public static bool Unkillable(AIHeroClient target)
         {
             if (target.Buffs.Any(b => b.IsValid() && b.DisplayName == "UndyingRage"))
@@ -39,11 +55,11 @@ namespace UBRyze
         }
         public static Obj_AI_Minion MinionHasEBuff
         {
-            get { return EntityManager.MinionsAndMonsters.EnemyMinions.Where(m => m.HasBuff("RyzeE") && m.IsValid).OrderBy(m => m.Health).FirstOrDefault(); }
+            get { return EntityManager.MinionsAndMonsters.EnemyMinions.Where(m => m.HasBuff("RyzeE") && m.IsValid && Spells.E.IsInRange(m)).OrderBy(m => m.Health).FirstOrDefault(); }
         }
         public static Obj_AI_Minion MinionEDie
         {
-            get { return EntityManager.MinionsAndMonsters.EnemyMinions.Where(m => m.Health <= Damages.EDamage(m)).OrderBy(m => m.MaxHealth).FirstOrDefault(); }
+            get { return EntityManager.MinionsAndMonsters.EnemyMinions.Where(m => m.Health <= Damages.EDamage(m) && m.IsValid && Spells.E.IsInRange(m)).OrderBy(m => m.MaxHealth).FirstOrDefault(); }
         }
         public static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {

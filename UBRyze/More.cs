@@ -1,13 +1,10 @@
-﻿using System;
-using System.Linq;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Menu.Values;
-using EloBuddy.SDK.Rendering;
 using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Notifications;
+using EloBuddy.SDK.Rendering;
 using SharpDX;
-using Colour = System.Drawing.Color;
+using System;
 
 namespace UBRyze
 {
@@ -23,7 +20,7 @@ namespace UBRyze
         }
         private static void InitEvents()
         {
-            if (Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue && Config.DrawMenu["notif"].Cast<CheckBox>().CurrentValue)
+            if (Config.DrawMenu.Checked("draw") && Config.DrawMenu.Checked("notif"))
             {
                 var notStart = new SimpleNotification("UBRyze Load Status", "UBRyze sucessfully loaded.");
                 Notifications.Show(notStart, 5000);
@@ -35,11 +32,8 @@ namespace UBRyze
 
             Gapcloser.OnGapcloser += Mode.Gapcloser_OnGapcloser;
 
-            if (Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue)
-            {
-                Drawing.OnDraw += OnDraw;
-                Drawing.OnEndScene += Damages.Damage_Indicator;
-            }
+            Drawing.OnDraw += OnDraw;
+            Drawing.OnEndScene += Damages.Damage_Indicator;            
 
             Orbwalker.OnUnkillableMinion += Mode.On_Unkillable_Minion;
 
@@ -66,16 +60,16 @@ namespace UBRyze
         }
         private static void OnDraw(EventArgs args)
         {
-            if (!Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue) return;
-            if (Config.DrawMenu["drQ"].Cast<CheckBox>().CurrentValue)
+            if (!Config.DrawMenu.Checked("draw")) return;
+            if (Config.DrawMenu.Checked("drQ"))
             {
                 Circle.Draw(Spells.Q.IsLearned ? Color.HotPink : Color.Zero, Spells.Q.Range, Player.Instance.Position);
             }
-            if (Config.DrawMenu["drW"].Cast<CheckBox>().CurrentValue)
+            if (Config.DrawMenu.Checked("drW"))
             {
                 Circle.Draw(Spells.W.IsLearned || Spells.E.IsLearned ? Color.Yellow : Color.Zero, Spells.W.Range, Player.Instance.Position);
             }
-            if (Config.DrawMenu["drR"].Cast<CheckBox>().CurrentValue && Player.Instance.Level < 11)
+            if (Config.DrawMenu.Checked("drR"))
             {
                 Circle.Draw(Spells.R.IsLearned ? Color.Green : Color.Zero, Spells.R.Range, Player.Instance.Position);
             }

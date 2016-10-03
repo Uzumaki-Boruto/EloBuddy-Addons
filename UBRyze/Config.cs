@@ -1,9 +1,7 @@
-﻿using System.Drawing;
-using EloBuddy.SDK;
-using EloBuddy.SDK.Notifications;
-using EloBuddy.SDK.Events;
-using EloBuddy.SDK.Menu;
+﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
+using EloBuddy.SDK.Notifications;
+using System.Drawing;
 
 namespace UBRyze
 {
@@ -27,18 +25,14 @@ namespace UBRyze
             Menu.AddGroupLabel("Made by Uzumaki Boruto");
             Menu.AddLabel("Dattenosa");
 
-
             ComboMenu = Menu.AddSubMenu("Combo");
             {
-                ComboMenu.Add("useQcb", new CheckBox("Use Q"));
-                ComboMenu.Add("useWcb", new CheckBox("Use W"));
-                ComboMenu.Add("useEcb", new CheckBox("Use E"));
-                ComboMenu.Add("useRcb", new CheckBox("Use R", false));
+                ComboMenu.Add("Q", new CheckBox("Use Q"));
+                ComboMenu.Add("W", new CheckBox("Use W"));
+                ComboMenu.Add("E", new CheckBox("Use E"));
                 ComboMenu.AddSeparator();
                 ComboMenu.Add("combostyle", new ComboBox("Combo Style", 2, "Full Damage", "Shield & Movement speed", "Smart"));
                 ComboMenu.Add("hpcbsmart", new Slider("If my HP below {0}% use Q to get Ms & shield (Smart)", 30));
-                ComboMenu.Add("disatt", new CheckBox("Disable auto attack", false));
-                ComboMenu.Add("logicdisatt", new CheckBox("Logic Disable A.A"));
                 ComboMenu.AddSeparator();
                 ComboMenu.Add("useflee", new CheckBox("Allow use Flee Combo"));
                 ComboMenu.AddLabel("Flee combo is always use Q to get Shield & MS");
@@ -48,17 +42,17 @@ namespace UBRyze
 
             HarassMenu = Menu.AddSubMenu("Harass");
             {
-                HarassMenu.Add("useQhr", new CheckBox("Use Q"));
-                HarassMenu.Add("useWhr", new CheckBox("Use W"));
-                HarassMenu.Add("useEhr", new CheckBox("Use E"));
+                HarassMenu.Add("Q", new CheckBox("Use Q"));
+                HarassMenu.Add("W", new CheckBox("Use W"));
+                HarassMenu.Add("E", new CheckBox("Use E"));
                 //HarassMenu.Add("useQEhr", new CheckBox("Use E on minion that colision in Q Width"));
-                HarassMenu.Add("hrmanage", new Slider("If my MP below {0}% stop use spell to harass", 50));
+                HarassMenu.Add("hr", new Slider("If my MP below {0}% stop use spell to harass", 50));
                 var HarassKey = HarassMenu.Add("keyharass", new KeyBind("Auto Harass", false, KeyBind.BindTypes.PressToggle, 'Z'));
                 HarassKey.OnValueChange += delegate
                 {
                     var On = new SimpleNotification("Auto Harass status:", "Activated. ");
                     var Off = new SimpleNotification("Auto Harass status:", "Disable. ");
-                    if (Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue && Config.DrawMenu["notif"].Cast<CheckBox>().CurrentValue)
+                    if (DrawMenu.Checked("draw") && DrawMenu.Checked("notif"))
                     {
                         Notifications.Show(HarassKey.CurrentValue ? On : Off, 2000);
                     }
@@ -68,11 +62,11 @@ namespace UBRyze
 
             LaneClear = Menu.AddSubMenu("LaneClear");
             {
-                LaneClear.Add("useQlc", new CheckBox("Use Q", false));
-                LaneClear.Add("useWlc", new CheckBox("Use W", false));
-                LaneClear.Add("useElc", new CheckBox("Use E", false));
-                LaneClear.Add("lcmanage", new Slider("If my MP below {0}% stop use spell to Lanclear", 50));
-                LaneClear.Add("logiclc", new CheckBox("Enable Smart Lanclear[BETA]", false));
+                LaneClear.Add("Q", new CheckBox("Use Q", false));
+                LaneClear.Add("W", new CheckBox("Use W", false));
+                LaneClear.Add("E", new CheckBox("Use E", false));
+                LaneClear.Add("lc", new Slider("If my MP below {0}% stop use spell to Lanclear", 50));
+                LaneClear.Add("logiclc", new CheckBox("Enable Smart Lanclear[BETA]"));
                 LaneClear.AddGroupLabel("Smart Laneclear Settings");
                 LaneClear.Add("Qlc", new Slider("Use Q only {0} minion has buff of E", 5, 1, 15));
                 LaneClear.Add("Elc", new CheckBox("Enable E Logic cast"));
@@ -80,20 +74,19 @@ namespace UBRyze
 
             JungleClear = Menu.AddSubMenu("JungClear");
             {
-                JungleClear.Add("useQjc", new CheckBox("Use Q"));
-                JungleClear.Add("onlyQjc", new CheckBox("Only Q if Target has E buff"));
-                JungleClear.Add("useWjc", new CheckBox("Use W"));
-                JungleClear.Add("useEjc", new CheckBox("Use E"));
-                JungleClear.Add("jcmanage", new Slider("If my MP below {0}% stop use spell to Jungclear", 50));
+                JungleClear.Add("Q", new CheckBox("Use Q"));
+                JungleClear.Add("W", new CheckBox("Use W"));
+                JungleClear.Add("E", new CheckBox("Use E"));
+                JungleClear.Add("jc", new Slider("If my MP below {0}% stop use spell to Jungclear", 50));
             }
 
             LasthitMenu = Menu.AddSubMenu("Lasthit");
             {
                 LasthitMenu.AddLabel("This only work if you can kill minion wwith spell");
-                LasthitMenu.Add("useQlh", new CheckBox("Use Q"));
-                LasthitMenu.Add("useWlh", new CheckBox("Use W"));
-                LasthitMenu.Add("useElh", new CheckBox("Use E"));
-                LasthitMenu.Add("lhmanage", new Slider("If my MP below {0}% stop use spell to Lasthit", 50));
+                LasthitMenu.Add("Q", new CheckBox("Use Q"));
+                LasthitMenu.Add("W", new CheckBox("Use W"));
+                LasthitMenu.Add("E", new CheckBox("Use E"));
+                LasthitMenu.Add("lh", new Slider("If my MP below {0}% stop use spell to Lasthit", 50));
                 LasthitMenu.AddGroupLabel("Use spell on Unkillable minnion");
                 LasthitMenu.Add("Qlh", new CheckBox("Use Q"));
                 LasthitMenu.Add("Wlh", new CheckBox("Use W"));
@@ -133,7 +126,15 @@ namespace UBRyze
                 DrawMenu.Add("drW", new CheckBox("Draw W + E"));
                 DrawMenu.Add("drR", new CheckBox("Draw R"));
                 DrawMenu.Add("drdamage", new CheckBox("Damage Indicator"));
-                DrawMenu.Add("Color", new ColorPicker("Damage Indicator Color", Color.FromArgb(255, 255, 236, 0)));
+                var ColorPick = DrawMenu.Add("color", new ColorPicker("Damage Indicator Color", SaveColor.Load()));
+                ColorPick.OnLeftMouseUp += delegate(Control sender, System.EventArgs args)
+                {
+                    var defautlValue = System.Drawing.Color.FromArgb(255, 255, 236, 0);
+                    if (ColorPick.CurrentValue != defautlValue)
+                    {
+                        SaveColor.Save(ColorPick.CurrentValue);
+                    }
+                };
             }
         }
 

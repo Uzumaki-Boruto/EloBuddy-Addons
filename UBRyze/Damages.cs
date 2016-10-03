@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Menu.Values;
 using SharpDX;
+using System;
+using System.Linq;
 
 namespace UBRyze
 {
@@ -50,7 +49,7 @@ namespace UBRyze
             }
             else if (target != null)
             {
-                switch (Config.MiscMenu["dmg"].Cast<ComboBox>().CurrentValue)
+                switch (Config.MiscMenu.GetValue("dmg", false))
                 {                  
                     case 0:
                         return QDamage(target) + WDamage(target) + EDamage(target);
@@ -64,8 +63,8 @@ namespace UBRyze
         }
         public static void Damage_Indicator(EventArgs args)
         {
-            if (!Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue) return;
-            if (Config.DrawMenu["drdamage"].Cast<CheckBox>().CurrentValue)
+            if (!Config.DrawMenu.Checked("draw")) return;
+            if (Config.DrawMenu.Checked("drdamage"))
             {
                 foreach (var unit in EntityManager.Heroes.Enemies.Where(u => u.IsValidTarget() && u.IsHPBarRendered)
                     )
@@ -89,7 +88,7 @@ namespace UBRyze
                         (int)unit.HPBarPosition.Y + Special_Y);
                     var EndPoint = new Vector2((int)(unit.HPBarPosition.X + Special_X + currentHealthPercent * 107) + 1,
                         (int)unit.HPBarPosition.Y + Special_Y);
-                    var Color = Config.DrawMenu["Color"].Cast<ColorPicker>().CurrentValue;
+                    var Color = Config.DrawMenu["color"].Cast<ColorPicker>().CurrentValue;
                     Drawing.DrawLine(StartPoint, EndPoint, 9.82f, Color);
 
                 }
