@@ -14,14 +14,14 @@ namespace UBSyndra
             var UBConfig = EloBuddy.Sandbox.SandboxConfig.DataDirectory + @"\UBSeries\";
             var addonFile = UBConfig + @"\" + Extension.AddonName + ".txt";
 
-            if (!Directory.Exists(UBConfig))
+            if (!Directory.Exists(UBConfig) || !Directory.Exists(addonFile))
             {
                 Save(System.Drawing.Color.FromArgb(255, 255, 236, 0));
             }
 
             string[] ARGB = null;
 
-            if (Directory.Exists(UBConfig))
+            if (Directory.Exists(UBConfig) && Directory.Exists(addonFile))
             {
                 ARGB = File.ReadAllLines(addonFile);
             }
