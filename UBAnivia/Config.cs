@@ -120,7 +120,11 @@ namespace UBAnivia
                 DrawMenu.Add("drE", new CheckBox("Draw E"));
                 DrawMenu.Add("drR", new CheckBox("Draw R"));
                 DrawMenu.Add("dmg", new CheckBox("Damage Indicator"));
-                DrawMenu.Add("Color", new ColorPicker("Damage Indicator Color", Color.FromArgb(255, 255, 236, 0)));
+                var ColorPick = DrawMenu.Add("Color", new ColorPicker("Damage Indicator Color", SaveColor.Load()));
+                ColorPick.OnLeftMouseUp += delegate(Control sender, System.EventArgs args)
+                {
+                    SaveColor.Save(ColorPick.CurrentValue);
+                };
             }
         }   
     }

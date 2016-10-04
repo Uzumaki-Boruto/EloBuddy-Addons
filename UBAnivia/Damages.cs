@@ -82,7 +82,6 @@ namespace UBAnivia
                         (int)unit.HPBarPosition.Y + Special_Y);
                     var Color = Config.DrawMenu["Color"].Cast<ColorPicker>().CurrentValue;
                     Drawing.DrawLine(StartPoint, EndPoint, 9.82f, Color);
-
                 }
             }
         }

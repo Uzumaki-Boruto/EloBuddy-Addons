@@ -9,8 +9,6 @@ namespace UBAnivia
 {
     class Mode
     {
-        private static float LastCastQ;
-
         #region Combo
         public static void Combo()
         {
@@ -21,14 +19,13 @@ namespace UBAnivia
                 {
                     Extension.QTarget = target;
                     var pred = Spells.Q.GetPrediction(target);
-                    if (Spells.Q.IsReady() && (!Extension.QActive || LastCastQ < Game.Time - 1.1f) && pred.HitChancePercent >= Config.ComboMenu.GetValue("Qcb"))
+                    if (Spells.Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 && pred.HitChancePercent >= Config.ComboMenu.GetValue("Qcb"))
                     {
                         Spells.Q.Cast(pred.CastPosition);
-                        LastCastQ = Game.Time;
                     }
                 }
             }
-            if (Config.ComboMenu.Checked("W") && Spells.W.IsReady())
+            if (Config.ComboMenu.Checked("W") && Spells.W.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState != 2)
             {
                 var target = TargetSelector.GetTarget(Spells.W.Range, DamageType.Magical);
                 if (target != null && target.IsValid())
@@ -72,10 +69,9 @@ namespace UBAnivia
                 {
                     Extension.QTarget = target;
                     var pred = Spells.Q.GetPrediction(target);
-                    if (Spells.Q.IsReady() && (!Extension.QActive || LastCastQ < Game.Time - 1.1f) && pred.HitChancePercent >= Config.ComboMenu.GetValue("Qcb"))
+                    if (Spells.Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 && pred.HitChancePercent >= Config.HarassMenu.GetValue("Qhr"))
                     {
                         Spells.Q.Cast(pred.CastPosition);
-                        LastCastQ = Game.Time;
                     }
                 }          
             }
@@ -106,14 +102,13 @@ namespace UBAnivia
         public static void LaneClear()
         {
             if (Player.Instance.ManaPercent < Config.LaneClear.GetValue("lc")) return;
-            if (Config.LaneClear.Checked("Q") && Spells.Q.IsReady() && (!Extension.QActive || LastCastQ < Game.Time - 1.1f))
+            if (Config.LaneClear.Checked("Q") && Spells.Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
                 var minion = EntityManager.MinionsAndMonsters.EnemyMinions.Where(m => m.IsValidTarget(Spells.Q.Range) && Spells.Q.IsInRange(m)).FirstOrDefault();
                 {
                     if (minion != null)
                     {
                         Spells.Q.Cast(minion);
-                        LastCastQ = Game.Time;
                     }
                 }
             }
@@ -143,13 +138,12 @@ namespace UBAnivia
         public static void JungleClear()
         {
             if (Player.Instance.ManaPercent < Config.JungleClear.GetValue("jc")) return;
-            if (Config.JungleClear.Checked("Q") && Spells.Q.IsReady() && (!Extension.QActive || LastCastQ < Game.Time - 1.1f))
+            if (Config.JungleClear.Checked("Q") && Spells.Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
                 var monster = ObjectManager.Get<Obj_AI_Minion>().Where(x => x.IsMonster && x.IsValidTarget(Spells.Q.Range)).OrderBy(x => x.MaxHealth).LastOrDefault();
                 if (monster == null || !monster.IsValid) return;
                 if (Orbwalker.IsAutoAttacking) return;
                 Spells.Q.Cast(monster);
-                LastCastQ = Game.Time;
             }
             if (Config.JungleClear.Checked("E") && Spells.E.IsReady())
             {
@@ -175,7 +169,7 @@ namespace UBAnivia
         {
             if (Config.LasthitMenu.GetValue("manage") < Player.Instance.ManaPercent || unit == null
                 || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) return;
-            if (args.RemainingHealth <= Damages.QDamage(unit) && Spells.Q.IsReady() && Config.LasthitMenu.Checked("Qlh"))
+            if (args.RemainingHealth <= Damages.QDamage(unit) && Spells.Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 && Config.LasthitMenu.Checked("Qlh"))
             {
                 Spells.Q.Cast(unit);
             }
@@ -193,7 +187,7 @@ namespace UBAnivia
         #region KillSteal
         public static void Killsteal(EventArgs args)
         {
-            if (Spells.Q.IsReady() && Config.MiscMenu.Checked("Qks") && (!Extension.QActive || LastCastQ < Game.Time - 1.1f))
+            if (Spells.Q.IsReady() && Config.MiscMenu.Checked("Qks") && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
                 var target = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
                     && t.IsValidTarget()
@@ -206,7 +200,6 @@ namespace UBAnivia
                     var pred = Spells.Q.GetPrediction(target);
                     {
                         Spells.Q.Cast(pred.CastPosition);
-                        LastCastQ = Game.Time;
                     }
                 }
             }
@@ -250,10 +243,9 @@ namespace UBAnivia
                 {
                     Extension.QTarget = target;
                     var pred = Spells.Q.GetPrediction(target);
-                    if (Spells.Q.IsReady() && (!Extension.QActive || LastCastQ < Game.Time - 1.1f) && pred.HitChancePercent >= Config.ComboMenu.GetValue("Qcb"))
+                    if (Spells.Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 && pred.HitChancePercent >= Config.HarassMenu.GetValue("Qhr"))
                     {
                         Spells.Q.Cast(pred.CastPosition);
-                        LastCastQ = Game.Time;
                     }
                 }
             }
@@ -290,7 +282,7 @@ namespace UBAnivia
                 && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 250)
                 && (sender.Spellbook.CastEndTime - Game.Time) * 1000 <= Spells.Q.CastDelay
                 && Config.MiscMenu.Checked("Qgap")
-                && !Extension.QActive)
+                && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
                 Extension.QTarget = sender;
                 Spells.Q.Cast(args.End);
@@ -319,11 +311,10 @@ namespace UBAnivia
                 if (Config.MiscMenu.Checked("Qinter")
                 && sender.IsValidTarget(Spells.Q.Range)
                 && Spells.Q.IsReady()
-                && (!Extension.QActive || LastCastQ < Game.Time - 1.1f))
+                && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
                 {
                     Extension.QTarget = sender as AIHeroClient;
                     Spells.Q.Cast(sender);
-                    LastCastQ = Game.Time;
                 }
                 else if (Config.MiscMenu.Checked("Winter")
                     && sender.IsValidTarget(Spells.W.Range)

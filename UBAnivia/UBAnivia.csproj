@@ -35,6 +35,9 @@
     <Reference Include="EloBuddy">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\EloBuddy.dll</HintPath>
     </Reference>
+    <Reference Include="EloBuddy.Sandbox">
+      <HintPath>..\..\..\AppData\Roaming\EloBuddy\Addons\Libraries\EloBuddy.Sandbox.dll</HintPath>
+    </Reference>
     <Reference Include="EloBuddy.SDK">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\EloBuddy.SDK.dll</HintPath>
     </Reference>
@@ -56,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Anivia.cs" />
     <Compile Include="ColorPicker\ColorPicker.cs" />
+    <Compile Include="ColorPicker\SaveColor.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Damages.cs" />
     <Compile Include="Extension.cs" />

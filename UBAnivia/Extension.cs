@@ -12,6 +12,7 @@ namespace UBAnivia
 {
     static class Extension
     {
+        public static string AddonName = "UBAnivia";
         public static int GetValue(this Menu menu, string id, bool IsSlider = true)
         {
             if (IsSlider)
@@ -166,15 +167,15 @@ namespace UBAnivia
                 if (QTarget != null && !QTarget.IsDead)
                 {
                     var target = QTarget;
-                    int Time_to_Travel = (int)(Missile.Distance(Player.Instance) / Spells.Q.Speed * 1000) + 250;
+                    var Time_to_Travel = Missile.Distance(Player.Instance) / Spells.Q.Speed * 1000 + 250;
                     var Rectangle = new Geometry.Polygon.Rectangle(Missile.Position, QMissile_End, 110f);
                     var Rectangle2 = new Geometry.Polygon.Rectangle(Missile.Position, QMissile_End, 230f);
-                    var pred = Prediction.Position.PredictUnitPosition(target, Time_to_Travel);
+                    var pred = Prediction.Position.PredictUnitPosition(target, (int)Time_to_Travel);
                     if (Rectangle2.IsInside(pred))
                     {
                         if (Rectangle.IsInside(pred))
                         {
-                            Core.DelayAction(() => Spells.QActive.Cast(), Time_to_Travel + 150);
+                            Core.DelayAction(() => Spells.QActive.Cast(), (int)Time_to_Travel);
                         }
                         else
                         {
