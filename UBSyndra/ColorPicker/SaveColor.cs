@@ -14,20 +14,22 @@ namespace UBSyndra
             var UBConfig = EloBuddy.Sandbox.SandboxConfig.DataDirectory + @"\UBSeries\";
             var addonFile = UBConfig + @"\" + Extension.AddonName + ".txt";
 
-            if (!Directory.Exists(UBConfig) || !Directory.Exists(addonFile))
+            if (!File.Exists(addonFile))
             {
                 Save(System.Drawing.Color.FromArgb(255, 255, 236, 0));
+
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + " - " + Extension.AddonName + "] Color Loaded!");
+                Console.ResetColor();
+
+                return System.Drawing.Color.FromArgb(255, 255, 236, 0);
             }
-
-            string[] ARGB = null;
-
-            if (Directory.Exists(UBConfig) && Directory.Exists(addonFile))
+            else
             {
+                string[] ARGB = null;
+
                 ARGB = File.ReadAllLines(addonFile);
-            }
 
-            if (ARGB != null)
-            {
                 int[] argb = new int[ARGB.Length];
                 for (var i = 0; i < ARGB.Length; i++)
                 {
@@ -35,12 +37,13 @@ namespace UBSyndra
                     int.TryParse(x, out argb[i]);
                 }
                 color = Color.FromArgb(argb[0], argb[1], argb[2], argb[3]);
+
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + " - " + Extension.AddonName + "] Color Loaded!");
                 Console.ResetColor();
 
+                return color;
             }
-            return color;
         }
         public static void Save(Color CurrentValue)
         {
