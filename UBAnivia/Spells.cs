@@ -23,7 +23,7 @@ namespace UBAnivia
 
             QActive = new Spell.Active(SpellSlot.Q, 230, DamageType.Magical);
 
-            W = new Spell.Skillshot(SpellSlot.W, 1000, SkillShotType.Circular, 400, int.MaxValue, 100);
+            W = new Spell.Skillshot(SpellSlot.W, 1000, SkillShotType.Circular, 600, int.MaxValue, 100);
 
             E = new Spell.Targeted(SpellSlot.E, 650);
 

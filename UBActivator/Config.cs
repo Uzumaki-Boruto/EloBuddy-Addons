@@ -401,7 +401,11 @@ namespace UBActivator
                         break;
 
                     case "Azir":
-                        SkillOrder = new[] { 2, 1, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 3, 2, 3, 4, 3, 3 };
+                        SkillOrder = new[] { 2, 1, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3 };
+                        break;
+
+                    case "Bard":
+                        SkillOrder = new[] { 1, 2, 1, 3, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3 };
                         break;
 
                     case "Blitzcrank":
