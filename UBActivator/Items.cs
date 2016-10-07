@@ -45,9 +45,7 @@ namespace UBActivator
         public static Item Total_Biscuit_of_Rejuvenation { get; private set; }
         public static Item Tracker_s_Knife { get; private set; }
         public static Item Tracker_s_Knifee_Enchantment_Cinderhulk { get; private set; }
-        public static Item Tracker_s_Knife_Enchantment_Devourer { get; private set; }
         public static Item Tracker_s_Knife_Enchantment_Runic_Echoes { get; private set; }
-        public static Item Tracker_s_Knife_Enchantment_Sated_Devourer { get; private set; }
         public static Item Tracker_s_Knife_Enchantment_Warrior { get; private set; }
         public static Item Seraph_s_Embrace { get; private set; }
         public static Item Sweeping_Lens { get; private set; }
@@ -74,9 +72,9 @@ namespace UBActivator
             Farsight_Alteration = new Item(ItemId.Farsight_Alteration);
             Frost_Queen_s_Claim = new Item(ItemId.Frost_Queens_Claim);
             HealthPotion = new Item(ItemId.Health_Potion);
-            Hextech_GLP_800 = new Item(3030);
+            Hextech_GLP_800 = new Item(ItemId.Hextech_GLP_800);
             Hextech_Gunblade = new Item(ItemId.Hextech_Gunblade);
-            Hextech_Protobelt_01 = new Item(3152);
+            Hextech_Protobelt_01 = new Item(ItemId.Hextech_Protobelt_01);
             Hunter_s_Potion = new Item(ItemId.Hunters_Potion);
             Locket_of_the_iron_Solari = new Item(ItemId.Locket_of_the_Iron_Solari);
             Manamune = new Item(ItemId.Manamune);
@@ -98,9 +96,7 @@ namespace UBActivator
             Titanic_Hydra = new Item(ItemId.Titanic_Hydra);
             Total_Biscuit_of_Rejuvenation = new Item(ItemId.Total_Biscuit_of_Rejuvenation);
             Tracker_s_Knife = new Item(ItemId.Trackers_Knife);
-            Tracker_s_Knife_Enchantment_Devourer = new Item(ItemId.Trackers_Knife_Enchantment_Devourer);
             Tracker_s_Knife_Enchantment_Runic_Echoes = new Item(ItemId.Trackers_Knife_Enchantment_Runic_Echoes);
-            Tracker_s_Knife_Enchantment_Sated_Devourer = new Item(ItemId.Trackers_Knife_Enchantment_Sated_Devourer);
             Tracker_s_Knife_Enchantment_Warrior = new Item(ItemId.Trackers_Knife_Enchantment_Warrior);
             Tracker_s_Knifee_Enchantment_Cinderhulk = new Item(ItemId.Trackers_Knife_Enchantment_Cinderhulk);
             Seraph_s_Embrace = new Item(ItemId.Seraphs_Embrace);
