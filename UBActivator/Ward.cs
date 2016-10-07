@@ -14,7 +14,7 @@ namespace UBActivator
         public static float LastReveal;
         public static bool CanCastWard
         {
-            get { return Game.Time - LastWard > 1.25f && IsReady; }
+            get { return Game.Time - LastWard > 5.25f && IsReady; }
         }
         public static bool CanReveal
         {
@@ -24,8 +24,7 @@ namespace UBActivator
         {
             Items.Ruby_Sightstone, Items.Sightstone, Items.Eye_of_the_Equinox,
             Items.Eye_of_the_Oasis, Items.Eye_of_the_Watchers, Items.Farsight_Alteration,
-            Items.Tracker_s_Knife, Items.Tracker_s_Knife_Enchantment_Devourer,
-            Items.Tracker_s_Knife_Enchantment_Runic_Echoes, Items.Tracker_s_Knife_Enchantment_Sated_Devourer,
+            Items.Tracker_s_Knife, Items.Tracker_s_Knife_Enchantment_Runic_Echoes,
             Items.Tracker_s_Knife_Enchantment_Warrior, Items.Tracker_s_Knifee_Enchantment_Cinderhulk,
             Items.Warding_Totem, Items.Vision_Ward, 
         };
@@ -58,8 +57,7 @@ namespace UBActivator
             if (!Config.Ward["enableward"].Cast<CheckBox>().CurrentValue || !Config.Ward["enablebrush"].Cast<CheckBox>().CurrentValue) return;
             if (!Items.Vision_Ward.IsOwned() && !Items.Ruby_Sightstone.IsOwned() && !Items.Sightstone.IsOwned() && !Items.Eye_of_the_Equinox.IsOwned()
                 && !Items.Eye_of_the_Oasis.IsOwned() && !Items.Eye_of_the_Watchers.IsOwned() && !Items.Farsight_Alteration.IsOwned()
-                && !Items.Warding_Totem.IsOwned() && !Items.Tracker_s_Knife.IsOwned() && !Items.Tracker_s_Knife_Enchantment_Devourer.IsOwned()
-                && !Items.Tracker_s_Knife_Enchantment_Runic_Echoes.IsOwned() && !Items.Tracker_s_Knife_Enchantment_Sated_Devourer.IsOwned()
+                && !Items.Warding_Totem.IsOwned() && !Items.Tracker_s_Knife.IsOwned() && !Items.Tracker_s_Knife_Enchantment_Runic_Echoes.IsOwned() 
                 && !Items.Tracker_s_Knife_Enchantment_Warrior.IsOwned() && !Items.Tracker_s_Knifee_Enchantment_Cinderhulk.IsOwned()) return;
             foreach (var heros in EntityManager.Heroes.Enemies.Where(x => !x.IsDead && x.Distance(Player.Instance) < 1000))
             {
