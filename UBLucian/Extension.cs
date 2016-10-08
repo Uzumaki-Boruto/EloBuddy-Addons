@@ -85,7 +85,7 @@ namespace UBLucian
         }
         public static bool IsUnderEnemyTurret(this Vector2 Pos)
         {
-            return Pos.To3D().IsUnderEnemyTurret();
+            return Pos.To3DWorld().IsUnderEnemyTurret();
         }
     }
 }

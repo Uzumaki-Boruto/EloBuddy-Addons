@@ -35,7 +35,7 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
@@ -45,7 +45,7 @@ namespace UBActivator
                             }
                             if (IsReady && E.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.E, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.E, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                         }
@@ -54,17 +54,17 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && R.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.R, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.R, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                         }
@@ -73,7 +73,7 @@ namespace UBActivator
                         {
                             if (IsReady && W.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && E.IsReady())
@@ -96,7 +96,7 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
@@ -115,12 +115,12 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                         }
@@ -129,7 +129,7 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                         }
@@ -138,12 +138,12 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                         }
@@ -152,12 +152,12 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && E.IsReady())
@@ -171,7 +171,7 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
@@ -190,17 +190,17 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && E.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.E, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.E, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                         }
@@ -209,17 +209,17 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && E.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.E, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.E, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                         }
@@ -228,12 +228,12 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && W.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.W, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && E.IsReady())
@@ -252,12 +252,12 @@ namespace UBActivator
                             }
                             if (IsReady && E.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.E, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.E, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                             if (IsReady && R.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.R, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.R, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                         }
@@ -266,7 +266,7 @@ namespace UBActivator
                         {
                             if (IsReady && Q.IsReady())
                             {
-                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3D());
+                                Player.CastSpell(SpellSlot.Q, Player.Instance.Position.Extend(Game.CursorPos, 200).To3DWorld());
                                 LastStack = Game.Time;
                             }
                         }

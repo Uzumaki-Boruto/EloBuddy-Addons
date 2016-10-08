@@ -38,13 +38,13 @@ namespace UBTaliyah
                     {
                         case 1:
                             {
-                                StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3D();
+                                StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3DWorld();
                                 Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                             }
                             break;
                         case 2:
                             {
-                                StartPos = Player.Instance.Position.Extend(pred.CastPosition, pred.CastPosition.Distance(Player.Instance) + 100f).To3D();
+                                StartPos = Player.Instance.Position.Extend(pred.CastPosition, pred.CastPosition.Distance(Player.Instance) + 100f).To3DWorld();
                                 Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                             }
                             break;
@@ -52,7 +52,7 @@ namespace UBTaliyah
                             {
                                 if (Obj_Manager.E_Object != null)
                                 {
-                                    StartPos = pred.CastPosition.Extend(Obj_Manager.E_Object.Position, pred.CastPosition.Distance(Obj_Manager.E_Object.Position) + 100f).To3D();
+                                    StartPos = pred.CastPosition.Extend(Obj_Manager.E_Object.Position, pred.CastPosition.Distance(Obj_Manager.E_Object.Position) + 100f).To3DWorld();
                                     Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                                 }
                             }
@@ -99,13 +99,13 @@ namespace UBTaliyah
                     {
                         case 1:
                             {
-                                StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3D();
+                                StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3DWorld();
                                 Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                             }
                             break;
                         case 2:
                             {
-                                StartPos = Player.Instance.Position.Extend(pred.CastPosition, pred.CastPosition.Distance(Player.Instance) + 100f).To3D();
+                                StartPos = Player.Instance.Position.Extend(pred.CastPosition, pred.CastPosition.Distance(Player.Instance) + 100f).To3DWorld();
                                 Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                             }
                             break;
@@ -113,7 +113,7 @@ namespace UBTaliyah
                             {
                                 if (Obj_Manager.E_Object != null)
                                 {
-                                    StartPos = pred.CastPosition.Extend(Obj_Manager.E_Object.Position, pred.CastPosition.Distance(Obj_Manager.E_Object.Position) + 100f).To3D();
+                                    StartPos = pred.CastPosition.Extend(Obj_Manager.E_Object.Position, pred.CastPosition.Distance(Obj_Manager.E_Object.Position) + 100f).To3DWorld();
                                     Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                                 }
                             }
@@ -151,7 +151,7 @@ namespace UBTaliyah
                 if (Minion != null && Obj_Manager.E_Object != null)
                 {
                     var Location = EntityManager.MinionsAndMonsters.GetCircularFarmLocation(Orbwalker.LaneClearMinionsList, Spells.W.Width, (int)Spells.W.Range);
-                    var StartPos = Location.CastPosition.Extend(Obj_Manager.E_Object.Position, Location.CastPosition.Distance(Obj_Manager.E_Object.Position) + 100f).To3D();
+                    var StartPos = Location.CastPosition.Extend(Obj_Manager.E_Object.Position, Location.CastPosition.Distance(Obj_Manager.E_Object.Position) + 100f).To3DWorld();
                     Spells.W.CastStartToEnd(StartPos, Location.CastPosition);
                 }
             }
@@ -184,7 +184,7 @@ namespace UBTaliyah
                 if (monster != null && Obj_Manager.E_Object != null)
                 {
                     var Location = monster.Position;
-                    var StartPos = Location.Extend(Obj_Manager.E_Object.Position, Location.Distance(Obj_Manager.E_Object.Position) + 100f).To3D();
+                    var StartPos = Location.Extend(Obj_Manager.E_Object.Position, Location.Distance(Obj_Manager.E_Object.Position) + 100f).To3DWorld();
                     Spells.W.CastStartToEnd(StartPos, Location);
                 }
             }
@@ -225,7 +225,7 @@ namespace UBTaliyah
                 if (target != null && !target.Unkillable())
                 {
                     var pred = Spells.W.GetPrediction(target);
-                    var StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3D();
+                    var StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3DWorld();
                     Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
 
                 }
@@ -258,7 +258,7 @@ namespace UBTaliyah
             }
             if (args.RemainingHealth <= Damages.WDamage(unit) && Spells.W.IsReady() && Config.LasthitMenu.Checked("W"))
             {
-                Spells.W.CastStartToEnd(Player.Instance.Position.Extend(unit, Player.Instance.Distance(unit) + 100f).To3D() ,unit.Position);
+                Spells.W.CastStartToEnd(Player.Instance.Position.Extend(unit, Player.Instance.Distance(unit) + 100f).To3DWorld() ,unit.Position);
             }
             if (args.RemainingHealth <= Damages.EDamage(unit) && Spells.E.IsReady() && Config.LasthitMenu.Checked("E"))
             {
@@ -297,13 +297,13 @@ namespace UBTaliyah
                     {
                         case 1:
                             {
-                                StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3D();
+                                StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3DWorld();
                                 Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                             }
                             break;
                         case 2:
                             {
-                                StartPos = Player.Instance.Position.Extend(pred.CastPosition, pred.CastPosition.Distance(Player.Instance) + 100f).To3D();
+                                StartPos = Player.Instance.Position.Extend(pred.CastPosition, pred.CastPosition.Distance(Player.Instance) + 100f).To3DWorld();
                                 Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                             }
                             break;
@@ -311,7 +311,7 @@ namespace UBTaliyah
                             {
                                 if (Obj_Manager.E_Object != null)
                                 {
-                                    StartPos = pred.CastPosition.Extend(Obj_Manager.E_Object.Position, pred.CastPosition.Distance(Obj_Manager.E_Object.Position) + 100f).To3D();
+                                    StartPos = pred.CastPosition.Extend(Obj_Manager.E_Object.Position, pred.CastPosition.Distance(Obj_Manager.E_Object.Position) + 100f).To3DWorld();
                                     Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                                 }
                             }
@@ -342,7 +342,7 @@ namespace UBTaliyah
                 && (sender.Spellbook.CastEndTime - Game.Time) * 1000 <= Spells.W.CastDelay
                 && Config.MiscMenu.Checked("gap"))
             {
-                Vector3 StartPos = Player.Instance.Position.Extend(args.End, Player.Instance.Distance(args.End) + 100f).To3D();
+                Vector3 StartPos = Player.Instance.Position.Extend(args.End, Player.Instance.Distance(args.End) + 100f).To3DWorld();
                 Spells.W.CastStartToEnd(StartPos, args.End);
             }
         }
@@ -362,7 +362,7 @@ namespace UBTaliyah
                 if (Spells.W.IsInRange(sender) && Spells.W.IsReady())
                 {
                     var pred = Spells.W.GetPrediction(sender);
-                    var StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3D();
+                    var StartPos = pred.CastPosition.Extend(Player.Instance, pred.CastPosition.Distance(Player.Instance) + 100f).To3DWorld();
                     Spells.W.CastStartToEnd(StartPos, pred.CastPosition);
                 }
             }

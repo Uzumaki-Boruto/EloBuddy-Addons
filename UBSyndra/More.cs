@@ -85,7 +85,7 @@ namespace UBSyndra
             {
                 foreach (var Ball in BallManager.Balls.Where(x => Spells.E.IsInRange(x)))
                 {
-                    var Rectangle = new Geometry.Polygon.Rectangle(Player.Instance.Position, Player.Instance.Position.Extend(Ball.Position, Spells.QE.Range).To3D(), Spells.QE.Width);
+                    var Rectangle = new Geometry.Polygon.Rectangle(Player.Instance.Position, Player.Instance.Position.Extend(Ball.Position, Spells.QE.Range).To3DWorld(), Spells.QE.Width);
                     Rectangle.Draw(Colour.Cyan);
                 }
             }

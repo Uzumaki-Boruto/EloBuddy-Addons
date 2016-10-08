@@ -321,7 +321,7 @@ namespace UBRyze
                 }
                 else 
                 {
-                    if(Spells.R.Cast(Player.Instance.Position.Extend(NearestTurret, Spells.R.Range).To3D()))
+                    if(Spells.R.Cast(Player.Instance.Position.Extend(NearestTurret, Spells.R.Range).To3DWorld()))
                     Spells.Zhonya.Cast();
                 }
             }

@@ -295,7 +295,7 @@ namespace UBAnivia
                 && sender.Spellbook.CastEndTime <= Spells.W.CastDelay
                 && Config.MiscMenu.Checked("Wgap"))
             {
-                Spells.W.Cast(Player.Instance.Position.Extend(args.End, Player.Instance.Distance(args.End) - 30f).To3D());
+                Spells.W.Cast(Player.Instance.Position.Extend(args.End, Player.Instance.Distance(args.End) - 30f).To3DWorld());
             }
 
         }

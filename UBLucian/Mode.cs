@@ -230,7 +230,7 @@ namespace UBLucian
                     var Position = _E_.Intersection_Of_2Circle(Player.Instance.Position.To2D(), Spells.E.Range, minion.Position.To2D(), Player.Instance.GetAutoAttackRange(minion));
                     if (Position.Count() > 0)
                     {
-                        Spells.E.Cast(Position.OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3D());
+                        Spells.E.Cast(Position.OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3DWorld());
                     }
                 }
             }
@@ -265,7 +265,7 @@ namespace UBLucian
                     var Position = _E_.Intersection_Of_2Circle(Player.Instance.Position.To2D(), Spells.E.Range, monster.Position.To2D(), Player.Instance.GetAutoAttackRange(monster));
                     if (Position.Count() > 0)
                     {
-                        Spells.E.Cast(Position.OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3D());
+                        Spells.E.Cast(Position.OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3DWorld());
                     }
                 }
             }
@@ -378,7 +378,7 @@ namespace UBLucian
                 var Position = _E_.Intersection_Of_2Circle(Player.Instance.Position.To2D(), Spells.E.Range, unit.Position.To2D(), Player.Instance.GetAutoAttackRange(unit));
                 if (Position.Count() > 0)
                 {
-                    Spells.E.Cast(Position.OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3D());
+                    Spells.E.Cast(Position.OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3DWorld());
                 }
             }
         }
@@ -464,7 +464,7 @@ namespace UBLucian
                 && sender.Spellbook.CastEndTime <= Spells.W.CastDelay
                 && Config.MiscMenu.Checked("Egap"))
             {
-                var ECast = args.Start.Extend(Player.Instance, args.Start.Distance(Player.Instance) + Spells.E.Range).To3D();
+                var ECast = args.Start.Extend(Player.Instance, args.Start.Distance(Player.Instance) + Spells.E.Range).To3DWorld();
                 Spells.E.Cast(ECast);
             }
         }

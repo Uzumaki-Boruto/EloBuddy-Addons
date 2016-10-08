@@ -36,7 +36,7 @@ namespace UBVeigar
             var pred = E.GetPrediction(target);
             if (pred.UnitPosition.IsInRange(Player.Instance, E.Range + E.Radius) && E.IsReady())
             {
-                var Location = Player.Instance.Position.Extend(pred.UnitPosition, Player.Instance.Distance(pred.UnitPosition) - E.Radius).To3D();
+                var Location = Player.Instance.Position.Extend(pred.UnitPosition, Player.Instance.Distance(pred.UnitPosition) - E.Radius).To3DWorld();
                 E.Cast(Location);
             }
         }
@@ -44,7 +44,7 @@ namespace UBVeigar
         {
             if (E.IsReady())
             {
-                var Location = Player.Instance.Position.Extend(Vector, Player.Instance.Distance(Vector) - E.Radius).To3D();
+                var Location = Player.Instance.Position.Extend(Vector, Player.Instance.Distance(Vector) - E.Radius).To3DWorld();
                 E.Cast(Location);
             }
         }

@@ -82,11 +82,11 @@ namespace UBSyndra
                 var pred = QE.GetPrediction(target);
                 if (E.IsInRange(pred.UnitPosition))
                 {
-                    Q.Cast(Player.Instance.Position.Extend(pred.CastPosition, Player.Instance.Distance(pred.CastPosition) - 20f).To3D());
+                    Q.Cast(Player.Instance.Position.Extend(pred.CastPosition, Player.Instance.Distance(pred.CastPosition) - 20f).To3DWorld());
                 }
                 else
                 {
-                    Q.Cast(Player.Instance.Position.Extend(pred.CastPosition, Spells.E.Range - 50f).To3D());
+                    Q.Cast(Player.Instance.Position.Extend(pred.CastPosition, Spells.E.Range - 50f).To3DWorld());
                 }
             }
         }

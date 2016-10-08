@@ -171,7 +171,7 @@ namespace UBActivator
                         {
                             if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
                             {
-                                Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(Game.CursorPos, 275).To3D());
+                                Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(Game.CursorPos, 275).To3DWorld());
                             }
                         }
                         break;
@@ -180,7 +180,7 @@ namespace UBActivator
                             if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
                             {
                                 if (!Player.Instance.IsInAutoAttackRange(target) && Player.Instance.Distance(pred.UnitPosition) <= Player.Instance.GetAutoAttackRange() + 325)
-                                    Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(pred.CastPosition, 275).To3D());
+                                    Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(pred.CastPosition, 275).To3DWorld());
                             }
                         }
                         break;
@@ -208,7 +208,7 @@ namespace UBActivator
                     {
                         if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
                         {
-                            Items.Hextech_Protobelt_01.Cast(sender.Position.Extend(Player.Instance.Position, sender.Distance(Player.Instance) + 275).To3D());
+                            Items.Hextech_Protobelt_01.Cast(sender.Position.Extend(Player.Instance.Position, sender.Distance(Player.Instance) + 275).To3DWorld());
                         }
                     }
                 }
@@ -257,7 +257,7 @@ namespace UBActivator
                 var Pred = Prediction.Position.PredictLinearMissile(FireTarget, 750, 60, 150, 1150, 0);
                 if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
                 {
-                    Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(Pred.CastPosition, 275).To3D());
+                    Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(Pred.CastPosition, 275).To3DWorld());
                 }
             }
             if (GunTarget != null
@@ -266,7 +266,7 @@ namespace UBActivator
                 var Pred = Prediction.Position.PredictLinearMissile(FireTarget, 750, 60, 150, 1150, 0);
                 if (Items.Hextech_Gunblade.IsOwned() && Items.Hextech_Gunblade.IsReady())
                 {
-                    Items.Hextech_Gunblade.Cast(Player.Instance.Position.Extend(Pred.CastPosition, 275).To3D());
+                    Items.Hextech_Gunblade.Cast(Player.Instance.Position.Extend(Pred.CastPosition, 275).To3DWorld());
                 }
             }
             if (BorkTarget != null

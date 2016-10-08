@@ -20,7 +20,7 @@ namespace UBLucian
                 var Path = Intersection_Of_2Circle(Player.Instance.Position.To2D(), Spells.E.Range, TargetPosition, AARange);
                 if (Path.Count() > 0)
                 {
-                    return new Vector3[] { Path.First().To3D(), Path.Last().To3D() };
+                    return new Vector3[] { Path.First().To3DWorld(), Path.Last().To3DWorld() };
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace UBLucian
                             var count = preds.Count(x => Rectangle.IsInside(x.CastPosition));
                             if (count >= Config.EQHit.CurrentValue)
                             {
-                                var Position = preds[0].CastPosition.Extend(preds[i].CastPosition, Spells.Q.Range).To3D();
+                                var Position = preds[0].CastPosition.Extend(preds[i].CastPosition, Spells.Q.Range).To3DWorld();
                                 if (Spells.E.IsInRange(Position))
                                 {
                                     Location = Position;
@@ -94,11 +94,11 @@ namespace UBLucian
                             {
                                 if (Path.Count(x => IsNotDangerPosition(x)) == 2)
                                 {
-                                    Location = Path.OrderByDescending(x => Get_Rate_Position(x)).OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3D();
+                                    Location = Path.OrderByDescending(x => Get_Rate_Position(x)).OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3DWorld();
                                 }
                                 else if (Path.Count(x => IsNotDangerPosition(x)) == 0)
                                 {
-                                    var Position = Path.OrderByDescending(x => Get_Rate_Position(x)).OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3D();
+                                    var Position = Path.OrderByDescending(x => Get_Rate_Position(x)).OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3DWorld();
                                     var target = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
                                         && !t.IsDead
                                         && t.IsValidTarget()
@@ -111,7 +111,7 @@ namespace UBLucian
                                     }
                                     else if (Config.ECorrect.CurrentValue)
                                     {
-                                        var Loc = Path.OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3D();
+                                        var Loc = Path.OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault().To3DWorld();
                                         Location = CorrectToBetter(Loc);
                                     }
                                     else
@@ -121,7 +121,7 @@ namespace UBLucian
                                 }
                                 else
                                 {
-                                    Location = Path.OrderBy(x => Get_Rate_Position(x)).FirstOrDefault(x => IsNotDangerPosition(x)).To3D();
+                                    Location = Path.OrderBy(x => Get_Rate_Position(x)).FirstOrDefault(x => IsNotDangerPosition(x)).To3DWorld();
                                 }
                             }
                             else
@@ -132,7 +132,7 @@ namespace UBLucian
                                 }
                                 if (Player.Instance.Distance(TargetPosition) <= AARange - Spells.E.Range && Config.EKite.CurrentValue)
                                 {
-                                    Location = Nearest.Position.Extend(Player.Instance, Nearest.Distance(Player.Instance) + Spells.E.Range).To3D();
+                                    Location = Nearest.Position.Extend(Player.Instance, Nearest.Distance(Player.Instance) + Spells.E.Range).To3DWorld();
                                 }
                             }
                         }
@@ -140,7 +140,7 @@ namespace UBLucian
                     case 2:
                         {
                             if (Nearest.Distance(Player.Instance) <= AARange + Spells.E.Range)
-                                Location = Player.Instance.ServerPosition.Extend(Game.CursorPos, Spells.E.Range).To3D();
+                                Location = Player.Instance.ServerPosition.Extend(Game.CursorPos, Spells.E.Range).To3DWorld();
                         }
                         break;
                     case 3:
@@ -149,11 +149,11 @@ namespace UBLucian
                             {
                                 if (Nearest.Distance(Player.Instance) <= AARange - Spells.E.Range && Config.EKite.CurrentValue)
                                 {
-                                    Location = Nearest.Position.Extend(Player.Instance, Nearest.Distance(Player.Instance) + Spells.E.Range).To3D();
+                                    Location = Nearest.Position.Extend(Player.Instance, Nearest.Distance(Player.Instance) + Spells.E.Range).To3DWorld();
                                 }
                                 else
                                 {
-                                    var Pos = Player.Instance.ServerPosition.Extend(Game.CursorPos, Spells.E.Range).To3D();
+                                    var Pos = Player.Instance.ServerPosition.Extend(Game.CursorPos, Spells.E.Range).To3DWorld();
                                     var GrassObject = ObjectManager.Get<GameObject>().Where(x => Spells.E.IsInRange(x.Position) && x.Type.ToString() == "GrassObject").OrderBy(x => x.Distance(Nearest)).FirstOrDefault();
                                     var target = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
                                         && !t.IsDead
@@ -182,7 +182,7 @@ namespace UBLucian
                         break;
                     case 4:
                         {
-                            Location = Player.Instance.ServerPosition.Extend(Game.CursorPos, Spells.E.Range).To3D();
+                            Location = Player.Instance.ServerPosition.Extend(Game.CursorPos, Spells.E.Range).To3DWorld();
                         }
                         break;
                 }
@@ -207,13 +207,13 @@ namespace UBLucian
                         break;
                     case 1:
                         {
-                            Corrected = Path.FirstOrDefault(x => IsNotDangerPosition(x)).To3D();
+                            Corrected = Path.FirstOrDefault(x => IsNotDangerPosition(x)).To3DWorld();
 
                         }
                         break;
                     case 2:
                         {
-                            Corrected = Path.OrderByDescending(x => Get_Rate_Position(x)).FirstOrDefault(x => x.IsInRange(Nearest, Player.Instance.GetAutoAttackRange(Nearest))).To3D();
+                            Corrected = Path.OrderByDescending(x => Get_Rate_Position(x)).FirstOrDefault(x => x.IsInRange(Nearest, Player.Instance.GetAutoAttackRange(Nearest))).To3DWorld();
 
                         }
                         break;
@@ -275,12 +275,12 @@ namespace UBLucian
         }
         public static bool IsNotDangerPosition(Vector2 Pos)
         {
-            return IsNotDangerPosition(Pos.To3D());
+            return IsNotDangerPosition(Pos.To3DWorld());
         }
         public static int Get_Rate_Position(Vector2 Pos)
         {
             var Rate = 0;
-            if (NavMesh.IsWallOfGrass(Pos.To3D(), Player.Instance.BoundingRadius))
+            if (NavMesh.IsWallOfGrass(Pos.To3DWorld(), Player.Instance.BoundingRadius))
             {
                 Rate += 3;
             }
