@@ -61,11 +61,12 @@ namespace UBActivator
                 }
                 if (sender.IsAlly && !sender.IsMe && !sender.IsMinion)
                 {
+                    var stuner = sender as AIHeroClient;
                     if (!Config.Clean["enableMikael"].Cast<CheckBox>().CurrentValue) return;
-                    if (!Config.Clean["mikael" + sender.Name].Cast<CheckBox>().CurrentValue) return;
+                    if (!Config.Clean["mikael" + stuner.ChampionName].Cast<CheckBox>().CurrentValue) return;
                     if (Items.Mikaels_Crucible.IsOwned() && Items.Mikaels_Crucible.IsReady())
                     {
-                        Core.DelayAction(() => Items.Mikaels_Crucible.Cast(sender), Delay);
+                        Core.DelayAction(() => Items.Mikaels_Crucible.Cast(stuner), Delay);
                     }
                 }
             }
