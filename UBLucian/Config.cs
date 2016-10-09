@@ -189,9 +189,17 @@ namespace UBLucian
                 DrawMenu.Add("Eposdr", new CheckBox("Draw best postion E"));
                 DrawMenu.Add("Rdr", new CheckBox("Draw R"));
                 DrawMenu.Add("dmg", new CheckBox("Draw Damage Indicator"));
-                DrawMenu.Add("color", new ColorPicker("Damage Indicator Color", System.Drawing.Color.FromArgb(255, 255, 236, 0)));
+                var ColorPick = DrawMenu.Add("color", new ColorPicker("Damage Indicator Color", SaveColor.Load("dmg")));
+                ColorPick.OnLeftMouseUp += delegate(Control sender, System.EventArgs args)
+                {
+                    SaveColor.Save(ColorPick.CurrentValue, "dmg");
+                };
                 DrawMenu.Add("spot", new CheckBox("Draw Dash Spot"));
-                DrawMenu.Add("spotcolor", new ColorPicker("Dash spot color", System.Drawing.Color.OrangeRed));
+                var SpotColor = DrawMenu.Add("spotcolor", new ColorPicker("Dash spot color", SaveColor.Load("spot")));
+                SpotColor.OnLeftMouseUp += delegate(Control sender, System.EventArgs args)
+                {
+                    SaveColor.Save(SpotColor.CurrentValue, "spot");
+                };
             }
 
             MiscMenu = Menu.AddSubMenu("MiscMenu");

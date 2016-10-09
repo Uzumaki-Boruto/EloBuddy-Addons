@@ -10,6 +10,7 @@ namespace UBLucian
 {
     public static class Extension
     {
+        public static string AddonName = "UBLucian";
         public static bool HasPassive;
         public static bool CanCastNextSpell(Menu menu)
         {

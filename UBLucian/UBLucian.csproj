@@ -35,6 +35,9 @@
     <Reference Include="EloBuddy">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\EloBuddy.dll</HintPath>
     </Reference>
+    <Reference Include="EloBuddy.Sandbox">
+      <HintPath>..\..\..\AppData\Roaming\EloBuddy\Addons\Libraries\EloBuddy.Sandbox.dll</HintPath>
+    </Reference>
     <Reference Include="EloBuddy.SDK">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EloBuddy\System\EloBuddy.SDK.dll</HintPath>
     </Reference>
@@ -57,6 +60,7 @@
     <Compile Include="ColorPicker\ColorPicker.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Damages.cs" />
+    <Compile Include="ColorPicker\SaveColor.cs" />
     <Compile Include="_E_.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="Flee.cs" />
