@@ -36,13 +36,13 @@ namespace UBSivir
             BlockedSpells.Add("Alistar", new List<Block> { q, w });
             BlockedSpells.Add("Anivia", new List<Block> { e });
             BlockedSpells.Add("Annie", new List<Block> { q, w, r });
-            BlockedSpells.Add("Amumu", new List<Block> { r });
+            BlockedSpells.Add("Amumu", new List<Block> { q, r });
             BlockedSpells.Add("Ashe", new List<Block> { w });
             BlockedSpells.Add("Azir", new List<Block> { r });
             BlockedSpells.Add("Bard", new List<Block> { r });
             BlockedSpells.Add("Blitzcrank", new List<Block> { new Block("PowerFistAttack", "Power Fist", true), r });
             BlockedSpells.Add("Brand", new List<Block> { e, r });
-            BlockedSpells.Add("Braum", new List<Block> { new Block("BraumBasicAttackPassiveOverride", "Stun", true) });
+            BlockedSpells.Add("Braum", new List<Block> { new Block("BraumBasicAttackPassiveOverride", "Stun", true), q, r });
             BlockedSpells.Add("Caitlyn", new List<Block> { r });
             BlockedSpells.Add("Cassiopeia", new List<Block> { r });
             BlockedSpells.Add("Chogath", new List<Block> { r });
@@ -53,13 +53,10 @@ namespace UBSivir
             BlockedSpells.Add("Evelynn", new List<Block> { e, r });
             BlockedSpells.Add("FiddleSticks", new List<Block> { q, w, e });
             BlockedSpells.Add("Fizz", new List<Block> { q, new Block("fizzjumptwo", "Second E") });
+            BlockedSpells.Add("Fiora", new List<Block> { r });
             BlockedSpells.Add("Gangplank", new List<Block> { q, new Block((SpellSlot)45) { Name = "Barrel Q" } });
             BlockedSpells.Add("Garen", new List<Block> { new Block("GarenQAttack", "Empowered Q", true), r });
-            BlockedSpells.Add("Gnar", new List<Block> { new Block("GnarBasicAttack", "Empowered W", true)
-                    {
-                        BuffName = "gnarwproc",
-                        IsPlayerBuff = true
-                    }, r });
+            BlockedSpells.Add("Gnar", new List<Block> { e, r });
             BlockedSpells.Add("Gragas", new List<Block> { new Block("DrunkenRage", "Drunken Rage", true), r });
             BlockedSpells.Add("Hecarim", new List<Block> { new Block("hecarimrampattack", "Empowered E", true), r });
             BlockedSpells.Add("Illaoi", new List<Block> { new Block("illaoiwattack", "Empowered W", true), r });
@@ -75,8 +72,8 @@ namespace UBSivir
                         BuffName = "JaxEmpowerTwo",
                         IsSelfBuff = true
                     },
-                    q
-                    //new BlockedSpell(SpellSlot.E) { BuffName = "JaxCounterStrike", IsSelfBuff = true }
+                    q,
+                    new Block(SpellSlot.E) { BuffName = "JaxCounterStrike", IsSelfBuff = true }
                 });
             BlockedSpells.Add("Jayce", new List<Block>
                 {
@@ -84,6 +81,7 @@ namespace UBSivir
                     new Block("JayceThunderingBlow", "Hammer E")
                 });
             BlockedSpells.Add("Jhin", new List<Block> { q, new Block("JhinPassiveAttack", "4th", true) });
+            BlockedSpells.Add("Karma", new List<Block> { w });
             BlockedSpells.Add("Kassadin", new List<Block> { q, new Block("KassadinBasicAttack3", "Empowered W", true) });
             BlockedSpells.Add("Katarina", new List<Block> { q, e });
             BlockedSpells.Add("Kayle", new List<Block> { q });
@@ -105,7 +103,7 @@ namespace UBSivir
                 });
             BlockedSpells.Add(
                 "Leona", new List<Block> { new Block("LeonaShieldOfDaybreakAttack", "Stun Q", true) });
-            BlockedSpells.Add("Lissandra", new List<Block> { new Block(N48) { Name = "R" } });
+            BlockedSpells.Add("Lissandra", new List<Block> { new Block(N48) { Name = "R" }, w });
             BlockedSpells.Add("Lulu", new List<Block> { w });
             BlockedSpells.Add("Malphite", new List<Block> { q, r });
             BlockedSpells.Add("Malzahar", new List<Block> { e, r });
@@ -116,7 +114,8 @@ namespace UBSivir
             BlockedSpells.Add(
                 "Mordekaiser",
                 new List<Block> { new Block("mordekaiserqattack2", "Empowered Q", true), e, r });
-            BlockedSpells.Add("Nami", new List<Block> { w, r });
+            BlockedSpells.Add("Morgana", new List<Block> { q, r });
+            BlockedSpells.Add("Nami", new List<Block> { q, w, r });
             BlockedSpells.Add(
                 "Nasus", new List<Block> { new Block("NasusQAttack", "Empowered Q", true), w });
             BlockedSpells.Add(
@@ -202,10 +201,9 @@ namespace UBSivir
                     w,
                     e
                 });
-            BlockedSpells.Add("Taric", new List<Block> { e });
             BlockedSpells.Add("Tahm Kench", new List<Block> { w });
             BlockedSpells.Add("Teemo", new List<Block> { q });
-            BlockedSpells.Add("Thresh", new List<Block> { e });
+            BlockedSpells.Add("Thresh", new List<Block> { q, e });
             BlockedSpells.Add("Tristana", new List<Block> { e, r });
             BlockedSpells.Add(
                 "Trundle", new List<Block> { new Block("TrundleQ", "Empowered Q", true), r });
@@ -213,38 +211,11 @@ namespace UBSivir
                 "TwistedFate", new List<Block> { new Block("goldcardpreattack", "Gold Card", true), new Block("redcardpreattack", "Red Card", true) });
             BlockedSpells.Add("Udyr", new List<Block> { new Block("UdyrBearAttack", "Bear", true) });
             BlockedSpells.Add("Urgot", new List<Block> { r });
-            BlockedSpells.Add(
-                "Vayne",
-                new List<Block>
-                {
-                    new Block("VayneBasicAttack", "Silver Bolts")
-                    {
-                        IsAutoAttack = true,
-                        IsPlayerBuff = true,
-                        BuffName = "vaynesilvereddebuff",
-                        BuffCount = 2
-                    },
-                    e
-                });
+            BlockedSpells.Add("Vayne", new List<Block> { e });
             BlockedSpells.Add("Veigar", new List<Block> { e, r });
-            BlockedSpells.Add(
-                "Vi",
-                new List<Block>
-                {
-                    new Block("ViBasicAttack", "Empowered W")
-                    {
-                        IsAutoAttack = true,
-                        BuffName = "viwproc",
-                        IsPlayerBuff = true,
-                        BuffCount = 2
-                    },
-                    new Block("ViEAttack", "Empowered E") { IsAutoAttack = true },
-                    r
-                });
-            BlockedSpells.Add(
-                "Viktor",
-                new List<Block> { q, r });
-            BlockedSpells.Add("Vladimir", new List<Block> { q });
+            BlockedSpells.Add("Vi", new List<Block> { r });
+            BlockedSpells.Add("Viktor", new List<Block> { q, r });
+            BlockedSpells.Add("Vladimir", new List<Block> { q, r });
             BlockedSpells.Add(
                 "Volibear", new List<Block> { new Block("VolibearQAttack", "Empowered Q", true), w });
             BlockedSpells.Add("Warwick", new List<Block> { q });
