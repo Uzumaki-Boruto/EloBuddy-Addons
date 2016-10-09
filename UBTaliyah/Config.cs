@@ -92,7 +92,11 @@ namespace UBTaliyah
                 DrawMenu.Add("Edr", new CheckBox("Draw E"));
                 DrawMenu.Add("Rdr", new CheckBox("Draw R"));
                 DrawMenu.Add("dmg", new CheckBox("Draw Damage Indicator"));
-                DrawMenu.Add("color", new ColorPicker("Damage Indicator Color", System.Drawing.Color.FromArgb(255, 255, 236, 0)));
+                var ColorPick = DrawMenu.Add("Color", new ColorPicker("Damage Indicator Color", SaveColor.Load()));
+                ColorPick.OnLeftMouseUp += delegate(Control sender, System.EventArgs args)
+                {
+                    SaveColor.Save(ColorPick.CurrentValue);
+                };
             }
         }
     }

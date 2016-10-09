@@ -9,6 +9,7 @@ namespace UBTaliyah
 {
     static class Extension
     {
+        public static string AddonName = "UBTaliyah";
         public static int GetValue(this Menu menu, string id, bool IsSlider = true)
         {
             if (IsSlider)
