@@ -9,6 +9,7 @@ namespace UBZilean
 {
     static class Extension
     {
+        public static string AddonName = "UBZilean";
         public static int GetValue(this Menu menu, string id, bool IsSlider = true)
         {
             if (IsSlider)
