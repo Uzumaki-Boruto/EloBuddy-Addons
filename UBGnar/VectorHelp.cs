@@ -17,7 +17,7 @@ namespace UBGnar
             var position = Player.Instance.Position.To2D();
             for (var radius = 1; radius <= Range; radius += 100)
             {                
-                var quality = (int)(radius / 7 + 11);                
+                var quality = (int)(radius / 13 + 1);                
                 var rad = new Vector2(0, radius);
                 for (var i = 0; i <= (int)(Math.Abs(quality * length / PI2)); i++)
                 {
@@ -25,10 +25,14 @@ namespace UBGnar
                     if (Point.IsBuilding() || Point.IsWall())
                     {
                         Wall.Add(Point.To3DWorld());
-                    }
-                    else continue;
+                        if (Wall.Count >= Config.Menu.GetValue("st"))
+                        {
+                            break;
+                        }
+                    }                   
+                    else continue;                    
                 }
-                if (Wall.Count >= Config.Menu.GetValue("st"))
+                if (Wall.Count > Config.Menu.GetValue("st"))
                 {
                     break;
                 }
@@ -46,7 +50,7 @@ namespace UBGnar
             float PI2 = (float)Math.PI * 2;
             if (quality == -1)
             {
-                quality = (int)(radius / 7 + 50);
+                quality = (int)(radius / 7 + 100);
             }
             var points = new Vector3[(int)(Math.Abs(quality * length / PI2) + 1)];
             var rad = new Vector2(0, radius);

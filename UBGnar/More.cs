@@ -35,7 +35,8 @@ namespace UBGnar
 
             Obj_GeneralParticleEmitter.OnCreate += Mode.Obj_GeneralParticleEmitter_OnCreate;
             Obj_GeneralParticleEmitter.OnDelete += Mode.Obj_GeneralParticleEmitter_OnDelete;
-            AIHeroClient.OnProcessSpellCast += Mode.Player_OnSpellCast;
+            MissileClient.OnCreate += Mode.MissileClient_OnCreate;
+            MissileClient.OnDelete += Mode.MissileClient_OnDelete;
 
             Gapcloser.OnGapcloser += Mode.Gapcloser_OnGapcloser;
             Interrupter.OnInterruptableSpell += Mode.Interrupter_OnInterruptableSpell;
@@ -101,6 +102,15 @@ namespace UBGnar
                     var Color = Buff1 != null ? Colour.White : Fury > 95 ? Colour.Red : Fury > 80 ? Colour.OrangeRed : Fury > 25 ? Colour.Orange : Colour.Yellow;
                     VectorHelp.DrawArc(Player.Instance.Position.To2D(), 100, Color, 0, PercentRemaining / 15.5f, 3.5f);
                 }
+            }
+            if (Config.DrawMenu.Checked("rpos") && !Spells.R.IsOnCooldown)
+            {
+                var WhereWall = new List<Vector3>();
+                for (var i = 0; i <= 80; i++)
+                {
+                    WhereWall = VectorHelp.GetWallAroundMe(Spells.R.Range, i / 12.5f);
+                }
+                Circle.Draw(Color.Green, 40, WhereWall.ToArray());
             }
         }       
     }

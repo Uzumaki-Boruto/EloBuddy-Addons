@@ -139,25 +139,21 @@ namespace UBGnar
                 }
             }
         }
+        public static List<Vector3> WhereWall = new List<Vector3>();
         public static void RCast()
         {
             if (!Config.ComboMenu.Checked("R")) return;
             var Target = Spells.R.GetTarget();
-            var WhereWall = new List<Vector3>();
-            var WhereCastR = new Vector3();
-            if (Target != null && Spells.R.IsReady())
+            var WhereCastR = new Vector3();            
+            if (Spells.R.IsReady() && Target != null)
             {
-                for (var i = 0; i <= 640; i++)
+                for (var i = 0; i <= 160; i++)
                 {
-                    WhereWall = VectorHelp.GetWallAroundMe(Spells.R.Range, i / 100f);
-                }
+                    WhereWall = VectorHelp.GetWallAroundMe(Spells.R.Range, i / 25f);
+                }                
             }
             if (WhereWall.Count != 0)
             {
-                if (Config.DrawMenu.Checked("rpos"))
-                {
-                    Circle.Draw(Color.Green, 40, WhereWall.ToArray());
-                }
                 var Wall = WhereWall.OrderBy(x => x.Distance(Target)).FirstOrDefault();
                 WhereCastR = Target.Position.To2D().Parallel(Wall.To2D(), Player.Instance.Position.To2D());
             }
@@ -172,13 +168,12 @@ namespace UBGnar
                     Spells.R.Cast(Player.Instance.Position.Extend(WhereCastR, Spells.R.Range).To3DWorld());
                 }
             }
-
         }
         #endregion
 
         #region Orbwalker
         public static GameObject MissileEnd;
-        public static Vector3 Missile;
+        public static MissileClient Missile;
         public static void Obj_GeneralParticleEmitter_OnCreate(GameObject sender, EventArgs args)
         {
             if (sender.Name.Contains("Gnar_Global_Indicator_Line_Beam.troy"))
@@ -191,21 +186,32 @@ namespace UBGnar
             if (sender.Name.Contains("Gnar_Global_Indicator_Line_Beam.troy"))
             {
                 MissileEnd = null;
-                Missile = new Vector3();
+                Missile = null;
                 Orbwalker.DisableMovement = false;
             }
         }
-        public static void Player_OnSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        public static void MissileClient_OnCreate(GameObject obj, EventArgs args)
         {
-            if (!sender.IsMe) return;
-            if (args.Slot == SpellSlot.Q && Extension.IsTiny)
-                Missile = args.End;
+            var missile = obj as MissileClient;
+            if (obj is MissileClient && missile.IsAlly && missile.Slot.ToString() == "46")
+            {
+                Missile = missile;
+            }
+        }
+        public static void MissileClient_OnDelete(GameObject obj, EventArgs args)
+        {
+            if (Missile.NetworkId == obj.NetworkId)
+            {
+                MissileEnd = null;
+                Missile = null;
+                Orbwalker.DisableMovement = false;
+            }
         }
         public static void CatchQ(EventArgs args)
         {
-            if (Missile == new Vector3() || MissileEnd == null || !Config.ComboMenu.Checked("takeQ")) return;
+            if (Missile == null || Missile.IsDead || MissileEnd == null || !Config.ComboMenu.Checked("takeQ")) return;
             var Distance = Player.Instance.Distance(Game.CursorPos);
-            var Intersection = Missile.To2D().Intersection(MissileEnd.Position.To2D(), Player.Instance.Position.Extend(Game.CursorPos, Distance + 500), Game.CursorPos.Extend(Player.Instance, Distance + 500));
+            var Intersection = Missile.Position.To2D().Intersection(MissileEnd.Position.To2D(), Player.Instance.Position.Extend(Game.CursorPos, Distance + 500), Game.CursorPos.Extend(Player.Instance, Distance + 500));
             if (Intersection.Point != new Vector2())
             {
                 Orbwalker.DisableMovement = true;
@@ -213,7 +219,19 @@ namespace UBGnar
                 if (Player.Instance.Distance(Intersection.Point) > 100)
                 {
                     Orbwalker.MoveTo(Intersection.Point.To3DWorld());
-                }                
+                }
+                else
+                {
+                    Orbwalker.MoveTo(Game.CursorPos);
+                }
+                if (Missile.Distance(MissileEnd) < Player.Instance.Distance(MissileEnd))
+                {
+                    Orbwalker.DisableMovement = false;
+                }
+            }
+            else
+            {
+                Orbwalker.DisableMovement = false;
             }
         }
         #endregion
@@ -318,7 +336,7 @@ namespace UBGnar
                     {
                         if (Config.LaneClear.Checked("Qbig") && Spells.QTiny.IsReady())
                         {
-                            Spells.QTiny.CastOnBestFarmPosition(1);
+                            Spells.QMega.CastOnBestFarmPosition(1);
                         }
                         if (Config.LaneClear.Checked("Wbig") && Spells.QTiny.IsReady())
                         {
@@ -410,13 +428,32 @@ namespace UBGnar
         public static void On_Unkillable_Minion(Obj_AI_Base unit, Orbwalker.UnkillableMinionArgs args)
         {
             if (unit == null || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) return;
-            if (unit.Health <= Damage.QDamage(unit) && Spells.QTiny.IsReady() && Config.LasthitMenu.Checked("Q"))
+            switch (Extension.IsTiny)
             {
-                Spells.QTiny.Cast(unit);
-            }
-            if (unit.Health <= Damage.EDamage(unit) && Spells.ETiny.IsReady() && Config.LasthitMenu.Checked("E"))
-            {
-                Spells.ETiny.Cast(unit);
+                case true:
+                    {
+                        if (unit.Health <= Damage.QDamage(unit) && Spells.QTiny.IsReady() && Config.LasthitMenu.Checked("Q"))
+                        {
+                            Spells.QTiny.Cast(unit);
+                        }
+                        if (unit.Health <= Damage.EDamage(unit) && Spells.ETiny.IsReady() && Config.LasthitMenu.Checked("E"))
+                        {
+                            Spells.ETiny.Cast(unit);
+                        }
+                    }
+                    break;
+                case false:
+                    {
+                        if (unit.Health <= Damage.QDamage(unit) && Spells.QTiny.IsReady() && Config.LasthitMenu.Checked("Q"))
+                        {
+                            Spells.QMega.Cast(unit);
+                        }
+                        if (unit.Health <= Damage.EDamage(unit) && Spells.ETiny.IsReady() && Config.LasthitMenu.Checked("E"))
+                        {
+                            Spells.EMega.Cast(unit);
+                        }
+                    }
+                    break;
             }
         }
         #endregion

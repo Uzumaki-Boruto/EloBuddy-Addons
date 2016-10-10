@@ -26,7 +26,7 @@ namespace UBGnar
             };
             ETiny = new Spell.Skillshot(SpellSlot.E, 475, SkillShotType.Circular, 0, 2100, 150, DamageType.Physical);
 
-            QMega = new Spell.Skillshot(SpellSlot.Q, 1150, SkillShotType.Linear, 250, 1200, 80, DamageType.Physical);
+            QMega = new Spell.Skillshot(SpellSlot.Q, 1100, SkillShotType.Linear, 250, 1200, 80, DamageType.Physical);
             WMega = new Spell.Skillshot(SpellSlot.W, 550, SkillShotType.Linear, 500, int.MaxValue, 80, DamageType.Physical)
             {
                 AllowedCollisionCount = int.MaxValue,
