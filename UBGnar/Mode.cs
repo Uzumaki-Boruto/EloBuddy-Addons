@@ -130,7 +130,7 @@ namespace UBGnar
         public static void EMegaCast(Menu Mode)
         {
             var Target = Spells.EMega.GetTarget();
-            if (Target != null && Spells.EMega.IsReady())
+            if (Target != null && Spells.EMega.IsReady() && Mode.Checked("Ebig"))
             {
                 var pred = Spells.EMega.GetPrediction(Target);
                 if (!Mode.Checked("Ebig1") || !pred.CastPosition.IsUnderEnemyTurret())
