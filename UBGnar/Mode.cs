@@ -200,7 +200,8 @@ namespace UBGnar
         }
         public static void MissileClient_OnDelete(GameObject obj, EventArgs args)
         {
-            if (Missile.NetworkId == obj.NetworkId)
+            var missile = obj as MissileClient;
+            if (obj is MissileClient && missile.IsAlly && missile.Slot.ToString() == "46")
             {
                 MissileEnd = null;
                 Missile = null;
@@ -211,23 +212,32 @@ namespace UBGnar
         {
             if (Missile == null || Missile.IsDead || MissileEnd == null || !Config.ComboMenu.Checked("takeQ")) return;
             var Distance = Player.Instance.Distance(Game.CursorPos);
+            var Rectangle = new Geometry.Polygon.Rectangle(Missile.Position, MissileEnd.Position, 125f);
             var Intersection = Missile.Position.To2D().Intersection(MissileEnd.Position.To2D(), Player.Instance.Position.Extend(Game.CursorPos, Distance + 500), Game.CursorPos.Extend(Player.Instance, Distance + 500));
             if (Intersection.Point != new Vector2())
             {
                 Orbwalker.DisableMovement = true;
                 Intersection.Point.To3DWorld().DrawCircle(40, Color.HotPink);
-                if (Player.Instance.Distance(Intersection.Point) > 100)
+                if (Rectangle.IsInside(Player.Instance))
                 {
                     Orbwalker.MoveTo(Intersection.Point.To3DWorld());
                 }
                 else
                 {
                     Orbwalker.MoveTo(Game.CursorPos);
+                    //if (Game.CursorPos.Distance(Missile) < Player.Instance.Distance(Missile))
+                    //{
+                    //    Orbwalker.MoveTo(Missile.Position);
+                    //}
+                    //else
+                    //{
+                    //    Orbwalker.MoveTo(Rectangle.CenterOfPolygon().To3DWorld());
+                    //}
                 }
-                if (Missile.Distance(MissileEnd) < Player.Instance.Distance(MissileEnd))
-                {
-                    Orbwalker.DisableMovement = false;
-                }
+                //if (Missile.Distance(MissileEnd) < Player.Instance.Distance(MissileEnd))
+                //{
+                //    Orbwalker.DisableMovement = false;
+                //}
             }
             else
             {
