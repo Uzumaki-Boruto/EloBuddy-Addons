@@ -22,10 +22,10 @@ namespace UBActivator
                 Player.Instance.HealthPercent;
             var Mana1 = Config.Potions["MPCP"].Cast<CheckBox>().CurrentValue ?
                 Player.Instance.Mana :
-                Player.Instance.MaxMana;
+                0;
             var Mana2 = Config.Potions["MPHTP"].Cast<CheckBox>().CurrentValue?
                 Player.Instance.Mana :
-                Player.Instance.MaxMana;
+                0;
 
             if (Config.Potions["HP"].Cast<CheckBox>().CurrentValue
             && Health <= Config.Potions["HPH"].Cast<Slider>().CurrentValue
