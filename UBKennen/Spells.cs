@@ -16,7 +16,10 @@ namespace UBKennen
 
         public static void InitSpells()
         {
-            Q = new Spell.Skillshot(SpellSlot.Q, 1050, SkillShotType.Linear, 250, 1650, 50);
+            Q = new Spell.Skillshot(SpellSlot.Q, 1050, SkillShotType.Linear, 250, 1650, 50)
+            {
+                AllowedCollisionCount = 0,
+            };
             W = new Spell.Active(SpellSlot.W, 750);
             E = new Spell.Active(SpellSlot.E);
             R = new Spell.Active(SpellSlot.R, 550);
