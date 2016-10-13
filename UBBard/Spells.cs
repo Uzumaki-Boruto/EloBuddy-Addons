@@ -13,7 +13,7 @@ namespace UBBard
 
         public static void InitSpells()
         {
-            Q = new Spell.Skillshot(SpellSlot.Q, 950, SkillShotType.Linear, 250, 1600, 65);
+            Q = new Spell.Skillshot(SpellSlot.Q, 850, SkillShotType.Linear, 250, 1600, 65);
 
             W = new Spell.Skillshot(SpellSlot.W, 800, SkillShotType.Circular, 250, int.MaxValue, 100);
 
