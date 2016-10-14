@@ -50,14 +50,13 @@ namespace UBStreaming
         {
             Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Orbwalker.OnPostAttack += AfterAttack;
-            //Player.OnIssueOrder += OnIssueOrder;
+            Player.OnIssueOrder += OnIssueOrder;
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += GameOnUpdate;
             CompleteTime = Game.Time;
 
             Menu = MainMenu.AddMenu("UB Streaming", "UBStreaming");
             Menu.AddLabel("Make by Uzumaki Boruto");
-            Menu.AddLabel("ShowClick is not avaiable now");
             Menu.Add("Randommin", new Slider("Min random Delay per click {0} milisec", 150, 0, 400));
             Menu.Add("Randommax", new Slider("Max random Delay per click {0} milisec", 250, 0, 450));
             Menu.AddLabel("Note: Press Shift won't show menu if Both true");
@@ -106,7 +105,7 @@ namespace UBStreaming
         }
         private static void ShowClick(Vector3 position, ClickType type)
         {
-            if (lastclick + RandomValue / 1000 < Game.Time)
+            if (lastclick * 1000 + RandomValue / 1000 < Game.Time)
             {
                 Hud.ShowClick(type, position);
                 lastclick = Game.Time;

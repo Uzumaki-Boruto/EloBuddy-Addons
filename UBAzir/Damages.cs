@@ -12,51 +12,22 @@ namespace UBAzir
         // 65 / 85 / 105 / 125 / 145 (+ 50% AP)
         public static float QDamage(Obj_AI_Base target)
         {
-            if (!Player.Instance.HasBuff("SummonerExhaust"))
-                return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, (new[] { 0f, 65f, 85f, 105f, 125f, 145f }[Spells.Q.Level]) + 0.5f * Player.Instance.TotalMagicalDamage);
-            else return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, ((new[] { 0f, 65f, 85f, 105f, 125f, 145f }[Spells.Q.Level]) + 0.5f * Player.Instance.TotalMagicalDamage) * 0.6f);
+            return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, new[] { 0f, 65f, 85f, 105f, 125f, 145f }[Spells.Q.Level] + 0.5f * Player.Instance.TotalMagicalDamage);
         }
 
         public static float WDamage(Obj_AI_Base target)
         {
-            if (!Player.Instance.HasBuff("SummonerExhaust"))
-                return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, (new[] { 50f, 55f, 60f, 65f, 70f, 75f, 80f, 85f, 90f, 95f, 100f, 110f, 120f, 130f, 140f, 150f, 160f, 170f }[Player.Instance.Level]) + 0.6f * Player.Instance.TotalMagicalDamage, true, true);
-            else return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, ((new[] { 50f, 55f, 60f, 65f, 70f, 75f, 80f, 85f, 90f, 95f, 100f, 110f, 120f, 130f, 140f, 150f, 160f, 170f }[Player.Instance.Level]) + 0.6f * Player.Instance.TotalMagicalDamage) * 0.6f, true, true);
+            return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, new[] { 50f, 55f, 60f, 65f, 70f, 75f, 80f, 85f, 90f, 95f, 100f, 110f, 120f, 130f, 140f, 150f, 160f, 170f }[Player.Instance.Level] + 0.6f * Player.Instance.TotalMagicalDamage, true, true);
         }
 
         public static float EDamage(Obj_AI_Base target)
         {
-            if (!Player.Instance.HasBuff("SummonerExhaust"))
-                return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, (new[] { 0f, 60f, 90f, 120f, 150f, 180f }[Spells.E.Level]) + 0.4f * Player.Instance.TotalMagicalDamage);
-            else return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical,((new[] { 0f, 60f, 90f, 120f, 150f, 180f }[Spells.E.Level]) + 0.4f * Player.Instance.TotalMagicalDamage) * 0.6f);
+            return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, new[] { 0f, 60f, 90f, 120f, 150f, 180f }[Spells.E.Level] + 0.4f * Player.Instance.TotalMagicalDamage);
         }
 
         public static float RDamage(Obj_AI_Base target)
         {
-            if (!Player.Instance.HasBuff("SummonerExhaust"))
-                return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, (new[] { 0f, 150f, 225f, 300f }[Spells.R.Level]) + 0.6f * Player.Instance.TotalMagicalDamage);
-            else return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, ((new[] { 0f, 150f, 225f, 300f }[Spells.R.Level]) + 0.6f * Player.Instance.TotalMagicalDamage) * 0.6f);
-        }
-
-        public static float Mastery_Damage(Obj_AI_Base target)
-        {
-            var Value = Config.Menu["mastery"].Cast<ComboBox>().CurrentValue;
-            var Thunder = Value == 1;
-            var Fire = Value == 2;
-            if (Thunder)
-            {
-                if (Player.Instance.HasBuff("masterylordsdecreecooldown")) return 0f;
-                if (!Player.Instance.HasBuff("SummonerExhaust"))
-                   return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, 10 * Player.Instance.Level + 0.3f * Player.Instance.FlatPhysicalDamageMod + 0.1f * Player.Instance.TotalMagicalDamage);
-                else return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, (10 * Player.Instance.Level + 0.3f * Player.Instance.FlatPhysicalDamageMod + 0.1f * Player.Instance.TotalMagicalDamage) * 0.6f);
-            }
-            if (Fire)
-            {
-                if (!Player.Instance.HasBuff("SummonerExhaust"))
-                    return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, 4 + 0.3f * Player.Instance.FlatPhysicalDamageMod + 0.125f * Player.Instance.TotalMagicalDamage);
-                else return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, (4 + 0.3f * Player.Instance.FlatPhysicalDamageMod + 0.125f * Player.Instance.TotalMagicalDamage) * 0.6f);
-            }
-            else return 0f;
+            return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical, new[] { 0f, 150f, 225f, 300f }[Spells.R.Level] + 0.6f * Player.Instance.TotalMagicalDamage);
         }
 
         public static float Damagefromspell(Obj_AI_Base target, bool Q, bool W, bool E, bool R)
@@ -82,13 +53,13 @@ namespace UBAzir
             {
                 damage = damage + RDamage(target);
             }
-            return damage + Mastery_Damage(target);
+            return damage;
         }
         public static void Damage_Indicator(EventArgs args)
         {
-            if (Config.DrawMenu["drawdamage"].Cast<CheckBox>().CurrentValue)
+            if (Config.DrawMenu.Checked("drawdamage"))
             {
-                foreach (var unit in EntityManager.Heroes.Enemies.Where(u => u.IsValidTarget() && u.IsHPBarRendered && !Event.Unkillable(u))
+                foreach (var unit in EntityManager.Heroes.Enemies.Where(u => u.IsValidTarget() && u.IsHPBarRendered && !Extension.Unkillable(u))
                     )
                 {
                     var Q = Spells.Q.IsLearned ? Spells.Q.IsReady() : false;

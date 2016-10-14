@@ -175,6 +175,7 @@ namespace UBActivator
             new Advance("Akali", SpellSlot.R).Add();
             new Advance("Annie", SpellSlot.R).Add();
             new Advance("Kennen", SpellSlot.R).Add();
+            new Advance("Lucian", SpellSlot.R).Add();
             new Advance("Rengar", SpellSlot.R).Add();
             new Advance("Riven", SpellSlot.R).Add();
             new Advance("Syndra", SpellSlot.R).Add();
@@ -199,8 +200,9 @@ namespace UBActivator
 
         static void AIHeroClient_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
+            if (sender.IsAlly) return;
             var caster = sender as AIHeroClient;
-            if (Config.Spell["Exhaust" + caster.ChampionName + args.Slot].Cast<CheckBox>().CurrentValue && Config.Spell["exhaust"].Cast<CheckBox>().CurrentValue)
+            if (Config.Spell["Exhaust" + caster.ChampionName + args.Slot] != null && Config.Spell["Exhaust" + caster.ChampionName + args.Slot].Cast<CheckBox>().CurrentValue && Config.Spell["exhaust"].Cast<CheckBox>().CurrentValue)
             {
                 if (Spells.Exhaust != null && Spells.Exhaust.IsReady())
                 {

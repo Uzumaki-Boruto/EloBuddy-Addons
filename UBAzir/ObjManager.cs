@@ -30,16 +30,6 @@ namespace UBAzir
                 else return Vector3.Zero;
             }
         }
-        /*public static Vector3 Soldier_Nearest_Minion
-        {
-            get
-            {
-                var minion = EntityManager.MinionsAndMonsters.Minions.Where(m => m.IsEnemy).FirstOrDefault();
-                var Soldier = Orbwalker.ValidAzirSoldiers.OrderBy(s => s.Distance(minion)).FirstOrDefault();
-                if (Soldier != null && minion.Distance(Soldier.Position) <= 375) return Soldier.Position;
-                else return Vector3.Zero;
-            }
-        }*/
         public static Vector3 Soldier_Nearest_Azir
         {
             get
@@ -71,7 +61,7 @@ namespace UBAzir
                 AzirSoldiers.Remove(AzirSoldiers.Aggregate((curMin, x) => (curMin == null || x.Distance(sender.Position) < curMin.Distance(sender.Position) ? x : curMin)));
             }      
         }*/
-        public static void GetMyPosBefore(EventArgs args)
+        public static void ManyThingInHere(EventArgs args)
         {
             if (Game.Time > Time + 1f)
             {
@@ -80,6 +70,12 @@ namespace UBAzir
                     All_Basic_Is_Ready = true;
                 else All_Basic_Is_Ready = false;
                 Time = Game.Time;
+            }
+            if (Game.Time > Insec.LastSetTime + 10f)
+            {
+                Insec.PositionSelected = new Vector3();
+                Insec.AllySelected = null;
+                Insec.PositionGotoSelected = new Vector3();
             }
         }
     }

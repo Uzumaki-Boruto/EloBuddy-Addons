@@ -16,64 +16,54 @@ namespace UBAzir
             Cursor, Ally, Turret, LastPostion, All, On_Gapclose
         }
         public static I_want Iwant;
-        public static void WhereCastQ(Obj_AI_Base enemy, bool forcedEnemy = false)
+        public static void WhereCastQ(Obj_AI_Base enemy, int BonusRange)
         {
-            var EnemyPos = enemy.ServerPosition;
             var MyPos = Player.Instance.Position;
-            var Combo = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
-            var Harass = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
-            var QBonusCombo = Config.ComboMenu["Qcbbonus"].Cast<Slider>().CurrentValue;
-            var QBonusHarrass = Config.HarassMenu["Qhrbonus"].Cast<Slider>().CurrentValue;
-            var Bonus = Combo ? QBonusCombo : Harass ? QBonusHarrass : QBonusCombo;
-            var Path = enemy.Path.LastOrDefault();
-            var Soldier = Orbwalker.AzirSoldiers.LastOrDefault(s => s.IsAlly);
-            if (Path != null)
+            var Path = Spells.Q.GetPrediction(enemy).CastPosition;
+            if (!Player.Instance.IsInAutoAttackRange(enemy))
             {
-                if (MyPos.Distance(Path) >= MyPos.Distance(Soldier))
+                if (Player.Instance.Distance(Path) >= Player.Instance.Distance(enemy))
                 {
-                    if (enemy != null && enemy.IsValid && !enemy.IsInRange(ObjManager.Soldier_Nearest_Enemy, 375))
+                    var Pos = MyPos.Extend(Path, Player.Instance.Distance(Path) + BonusRange).To3DWorld();
+                    if (Spells.Q.IsInRange(Pos))
                     {
-                        var Pos = MyPos.Extend(EnemyPos.Extend(Path, 100).To3D(), MyPos.Distance(EnemyPos) + (float)Bonus).To3D();
                         Spells.Q.Cast(Pos);
-                        Orbwalker.ResetAutoAttack();
                     }
-                    if (enemy != null && enemy.IsValid && !enemy.IsInRange(ObjManager.Soldier_Nearest_Enemy, 375) && !enemy.IsInRange(Player.Instance, Spells.Q.Range - Bonus))
+                    else
                     {
-                        var Pos = MyPos.Extend(EnemyPos.Extend(Path, 100).To3D() , Spells.Q.Range).To3D();
-                        Spells.Q.Cast(Pos);
-                        Orbwalker.ResetAutoAttack();
+                        Spells.Q.Cast(Path);
                     }
                 }
-                if (MyPos.Distance(Path) < MyPos.Distance(Soldier))
+                else
                 {
-                    if (enemy != null && enemy.IsValid && !enemy.IsInRange(ObjManager.Soldier_Nearest_Enemy, 375) && enemy.IsInRange(Player.Instance, Spells.Q.Range))
-                    {
-                        Spells.Q.Cast(enemy);
-                        Orbwalker.ResetAutoAttack();
-                    }
+                    Spells.Q.Cast(Path);
+                }
+            }            
+        }
+        public static void WhereCastW(Obj_AI_Base enemy, int max)
+        {
+            var prediction = Spells.Q.GetPrediction(enemy);
+            if (ObjManager.CountAzirSoldier == 0 || (Spells.Q.IsReady() && ObjManager.CountAzirSoldier <= max))
+            {
+                Spells.W.Cast(Player.Instance.Position.Extend(prediction.CastPosition, Spells.W.Range).To3DWorld());
+            }
+            else
+            {
+                if (Spells.W.IsInRange(prediction.CastPosition))
+                {
+                    Spells.W.Cast(prediction.CastPosition);
                 }
             }
         }
-        public static void WhereCastW(Obj_AI_Base enemy, bool forcedEnemy = false)
+        public static void WhereCastR(Obj_AI_Base enemy, Vector3 Seclect)
         {
-            var prediction = Spells.Q.GetPrediction(enemy);
-
-            if (forcedEnemy)
-                if (Spells.W.Range + Spells.W.Radius <= Player.Instance.Distance(prediction.CastPosition))
-                    return;
-
-            var endPoint = Player.Instance.ServerPosition.To2D()
-                .Extend(prediction.CastPosition.To2D(), Spells.Q.Range);
-
-            if ((prediction.HitChance == HitChance.High || prediction.HitChance == HitChance.Collision || prediction.HitChance == HitChance.Medium) &&
-                prediction.UnitPosition.To2D().Distance(Player.Instance.ServerPosition.To2D(), endPoint, false) <
-                        Spells.Q.Width + enemy.BoundingRadius)
+            if (enemy != null)
             {
-
-                if (prediction.CastPosition.Distance(Player.Instance) <= Spells.W.Range)
-                    Spells.W.Cast(prediction.CastPosition);
-                else
-                    Spells.W.Cast(Player.Instance.ServerPosition.To2D().Extend(prediction.CastPosition.To2D(), (float)(Spells.W.Range)).To3D());
+                var pred = Spells.R.GetPrediction(enemy);
+                if (pred.UnitPosition.IsInRange(Player.Instance, 300) && enemy.IsValid)
+                {
+                    Spells.R.Cast(Player.Instance.Position.Extend(Seclect, Spells.R.Range).To3DWorld());
+                }
             }
         }
         public static void WhereCastR(Obj_AI_Base enemy, I_want want, Vector3 From = new Vector3(), int delay = 0)
@@ -178,22 +168,22 @@ namespace UBAzir
                 var target = TargetSelector.SelectedTarget != null &&
                              TargetSelector.SelectedTarget.Distance(ObjManager.Soldier_Nearest_Enemy) < 450
                     ? TargetSelector.SelectedTarget
-                    : TargetSelector.GetTarget(Spells.WLine.Range, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
+                    : TargetSelector.GetTarget(425, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
 
                 if (!target.IsValidTarget())
                     return;
 
                 var TargetPos = target.Position;
                 var minions =
-                    EntityManager.MinionsAndMonsters.EnemyMinions.Where(m => m.Distance(ObjManager.Soldier_Nearest_Enemy) <= Spells.WFocus.Range);
+                    EntityManager.MinionsAndMonsters.EnemyMinions.Where(m => m.Distance(ObjManager.Soldier_Nearest_Enemy) <= 375);
                 var monsters =
-                    EntityManager.MinionsAndMonsters.Monsters.Where(m => m.Distance(ObjManager.Soldier_Nearest_Enemy) <= Spells.WFocus.Range);
-                var champs = EntityManager.Heroes.Enemies.Where(c => c.Distance(ObjManager.Soldier_Nearest_Enemy) <= Spells.WFocus.Range);
+                    EntityManager.MinionsAndMonsters.Monsters.Where(m => m.Distance(ObjManager.Soldier_Nearest_Enemy) <= 375);
+                var champs = EntityManager.Heroes.Enemies.Where(c => c.Distance(ObjManager.Soldier_Nearest_Enemy) <= 375);
                 {
                     foreach (var minion in from minion in minions
                                            let polygon = new Geometry.Polygon.Rectangle(
                                                (Vector2)ObjManager.Soldier_Nearest_Enemy,
-                                               ObjManager.Soldier_Nearest_Enemy.Extend(minion.Position, Spells.WLine.Range), 50f)
+                                               ObjManager.Soldier_Nearest_Enemy.Extend(minion.Position, 425), 50f)
                                            where polygon.IsInside(TargetPos)
                                            select minion)
 
@@ -209,7 +199,7 @@ namespace UBAzir
                     foreach (var monster in from monster in monsters
                                             let polygon = new Geometry.Polygon.Rectangle(
                                                 (Vector2)ObjManager.Soldier_Nearest_Enemy,
-                                               ObjManager.Soldier_Nearest_Enemy.Extend(monster.Position, Spells.WLine.Range), 50f)
+                                               ObjManager.Soldier_Nearest_Enemy.Extend(monster.Position, 425), 50f)
                                             where polygon.IsInside(TargetPos)
                                             select monster)
                         if (monster != null)
@@ -224,7 +214,7 @@ namespace UBAzir
                     foreach (var champ in from champ in champs
                                           let polygon = new Geometry.Polygon.Rectangle(
                                               (Vector2)ObjManager.Soldier_Nearest_Enemy,
-                                               ObjManager.Soldier_Nearest_Enemy.Extend(champ.Position, Spells.WLine.Range), 50f)
+                                               ObjManager.Soldier_Nearest_Enemy.Extend(champ.Position, 425), 50f)
                                           where polygon.IsInside(TargetPos)
                                           select champ)
                     {
@@ -240,11 +230,9 @@ namespace UBAzir
                 }
             }
         }
-        internal static bool Between(AIHeroClient target)
+        internal static bool Between(AIHeroClient target, Vector3 CheckPoint)
         {
-            return
-                Orbwalker.AzirSoldiers.Select(soldier => new Geometry.Polygon.Rectangle(Player.Instance.Position, soldier.Position, target.BoundingRadius))
-                .Any(rectangle => rectangle.IsInside(target));
+            return new Geometry.Polygon.Rectangle(Player.Instance.Position, CheckPoint, target.BoundingRadius).IsInside(target);
         }       
     }
 }

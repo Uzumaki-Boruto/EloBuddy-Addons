@@ -58,7 +58,7 @@
     <Compile Include="Azir.cs" />
     <Compile Include="ColorPicker\ColorPicker.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="Event.cs" />
+    <Compile Include="Extension.cs" />
     <Compile Include="Insec.cs" />
     <Compile Include="ObjManager.cs" />
     <Compile Include="Damages.cs" />

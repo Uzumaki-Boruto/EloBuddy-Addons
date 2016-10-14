@@ -14,43 +14,35 @@ namespace UBAzir
         #region Combo
         public static void Combo()
         {
-            if (ObjManager.CountAzirSoldier < Config.ComboMenu["Wunitcb"].Cast<Slider>().CurrentValue
-                && Config.ComboMenu["Wcb"].Cast<CheckBox>().CurrentValue
+            if ( Config.ComboMenu.Checked("W")
                 && Spells.W.IsReady())
             {
                 var target = TargetSelector.GetTarget(Spells.Q.Range, DamageType.Magical);
-                var Force = Orbwalker.ForcedTarget != null ? true : false;
-                if (target != null && target.IsValidTarget())
+                if (target != null)
                 {
-                    SpecialVector.WhereCastW(target, Force);
+                    SpecialVector.WhereCastW(target, Config.ComboMenu.GetValue("Wunit"));
                 }
             }
-            if (ObjManager.CountAzirSoldier != 0 && Config.ComboMenu["Qcb"].Cast<CheckBox>().CurrentValue && Spells.Q.IsReady())
+            if (ObjManager.CountAzirSoldier != 0 && Config.ComboMenu.Checked("Q") && Spells.Q.IsReady())
             {
                 var target = TargetSelector.GetTarget(Spells.Q.Range, DamageType.Magical);
-                var Force = Orbwalker.ForcedTarget != null ? true : false;
-                if (target != null && target.IsValidTarget() && !target.IsInRange(ObjManager.Soldier_Nearest_Enemy, Spells.WFocus.Range))
+                if (target != null)
                 {
-                    SpecialVector.WhereCastQ(target, Force);
+                    SpecialVector.WhereCastQ(target, Config.ComboMenu.GetValue("Qbonus"));
                 }
             }
-            if (Config.ComboMenu["Ecb"].Cast<CheckBox>().CurrentValue && Spells.E.IsReady())
+            if (Config.ComboMenu.Checked("E") && Spells.E.IsReady())
             {
                 var target = TargetSelector.GetTarget(Spells.E.Range, DamageType.Magical);
                 var priority = TargetSelector.GetPriority(target);
-                if (target != null && !target.IsUnderHisturret() && Config.ComboMenu[target.ChampionName].Cast<CheckBox>().CurrentValue)
+                if (target != null && !target.IsUnderHisturret() && Config.ComboMenu.Checked(target.ChampionName))
                 {
                     if (priority >= 4
                     && target.IsValidTarget()
-                    && !Event.Unkillable(target)
-                    && !Event.HasSpellShield(target))
-                    {
-                        if (target.CountEnemiesInRange(1300) == 1
-                            && Player.Instance.HealthPercent >= 75)
-                        {
-                            Spells.E.Cast(target.Position);
-                        }
-                        if (target.CountEnemiesInRange(1300) <= Config.ComboMenu["Edanger"].Cast<Slider>().CurrentValue + 1)
+                    && !Extension.Unkillable(target)
+                    && !Extension.HasSpellShield(target))
+                    {                       
+                        if (target.CountEnemiesInRange(1300) <= Config.ComboMenu["Edanger"].Cast<Slider>().CurrentValue)
                         {
                             if (target.Health <= (Damages.Damagefromspell
                             (target,
@@ -60,17 +52,20 @@ namespace UBAzir
                             Spells.R.IsReady()))
                             + Damages.WDamage(target) * 4)
                             {
-                                if (SpecialVector.Between(target))
+                                foreach (var soldier in Orbwalker.AzirSoldiers)
                                 {
-                                    Spells.E.Cast();
+                                    if (SpecialVector.Between(target, soldier.Position))
+                                    {
+                                        Spells.E.Cast(soldier);
+                                    }
                                 }
                             }
                         }
                     }
                     if (priority < 3
                     && target.IsValidTarget()
-                    && !Event.Unkillable(target)
-                    && !Event.HasSpellShield(target))
+                    && !Extension.Unkillable(target)
+                    && !Extension.HasSpellShield(target))
                     {
                         if (target.CountEnemiesInRange(1300) <= Config.ComboMenu["Edanger"].Cast<Slider>().CurrentValue + 1)
                         {
@@ -82,45 +77,32 @@ namespace UBAzir
                              Spells.R.IsReady()))
                              + Damages.WDamage(target) * 2)
                             {
-                                if (SpecialVector.Between(target))
+                                foreach (var soldier in Orbwalker.AzirSoldiers)
                                 {
-                                    Spells.E.Cast();
+                                    if (SpecialVector.Between(target, soldier.Position))
+                                    {
+                                        Spells.E.Cast(soldier);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-            if (Config.ComboMenu["Rcb"].Cast<CheckBox>().CurrentValue && Spells.R.IsReady())
+            if (Config.ComboMenu.Checked("R") && Spells.R.IsReady())
             {
-                if (Config.ComboMenu["teamfight"].Cast<KeyBind>().CurrentValue)
+                var target = TargetSelector.GetTarget(Spells.R.Range - 20, DamageType.Magical);
+                if (target != null && Player.Instance.CountEnemiesInRange(Spells.R.Range) >= Config.ComboMenu.GetValue("Rhit") && target.IsValidTarget() && target.HealthPercent <= 70 && Spells.Q.IsReady())
                 {
-                    var target = TargetSelector.GetTarget(Spells.R.Range, DamageType.Magical);
-                    if (target != null)
-                    {
-                        if ((target.CountEnemiesInRange(1000) >= Config.ComboMenu["Rhitcb"].Cast<Slider>().CurrentValue
-                            || Player.Instance.CountAlliesInRange(1000) >= Config.ComboMenu["Rhitcb"].Cast<Slider>().CurrentValue)
-                            && Player.Instance.CountEnemiesInRange(Spells.R.Width) >= Config.ComboMenu["Rhitcb"].Cast<Slider>().CurrentValue)
-                        {
-                            Spells.R.Cast(target.Position);
-                        }
-                    }
+                    SpecialVector.WhereCastR(target, SpecialVector.I_want.All);
                 }
-                if (!Config.ComboMenu["teamfight"].Cast<KeyBind>().CurrentValue)
-                {
-                    var target = TargetSelector.GetTarget(Spells.R.Range - 20, DamageType.Magical);
-                    if (target != null && target.IsValidTarget() && target.HealthPercent <= 70 && Spells.Q.IsReady())
-                    {
-                        SpecialVector.WhereCastR(target, SpecialVector.I_want.All);
-                    }
-                }
-            }
+            }        
             if (ObjManager.Soldier_Nearest_Enemy != Vector3.Zero)
             {
                 var target = TargetSelector.SelectedTarget != null &&
                                  TargetSelector.SelectedTarget.Distance(ObjManager.Soldier_Nearest_Enemy) < 500
                         ? TargetSelector.SelectedTarget
-                        : TargetSelector.GetTarget(Spells.WLine.Range, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
+                        : TargetSelector.GetTarget(425, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
                 if (target.IsValid())
                 {
                     SpecialVector.AttackOtherObject();
@@ -131,10 +113,10 @@ namespace UBAzir
                 var target = TargetSelector.GetTarget(1000, DamageType.Magical);
                 if (target != null && target.IsValid && target.HealthPercent <= 15
                     && !target.IsUnderHisturret() && target.CountEnemiesInRange(875) <= 1
-                    && Config.ComboMenu[target.ChampionName].Cast<CheckBox>().CurrentValue
-                    && Config.ComboMenu["Qcb"].Cast<CheckBox>().CurrentValue
-                    && Config.ComboMenu["Wcb"].Cast<CheckBox>().CurrentValue
-                    && Config.ComboMenu["Ecb"].Cast<CheckBox>().CurrentValue)
+                    && Config.ComboMenu.Checked(target.ChampionName)
+                    && Config.ComboMenu.Checked("Q")
+                    && Config.ComboMenu.Checked("W")
+                    && Config.ComboMenu.Checked("E"))
                 {
                     var time = (Player.Instance.Distance(target) / Spells.E.Speed) * (750 - Game.Ping);
                     var pred = Prediction.Position.PredictUnitPosition(target, (int)time).To3D();
@@ -147,27 +129,25 @@ namespace UBAzir
         #region Harass
         public static void Harass()
         {
-            if (Player.Instance.ManaPercent >= Config.HarassMenu["HrManager"].Cast<Slider>().CurrentValue)
+            if (Player.Instance.ManaPercent >= Config.HarassMenu.GetValue("HrManage"))
             {
-                if (ObjManager.CountAzirSoldier < Config.ComboMenu["Wunitcb"].Cast<Slider>().CurrentValue
-                    && Config.ComboMenu["Whr"].Cast<CheckBox>().CurrentValue
-                    && Config.ComboMenu["Qhr"].Cast<CheckBox>().CurrentValue
+                if (Config.HarassMenu.Checked("W")
+                    && Config.HarassMenu.Checked("Q")
                     && Spells.W.IsReady()
                     && Spells.Q.IsReady())
                 {
                     var target = TargetSelector.GetTarget(Spells.Q.Range, DamageType.Magical);
                     if (target != null && target.IsValidTarget())
                     {
-                        SpecialVector.WhereCastW(target);
+                        SpecialVector.WhereCastW(target, Config.HarassMenu.GetValue("Wunit"));
                     }
                 }
-                if (ObjManager.CountAzirSoldier != 0 && Config.ComboMenu["Qhr"].Cast<CheckBox>().CurrentValue)
+                if (ObjManager.CountAzirSoldier != 0 && Config.HarassMenu.Checked("Q"))
                 {
                     var target = TargetSelector.GetTarget(Spells.Q.Range, DamageType.Magical);
-                    var Force = Orbwalker.ForcedTarget != null ? true : false;
-                    if (target != null && target.IsValidTarget() && !target.IsInRange(ObjManager.Soldier_Nearest_Enemy, Spells.WFocus.Range))
+                    if (target != null && target.IsValidTarget() && !target.IsInRange(ObjManager.Soldier_Nearest_Enemy, 375))
                     {
-                        SpecialVector.WhereCastQ(target, Force);
+                        SpecialVector.WhereCastQ(target, Config.HarassMenu.GetValue("Qbonus"));
                     }
                 }
             }
@@ -176,7 +156,7 @@ namespace UBAzir
                 var Unit = TargetSelector.SelectedTarget != null &&
                                 TargetSelector.SelectedTarget.Distance(ObjManager.Soldier_Nearest_Enemy) < 500
                        ? TargetSelector.SelectedTarget
-                       : TargetSelector.GetTarget(Spells.WLine.Range, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
+                       : TargetSelector.GetTarget(425, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
                 if (Unit.IsValid())
                 {
                     SpecialVector.AttackOtherObject();
@@ -188,9 +168,9 @@ namespace UBAzir
         #region LaneClear
         public static void LaneClear()
         {
-            if (Player.Instance.ManaPercent >= Config.LaneClear["LcManager"].Cast<Slider>().CurrentValue)
+            if (Player.Instance.ManaPercent >= Config.LaneClear.GetValue("LcManager"))
             {
-                if (Config.LaneClear["Qlc"].Cast<CheckBox>().CurrentValue)
+                if (Config.LaneClear.Checked("Q"))
                 {
                     var Soldier = ObjManager.SoldierPos;
                     if (Soldier != Vector3.Zero)
@@ -205,13 +185,13 @@ namespace UBAzir
                         }
                     }
                 }
-                if (Config.LaneClear["Wlc"].Cast<CheckBox>().CurrentValue)
+                if (Config.LaneClear.Checked("W"))
                 {
                     var minion = EntityManager.MinionsAndMonsters.GetCircularFarmLocation(
                         EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy),
                         (float)Spells.W.Width,
                         (int)Spells.W.Range);
-                    if (ObjManager.CountAzirSoldier < Config.LaneClear["Wunitlc"].Cast<Slider>().CurrentValue && minion.HitNumber >= 3)
+                    if (ObjManager.CountAzirSoldier < Config.LaneClear.GetValue("Wunit") && minion.HitNumber >= 3)
                     {
                         Spells.W.Cast(minion.CastPosition);
                     }
@@ -229,7 +209,7 @@ namespace UBAzir
                 var qpred = Spells.Q.GetPrediction(monster);
                 if (Orbwalker.IsAutoAttacking) return;
                 Orbwalker.ForcedTarget = null;
-                if (Config.JungleClear["Qjc"].Cast<CheckBox>().CurrentValue
+                if (Config.JungleClear.Checked("Q")
                     && Player.Instance.ManaPercent >= Config.JungleClear["JcManager"].Cast<Slider>().CurrentValue
                     && Spells.Q.IsReady())
                 {
@@ -242,7 +222,7 @@ namespace UBAzir
             {
                 if (Orbwalker.IsAutoAttacking) return;
                 Orbwalker.ForcedTarget = null;
-                if (Config.JungleClear["Wjc"].Cast<CheckBox>().CurrentValue && Spells.W.IsReady()
+                if (Config.JungleClear.Checked("W") && Spells.W.IsReady()
                     && ObjManager.CountAzirSoldier < Config.JungleClear["Wunitjc"].Cast<Slider>().CurrentValue
                     && Player.Instance.ManaPercent >= Config.JungleClear["JcManager"].Cast<Slider>().CurrentValue
                     && Spells.W.IsReady()
@@ -254,45 +234,11 @@ namespace UBAzir
         }
         #endregion
 
-        #region Lasthit
-        public static void Lasthit()
-        {
-            if (Player.Instance.ManaPercent >= Config.LasthitMenu["LhManager"].Cast<Slider>().CurrentValue)
-            {
-                if (Config.LaneClear["Wlh"].Cast<CheckBox>().CurrentValue)
-                {
-                    var minion = EntityManager.MinionsAndMonsters.GetCircularFarmLocation(
-                        EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy,
-                        Player.Instance.Position, Spells.W.Radius), Spells.W.Radius, (int)Spells.W.Range, Player.Instance.Position.To2D());
-                    if (ObjManager.CountAzirSoldier < Config.LaneClear["Wunitlc"].Cast<Slider>().CurrentValue)
-                    {
-                        Spells.W.Cast(minion.CastPosition);
-                    }
-                }
-                if (Config.LaneClear["Qlh"].Cast<CheckBox>().CurrentValue)
-                {
-                    var minion = EntityManager.MinionsAndMonsters.EnemyMinions.OrderBy(a => a.Health).FirstOrDefault
-                    (m => m.IsEnemy
-                    && m.Distance(Player.Instance.Position) <= Spells.Q.Range
-                    && !m.IsDead
-                    && !m.IsInvulnerable
-                    && m.IsValidTarget(Spells.Q.Range)
-                    && m.Health <= Damages.QDamage(m));
-                    if (minion != null && Spells.Q.IsReady() && ObjManager.CountAzirSoldier > 0)
-                    {
-                        Spells.Q.Cast(minion);
-                    }
-                }
-            }
-        }
-        #endregion
-
         #region Flee
         public static void Flee(Vector3 destination, bool Insec = false)
         {
             var WCast = Player.Instance.Position.Extend(destination, Spells.W.Range).To3D();
             var Qcast = Player.Instance.Position.Extend(destination, Spells.Q.Range).To3D();
-            var QCast2 = Player.Instance.Position.Extend(destination, Spells.Q.Range + Player.Instance.Position.Distance(ObjManager.Soldier_Nearest_Azir)).To3D();
             var ECast = Player.Instance.Position.Extend(destination, Spells.E.Range).To3D();
             var value = Insec ? 2 : Config.Flee["flee"].Cast<ComboBox>().CurrentValue;
             if (ObjManager.All_Basic_Is_Ready)
@@ -333,9 +279,6 @@ namespace UBAzir
                         if (ObjManager.CountAzirSoldier >= 0)
                         {
                             Spells.E.Cast(ECast);
-                            var delay = Config.Flee["fleedelay"].Cast<Slider>().CurrentValue;
-                            var time = (Player.Instance.ServerPosition.Distance(ObjManager.Soldier_Nearest_Azir) / Spells.E.Speed) * (700 + delay - Game.Ping);                            
-                            Core.DelayAction(() => Spells.Q_in_Flee.Cast(QCast2), (int)time);
                         }
                     }
                     break;                
@@ -347,11 +290,11 @@ namespace UBAzir
         public static void On_Unkillable_Minion(Obj_AI_Base unit, Orbwalker.UnkillableMinionArgs args)
         {
             if (Player.Instance.ManaPercent >= Config.LasthitMenu["LhManager"].Cast<Slider>().CurrentValue
-                && Config.LasthitMenu["Qautolh"].Cast<CheckBox>().CurrentValue
+                && Config.LasthitMenu.Checked("Q")
                 && Spells.Q.IsReady()
                 && ObjManager.CountAzirSoldier > 0)
             {
-                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
+                if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     Spells.Q.Cast(unit);
             }
         }
@@ -360,12 +303,7 @@ namespace UBAzir
         #region KillSteal
         public static void KillSteal(EventArgs args)
         {
-            var useQ = Config.MiscMenu["Qks"].Cast<CheckBox>().CurrentValue;
-            var useW = Config.MiscMenu["Wks"].Cast<CheckBox>().CurrentValue;
-            var useE = Config.MiscMenu["Eks"].Cast<CheckBox>().CurrentValue;
-            var useR = Config.MiscMenu["Rks"].Cast<CheckBox>().CurrentValue;
-            var useIg = Config.ComboMenu["ig"].Cast<CheckBox>().CurrentValue;
-            if (Spells.Q.IsReady() && useQ)
+            if (Spells.Q.IsReady() && Config.MiscMenu.Checked("Qks"))
             {
                 var target = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
                     && t.IsValidTarget()
@@ -375,9 +313,9 @@ namespace UBAzir
                 if (target != null)
                 {
                     var pred = Spells.Q.GetPrediction(target);
-                    if (ObjManager.CountAzirSoldier == 0 && Spells.W.IsReady() && useW)
+                    if (ObjManager.CountAzirSoldier == 0 && Spells.W.IsReady() && Config.MiscMenu.Checked("Wks"))
                     {
-                        SpecialVector.WhereCastW(target);
+                        SpecialVector.WhereCastW(target, 1);
                     }
                     if (ObjManager.CountAzirSoldier > 0)
                     {
@@ -385,7 +323,7 @@ namespace UBAzir
                     }
                 }
             }
-            if (Spells.W.IsReady() && useW)
+            if (Spells.W.IsReady() && Config.MiscMenu.Checked("Wks"))
             {
                 var target = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
                     && t.IsValidTarget()
@@ -394,11 +332,11 @@ namespace UBAzir
 
                 if (target != null)
                 {
-                    SpecialVector.WhereCastW(target);
-                    Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+                    SpecialVector.WhereCastW(target, 1);
+                    Orbwalker.OrbwalkTo(Game.CursorPos);
                 }
             }
-            if (Spells.E.IsReady() && useE)
+            if (Spells.E.IsReady() && Config.MiscMenu.Checked("Eks"))
             {
                 var target = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
                    && t.IsValidTarget()
@@ -407,13 +345,16 @@ namespace UBAzir
 
                 if (target != null && ObjManager.CountAzirSoldier > 0)
                 {
-                    if (SpecialVector.Between(target))
+                    foreach (var soldier in Orbwalker.AzirSoldiers)
                     {
-                        Spells.E.Cast();
+                        if (SpecialVector.Between(target, soldier.Position))
+                        {
+                            Spells.E.Cast(soldier);
+                        }
                     }
                 }
             }
-            if (Spells.R.IsReady() && useR)
+            if (Spells.R.IsReady() && Config.MiscMenu.Checked("Rks"))
             {
                 var target = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
                     && t.IsValidTarget()
@@ -425,18 +366,6 @@ namespace UBAzir
                     Spells.R.Cast(target);
                 }
             }
-            if (Spells.Ignite != null && Spells.Ignite.IsReady() && useIg)
-            {
-                var target = TargetSelector.GetTarget(EntityManager.Heroes.Enemies.Where(t => t != null
-                    && t.IsValidTarget()
-                    && Spells.Ignite.IsInRange(t)
-                    && t.Health <= Player.Instance.GetSummonerSpellDamage(t, DamageLibrary.SummonerSpells.Ignite)), DamageType.True);
-
-                if (target != null)
-                {
-                    Spells.Ignite.Cast(target);
-                }
-            }
         }
         #endregion
 
@@ -445,61 +374,24 @@ namespace UBAzir
         {
             if (Config.HarassMenu["autokey"].Cast<KeyBind>().CurrentValue && Player.Instance.ManaPercent >= Config.HarassMenu["automng"].Cast<Slider>().CurrentValue)
             {
-                if (ObjManager.CountAzirSoldier < 1
-                    && Config.HarassMenu["Wauto"].Cast<ComboBox>().CurrentValue > 0
-                    && Spells.W.IsReady())
+                if (ObjManager.CountAzirSoldier < Config.HarassMenu["Wunit"].Cast<Slider>().CurrentValue
+                    && Config.HarassMenu.Checked("W")
+                    && Config.HarassMenu.Checked("Q")
+                    && Spells.W.IsReady()
+                    && Spells.Q.IsReady())
                 {
                     var target = TargetSelector.GetTarget(Spells.Q.Range, DamageType.Magical);
-                    var Force = Orbwalker.ForcedTarget != null ? true : false;
-                    if (target != null && target.IsValidTarget() && !Player.Instance.IsUnderEnemyturret()
-                        && Config.HarassMenu["Wauto"].Cast<ComboBox>().CurrentValue == 1)
+                    if (target != null && target.IsValidTarget())
                     {
-                        SpecialVector.WhereCastW(target, true);
-                    }
-                    if (target != null && target.IsValidTarget() && !Player.Instance.IsUnderEnemyturret()
-                        && Config.HarassMenu["Wauto"].Cast<ComboBox>().CurrentValue == 2
-                        && Spells.Q.IsReady())
-                    {
-                        SpecialVector.WhereCastW(target, Force);
+                        SpecialVector.WhereCastW(target, Config.HarassMenu.GetValue("Wunit"));
                     }
                 }
-                if (ObjManager.CountAzirSoldier != 0 && Config.HarassMenu["Qauto"].Cast<CheckBox>().CurrentValue && Spells.Q.IsReady())
+                if (ObjManager.CountAzirSoldier != 0 && Config.HarassMenu.Checked("Q"))
                 {
                     var target = TargetSelector.GetTarget(Spells.Q.Range, DamageType.Magical);
-                    var Force = Orbwalker.ForcedTarget != null ? true : false;
-                    if (target != null && target.IsValidTarget() && !Player.Instance.IsUnderEnemyturret()
-                        && !target.IsInRange(ObjManager.Soldier_Nearest_Enemy, Spells.WFocus.Range))
+                    if (target != null && target.IsValidTarget() && !target.IsInRange(ObjManager.Soldier_Nearest_Enemy, 375))
                     {
-                        SpecialVector.WhereCastQ(target, Force);
-                    }
-                }
-                if (ObjManager.CountAzirSoldier > 0 
-                    && ObjManager.Soldier_Nearest_Enemy != Vector3.Zero
-                    && Config.HarassMenu["aa.auto"].Cast<CheckBox>().CurrentValue)
-                {
-                    var target = TargetSelector.SelectedTarget != null &&
-                                    TargetSelector.SelectedTarget.Distance(ObjManager.Soldier_Nearest_Enemy) < 500
-                           ? TargetSelector.SelectedTarget
-                           : TargetSelector.GetTarget(Spells.WLine.Range, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
-                    if (target.IsValid() && !Player.Instance.IsUnderEnemyturret())
-                    {
-                        SpecialVector.AttackOtherObject();
-                    }
-                }
-                if (ObjManager.CountAzirSoldier > 0 
-                    && ObjManager.Soldier_Nearest_Enemy != Vector3.Zero
-                    && Config.HarassMenu["a.auto"].Cast<CheckBox>().CurrentValue)
-                {
-                    var target = TargetSelector.GetTarget(Spells.WLine.Range, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
-                    var Minion = Orbwalker.PriorityLastHitWaitingMinion;
-                    if (target.IsValid() && Minion == null && !Player.Instance.IsUnderEnemyturret()
-                        && target.IsInRange(ObjManager.Soldier_Nearest_Enemy, Spells.WFocus.Range))
-                    {
-                        Orbwalker.ForcedTarget = target;
-                    }
-                    else
-                    {
-                        Orbwalker.ForcedTarget = TargetSelector.SelectedTarget;
+                        SpecialVector.WhereCastQ(target, Config.HarassMenu.GetValue("Qbonus"));
                     }
                 }
             }

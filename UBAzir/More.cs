@@ -29,16 +29,42 @@ namespace UBAzir
         private static void InitEvents()
         {
             Game.OnTick += GameOnTick;
-            Game.OnTick += ObjManager.GetMyPosBefore;
+            Game.OnTick += ObjManager.ManyThingInHere;
             Game.OnUpdate += Mode.KillSteal;
+            Game.OnTick += Spells.UpdateSpells;
+            Game.OnWndProc += Insec.Game_OnWndProc;
             //Game.OnUpdate += On_Update;
             //Game.OnNotify += _Insec.Notification;
             Drawing.OnDraw += OnDraw;
             Drawing.OnEndScene += Damages.Damage_Indicator;
             Orbwalker.OnUnkillableMinion += Mode.On_Unkillable_Minion;
-            Gapcloser.OnGapcloser += Event.OnGapCloser;
-            Interrupter.OnInterruptableSpell += Event.Interrupter_OnInterruptableSpell;
-            Obj_AI_Base.OnLevelUp +=  Event.Obj_AI_Base_OnLevelUp;
+            Gapcloser.OnGapcloser += Extension.OnGapCloser;
+            AIHeroClient.OnProcessSpellCast += delegate(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+            {
+                if (!sender.IsMe)
+                    if (Config.Insec.Checked("godInsec", false))
+                    {
+                        if (args.Slot == SpellSlot.Q)
+                        {
+                            Player.CastSpell(SpellSlot.R, Insec.RPosGod, true);
+                        }
+                    }
+            };
+            Dash.OnDash += delegate(Obj_AI_Base sender, Dash.DashEventArgs args)
+            {
+                if (!Spells.Q.IsReady()) return;
+                if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.Flee || Config.Insec.Checked("normalInsec", false))
+                {
+                    var End = Player.Instance.Position.Extend(args.EndPos, Player.Instance.Distance(args.EndPos) + Spells.Q.Range).To3DWorld();
+                    Core.DelayAction(() => Player.CastSpell(SpellSlot.Q, End, true), args.Duration - Game.Ping);
+                }
+                if (Config.Insec.Checked("godInsec", false) && Spells.R.GetTarget() != null)
+                {
+                    var End = args.EndPos.Extend(Game.CursorPos, args.EndPos.Distance(Game.CursorPos) + Spells.Q.Range).To3DWorld();
+                    Player.CastSpell(SpellSlot.Q, End);
+                }
+            };
+            Interrupter.OnInterruptableSpell += Extension.Interrupter_OnInterruptableSpell;
         }       
         private static void GameOnTick(EventArgs args)
         {
@@ -51,8 +77,6 @@ namespace UBAzir
             { Mode.Harass(); }
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear))
             { Mode.LaneClear(); }
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
-            { Mode.Lasthit(); }
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             { Mode.JungleClear(); }
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
@@ -66,43 +90,32 @@ namespace UBAzir
             if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)
                 && !Config.Insec["normalInsec"].Cast<KeyBind>().CurrentValue && !Config.Insec["godInsec"].Cast<KeyBind>().CurrentValue)
             { Mode.Auto_Harass(); }
-
-            if (ObjectManager.Player.SkinId != Config.MiscMenu["Modskinid"].Cast<Slider>().CurrentValue)
-            {
-                if (Config.MiscMenu["Modskin"].Cast<CheckBox>().CurrentValue)
-                {
-                    Player.SetSkinId(Config.MiscMenu["Modskinid"].Cast<Slider>().CurrentValue);
-                    foreach (var Soldier in ObjectManager.Get<Obj_AI_Minion>().Where(o => o.IsValid && o.BaseSkinName == "AzirSoldier"))
-                    {
-                        Soldier.SetSkinId(Config.MiscMenu["Modskinid"].Cast<Slider>().CurrentValue);
-                    }
-                }
-            }
-
-            //Insec.Do_Flash_Insec();
         }
         private static void OnDraw(EventArgs args)
         {
-            if (Config.DrawMenu["Qdr"].Cast<CheckBox>().CurrentValue)  
+            if (Config.DrawMenu.Checked("Q"))  
             {
                 Circle.Draw(Spells.Q.IsLearned ? Color.HotPink : Color.Zero, Spells.Q.Range, Player.Instance.Position);
             }
             
-            if (Config.DrawMenu["Wcastdr"].Cast<CheckBox>().CurrentValue)    
+            if (Config.DrawMenu.Checked("W"))    
             {
                 Circle.Draw(Spells.W.IsLearned ? Color.Cyan : Color.Zero, Spells.W.Range, Player.Instance.Position);
             }
 
-            if (Config.DrawMenu["Edr"].Cast<CheckBox>().CurrentValue)
+            if (Config.DrawMenu.Checked("E"))
             {
                 Circle.Draw(Spells.E.IsLearned ? Color.Orange : Color.Zero, Spells.E.Range, Player.Instance.Position);
             }
 
-            if (Config.DrawMenu["Rdr"].Cast<CheckBox>().CurrentValue)
+            if (Config.DrawMenu.Checked("R"))
             {
                 Circle.Draw(Spells.R.IsLearned ? Color.Yellow : Color.Zero, 325, Player.Instance.Position);
             }
-            
+            if (Config.DrawMenu.Checked("InsecPos") && Insec.PositionSelected != new Vector3())
+            {
+                Insec.PositionSelected.DrawCircle(60, Color.Red, 8);
+            }
         }
     }
 }
