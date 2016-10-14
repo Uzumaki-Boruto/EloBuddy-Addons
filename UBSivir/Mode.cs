@@ -92,7 +92,7 @@ namespace UBSivir
         //Lasthit
         public static void Orbwalker_OnUnkillableMinion(Obj_AI_Base target, Orbwalker.UnkillableMinionArgs args)
         {
-            if (Player.Instance.ManaPercent < Config.LasthitMenu["LhManager"].Cast<Slider>().CurrentValue) return;
+            if (Player.Instance.ManaPercent < Config.LasthitMenu["LhManager"].Cast<Slider>().CurrentValue || Player.Instance.IsRecalling()) return;
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             if (Config.LasthitMenu["useQLh"].Cast<CheckBox>().CurrentValue && Spells.Q.IsReady())
             {

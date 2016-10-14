@@ -25,7 +25,6 @@ namespace UBSivir
             InitEvents();
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Obj_AI_Base.OnProcessSpellCast += Event.Obj_AI_Base_OnProcessSpellCast;
-            Obj_AI_Base.OnBuffGain += Event.Obj_AI_Base_OnBuffGain;
 
             Orbwalker.OnUnkillableMinion += Mode.Orbwalker_OnUnkillableMinion;
             Orbwalker.OnPostAttack += Event.Orbwalker_OnPostAttack;

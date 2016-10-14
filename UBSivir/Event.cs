@@ -8,26 +8,6 @@ namespace UBSivir
 {
     class Event
     {
-        public static void Obj_AI_Base_OnBuffGain(Obj_AI_Base sender, Obj_AI_BaseBuffGainEventArgs args)
-        {
-            if (sender.IsEnemy && !sender.IsMonster && !sender.IsMinion && sender.IsValidTarget(Spells.Q.Range))
-            {
-                if (sender.HasBuffOfType(BuffType.Stun)
-                 || sender.HasBuffOfType(BuffType.Snare)
-                 || sender.HasBuffOfType(BuffType.Knockup)
-                 || sender.HasBuffOfType(BuffType.Charm)
-                 || sender.HasBuffOfType(BuffType.Fear)
-                 || sender.HasBuffOfType(BuffType.Knockback)
-                 || sender.HasBuffOfType(BuffType.Taunt)
-                 || sender.HasBuffOfType(BuffType.Suppression)
-                 || sender.HasBuffOfType(BuffType.Disarm)
-                 || sender.HasBuffOfType(BuffType.Flee)
-                 || sender.HasBuffOfType(BuffType.Polymorph))
-                {
-                    Spells.Q.Cast(sender);
-                }
-            }
-        }
         public static bool Unkillable(AIHeroClient target)
         {
             if (target.Buffs.Any(b => b.IsValid() && b.DisplayName == "UndyingRage"))
