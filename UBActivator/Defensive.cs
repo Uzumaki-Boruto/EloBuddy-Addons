@@ -796,8 +796,7 @@ namespace UBActivator
         }
         public static void OnTick()
         {
-            if (Extensions.ChampNoMana) return;
-            if (Config.Defensive["Ser"].Cast<CheckBox>().CurrentValue)
+            if (!Extensions.ChampNoMana && Config.Defensive["Ser"].Cast<CheckBox>().CurrentValue)
             {
                 var predMissingHP = Player.Instance.Health - Prediction.Health.GetPrediction(Player.Instance, 2500);
                 var ShieldValue = (150 + 0.2 * Player.Instance.Mana) * Config.SerSlider.CurrentValue / 100;
@@ -807,6 +806,29 @@ namespace UBActivator
                     {
                         Items.Seraph_s_Embrace.Cast();
                     }
+                }
+            }
+            foreach (var Ally in EntityManager.Allies.Where(x => x.IsInRange(Player.Instance, Items.Face_of_the_moutain.Range) && Config.Defensive["Face" + x.BaseSkinName].Cast<CheckBox>().CurrentValue))
+            {
+                if (Ally.IsValid && Config.Defensive["Face"].Cast<CheckBox>().CurrentValue)
+                {
+                    var predMissingHP = Ally.Health - Prediction.Health.GetPrediction(Ally, 2500);
+                    var ShieldValue = Player.Instance.MaxHealth * 0.1 * Config.FOTMSlider.CurrentValue / 100;
+                    if (predMissingHP >= ShieldValue || Ally.HealthPercent <= 20 || Prediction.Health.GetPrediction(Player.Instance, 2500) <= 0)
+                    {
+                        if (Items.Face_of_the_moutain.IsOwned() && Items.Face_of_the_moutain.IsReady())
+                        {
+                            Items.Face_of_the_moutain.Cast(Ally);
+                        }
+                    }
+
+                }
+            }
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+            {
+                if (Player.Instance.CountAlliesInRange(Items.Locket_of_the_iron_Solari.Range) >= 4 && Player.Instance.CountEnemiesInRange(1300) > 0)
+                {
+                    Items.Locket_of_the_iron_Solari.Cast();
                 }
             }
         }

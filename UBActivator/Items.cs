@@ -68,7 +68,7 @@ namespace UBActivator
             Eye_of_the_Equinox = new Item(ItemId.Eye_of_the_Equinox);
             Eye_of_the_Oasis = new Item(ItemId.Eye_of_the_Oasis, 600f);
             Eye_of_the_Watchers = new Item(ItemId.Eye_of_the_Watchers);
-            Face_of_the_moutain = new Item(ItemId.Face_of_the_Mountain);
+            Face_of_the_moutain = new Item(ItemId.Face_of_the_Mountain, 600);
             Farsight_Alteration = new Item(ItemId.Farsight_Alteration);
             Frost_Queen_s_Claim = new Item(ItemId.Frost_Queens_Claim);
             HealthPotion = new Item(ItemId.Health_Potion);
@@ -76,7 +76,7 @@ namespace UBActivator
             Hextech_Gunblade = new Item(ItemId.Hextech_Gunblade);
             Hextech_Protobelt_01 = new Item(ItemId.Hextech_Protobelt_01);
             Hunter_s_Potion = new Item(ItemId.Hunters_Potion);
-            Locket_of_the_iron_Solari = new Item(ItemId.Locket_of_the_Iron_Solari);
+            Locket_of_the_iron_Solari = new Item(ItemId.Locket_of_the_Iron_Solari, 600);
             Manamune = new Item(ItemId.Manamune);
             Mercurial_Scimitar = new Item(ItemId.Mercurial_Scimitar);
             Mikaels_Crucible = new Item(ItemId.Mikaels_Crucible);
