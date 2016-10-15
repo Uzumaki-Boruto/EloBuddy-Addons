@@ -39,12 +39,7 @@ namespace UBAzir
         }
         public static void UpdateSpells(EventArgs args)
         {
-            var Width = new int[] { 0, 532, 665, 798 }[R.Level];
-            if (R.Width < Width)
-            {
-                R.Width = Width;
-                Flash.Width = R.Width;
-            }
+            R.Width = 107 * (R.Level - 1) < 200 ? 220 : (107 * (R.Level - 1)) + 5;
         }
     }
 }

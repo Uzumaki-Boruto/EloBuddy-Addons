@@ -155,33 +155,30 @@ namespace UBAzir
         }
         public static void Game_OnWndProc(WndEventArgs args)
         {
-            if (CanInsec)
+            if (args.Msg == (uint)WindowMessages.LeftButtonDown)
             {
-                if (args.Msg == (uint)WindowMessages.LeftButtonDown)
+                var ally = ObjectManager.Get<AIHeroClient>().Where(x => x.Distance(Game.CursorPos) < 100 && !x.IsDead && !x.IsZombie).FirstOrDefault();
+                if (ally != null)
                 {
-                    var ally = ObjectManager.Get<AIHeroClient>().Where(x => x.Distance(Game.CursorPos) < 100 && !x.IsDead && !x.IsZombie).FirstOrDefault();
-                    if (ally != null)
-                    {
-                        AllySelected = ally;
-                        PositionSelected = Vector3.Zero;
-                        LastSetTime = Game.Time;
-                    }
-                    else
-                    {
-                        AllySelected = null;
-                        PositionSelected = new Vector3();
-                    }
-                }
-                if (args.Msg == (uint)WindowMessages.LeftButtonDoubleClick)
-                {
-                    PositionSelected = Game.CursorPos;
+                    AllySelected = ally;
+                    PositionSelected = Vector3.Zero;
                     LastSetTime = Game.Time;
                 }
-                if (args.Msg == (uint)WindowMessages.MiddleButtonDown)
+                else
                 {
-                    PositionGotoSelected = Game.CursorPos;
-                    LastSetTime = Game.Time;
+                    AllySelected = null;
+                    PositionSelected = new Vector3();
                 }
+            }
+            if (args.Msg == (uint)WindowMessages.LeftButtonDoubleClick)
+            {
+                PositionSelected = Game.CursorPos;
+                LastSetTime = Game.Time;
+            }
+            if (args.Msg == (uint)WindowMessages.RightButtonDoubleClick)
+            {
+                PositionGotoSelected = Game.CursorPos;
+                LastSetTime = Game.Time;
             }
         }
 
@@ -196,60 +193,17 @@ namespace UBAzir
                 Player.Instance.Position : Objectnumber == 1 ?
                 Game.CursorPos : Objectnumber == 2 ? (target != null ? target.Position : Game.CursorPos) : Vector3.Zero;
             if (target != null && Spells.R.IsReady())
-            {
-                if (target.IsValidTarget(Spells.R.Range))
-                {
-                    switch (normal)
-                    {
-                        case 0:
-                            {
-                                SpecialVector.WhereCastR(target, SpecialVector.I_want.Cursor);
-                            }
-                            break;
-                        case 1:
-                            {
-                                SpecialVector.WhereCastR(target, SpecialVector.I_want.Turret);
-                            }
-                            break;
-                        case 2:
-                            {
-                                SpecialVector.WhereCastR(target, SpecialVector.I_want.Ally);
-                            }
-                            break;
-                        case 3:
-                            {
-                                SpecialVector.WhereCastR(target, SpecialVector.I_want.LastPostion);
-                            }
-                            break;
-                        case 4:
-                            {
-                                SpecialVector.WhereCastR(target, SpecialVector.I_want.All);
-                            }
-                            break;
-                        case 5:
-                            {
-                                if (PositionSelected != new Vector3())
-                                {
-                                    SpecialVector.WhereCastR(target, PositionSelected);
-                                }
-                                if (AllySelected != null)
-                                {
-                                    SpecialVector.WhereCastR(target, AllySelected.Position);
-                                }
-                            }
-                            break;
-                    }
-                }
+            {               
                 if (target.IsValidTarget(1100))
                 {
                     if (ObjManager.All_Basic_Is_Ready)
                     {
-                        if ((PositionSelected != new Vector3() || AllySelected != null) || normal != 5)
+                        if ((PositionSelected != new Vector3() || AllySelected != null) || normal != 3)
                         {
                             var pred = Prediction.Position.PredictUnitPosition(target, 400);
                             Mode.Flee(pred.To3DWorld(), true);
                         }
-                        if (normal == 5 && PositionSelected == new Vector3() && AllySelected == null)
+                        if (normal == 3 && PositionSelected == new Vector3() && AllySelected == null)
                         {
                             var Notif = new SimpleNotification("UBAzir Insec Information", "You should select Pos/Ally before insec");
                             if (CanNotification)
@@ -282,56 +236,13 @@ namespace UBAzir
             if (!CanInsec) return;
             var target = TargetSelector.GetTarget(Spells.R.Range, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
             if (target == null) return;
-            //var god1 = Config.Insec["god.1"].Cast<ComboBox>().CurrentValue;
+            var god1 = Config.Insec["god.1"].Cast<ComboBox>().CurrentValue;
             //var god2 = Config.Insec["god.2"].Cast<ComboBox>().CurrentValue;
             var Objectnumber = Config.Insec["godgoto"].Cast<ComboBox>().CurrentValue;
             var Object = Objectnumber == 0 ?
                 Player.Instance.Position : Objectnumber == 1 ?
-                Game.CursorPos : Objectnumber == 2 ? (target != null ? target.Position : Game.CursorPos) : Vector3.Zero;
-            //if (target.IsValidTarget(Spells.R.Range))
-            //{
-            //    switch (god1)
-            //    {
-            //        case 0:
-            //            {
-            //                SpecialVector.WhereCastR(target, SpecialVector.I_want.Cursor);
-            //            }
-            //            break;
-            //        case 1:
-            //            {
-            //                SpecialVector.WhereCastR(target, SpecialVector.I_want.Turret);
-            //            }
-            //            break;
-            //        case 2:
-            //            {
-            //                SpecialVector.WhereCastR(target, SpecialVector.I_want.Ally);
-            //            }
-            //            break;
-            //        case 3:
-            //            {
-            //                SpecialVector.WhereCastR(target, SpecialVector.I_want.LastPostion);
-            //            }
-            //            break;
-            //        case 4:
-            //            {
-            //                SpecialVector.WhereCastR(target, SpecialVector.I_want.All);
-            //            }
-            //            break;
-            //        case 5:
-            //            {
-            //                if (PositionSelected != new Vector3())
-            //                {
-            //                    SpecialVector.WhereCastR(target, PositionSelected);
-            //                }
-            //                if (AllySelected != null)
-            //                {
-            //                    SpecialVector.WhereCastR(target, AllySelected.Position);
-            //                }
-            //            }
-            //            break;
-            //    }
-            //}
-            if (target.IsValidTarget(Spells.R.Range, true, ObjManager.Soldier_Nearest_Enemy))
+                Game.CursorPos : Objectnumber == 2 ? (target != null ? target.Position : Game.CursorPos) : Vector3.Zero;           
+            if (target.IsValidTarget(Spells.R.Width, true, ObjManager.Soldier_Nearest_Enemy))
             {
                 Spells.E.Cast(ObjManager.Soldier_Nearest_Enemy);
             }

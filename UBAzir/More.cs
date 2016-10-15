@@ -41,7 +41,7 @@ namespace UBAzir
             Gapcloser.OnGapcloser += Extension.OnGapCloser;
             AIHeroClient.OnProcessSpellCast += delegate(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
             {
-                if (!sender.IsMe)
+                if (sender.IsMe)
                     if (Config.Insec.Checked("godInsec", false))
                     {
                         if (args.Slot == SpellSlot.Q)
@@ -56,9 +56,9 @@ namespace UBAzir
                 if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.Flee || Config.Insec.Checked("normalInsec", false))
                 {
                     var End = Player.Instance.Position.Extend(args.EndPos, Player.Instance.Distance(args.EndPos) + Spells.Q.Range).To3DWorld();
-                    Core.DelayAction(() => Player.CastSpell(SpellSlot.Q, End, true), args.Duration - Game.Ping);
+                    Core.DelayAction(() => Player.CastSpell(SpellSlot.Q, End, true), args.Duration - Game.Ping - 5);
                 }
-                if (Config.Insec.Checked("godInsec", false) && Spells.R.GetTarget() != null)
+                if (Config.Insec.Checked("godInsec", false) && TargetSelector.GetTarget(Spells.R.Width, DamageType.Mixed) != null)
                 {
                     var End = args.EndPos.Extend(Game.CursorPos, args.EndPos.Distance(Game.CursorPos) + Spells.Q.Range).To3DWorld();
                     Player.CastSpell(SpellSlot.Q, End);
@@ -115,6 +115,10 @@ namespace UBAzir
             if (Config.DrawMenu.Checked("InsecPos") && Insec.PositionSelected != new Vector3())
             {
                 Insec.PositionSelected.DrawCircle(60, Color.Red, 8);
+            }
+            if (Config.DrawMenu.Checked("InsecPos") && Insec.PositionGotoSelected != new Vector3())
+            {
+                Insec.PositionGotoSelected.DrawCircle(60, Color.Cyan, 8);
             }
         }
     }

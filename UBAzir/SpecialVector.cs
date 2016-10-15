@@ -60,7 +60,7 @@ namespace UBAzir
             if (enemy != null)
             {
                 var pred = Spells.R.GetPrediction(enemy);
-                if (pred.UnitPosition.IsInRange(Player.Instance, 300) && enemy.IsValid)
+                if (pred.UnitPosition.IsInRange(Player.Instance, 400) && enemy.IsValid)
                 {
                     Spells.R.Cast(Player.Instance.Position.Extend(Seclect, Spells.R.Range).To3DWorld());
                 }

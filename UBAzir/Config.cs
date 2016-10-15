@@ -103,7 +103,7 @@ namespace UBAzir
                 Insec.Add("godInsec", new KeyBind("Do God Insec", false, KeyBind.BindTypes.HoldActive, 'G'));
                 Insec.AddSeparator();
                 Insec.AddGroupLabel("Normal Insec");
-                Insec.Add("normal.1", new ComboBox("I want to insec target to", 3, "My Cursor", "My Ally", "My Turret", "Select"));
+                Insec.Add("normal.1", new ComboBox("I want to insec target to", 0, "My Cursor", "My Ally", "My Turret", "Select"));
                 Insec.AddLabel("Pls double left-click on ground to seclect position");
                 Insec.Add("allowfl", new CheckBox("Allow using Flash in Insec"));
                 Insec.Add("flvalue", new Slider("Only flash if can be insec {0} enemies", 4, 2, 5));

@@ -71,11 +71,49 @@ namespace UBAzir
                 else All_Basic_Is_Ready = false;
                 Time = Game.Time;
             }
-            if (Game.Time > Insec.LastSetTime + 10f)
+            if (Game.Time > Insec.LastSetTime + 14f)
             {
                 Insec.PositionSelected = new Vector3();
                 Insec.AllySelected = null;
                 Insec.PositionGotoSelected = new Vector3();
+            }
+            if (Config.Insec.Checked("normalInsec", false) || Config.Insec.Checked("godInsec", false))
+            {
+                var Value = Config.Insec.Checked("normalInsec", false) ? Config.Insec.GetValue("normal.1", false) : Config.Insec.GetValue("god.1", false);
+                var Target = TargetSelector.GetTarget(Spells.R.Range, DamageType.Mixed);
+                if (Target != null)
+                {
+                    switch (Value)
+                    {
+                        case 0:
+                            {
+                                SpecialVector.WhereCastR(Target, SpecialVector.I_want.Cursor);
+                            }
+                            break;
+                        case 1:
+                            {
+                                SpecialVector.WhereCastR(Target, SpecialVector.I_want.Turret);
+                            }
+                            break;
+                        case 2:
+                            {
+                                SpecialVector.WhereCastR(Target, SpecialVector.I_want.Ally);
+                            }
+                            break;
+                        case 3:
+                            {
+                                if (Insec.PositionSelected != new Vector3())
+                                {
+                                    SpecialVector.WhereCastR(Target, Insec.PositionSelected);
+                                }
+                                if (Insec.AllySelected != null)
+                                {
+                                    SpecialVector.WhereCastR(Target, Insec.AllySelected.Position);
+                                }
+                            }
+                            break;
+                    }
+                }
             }
         }
     }

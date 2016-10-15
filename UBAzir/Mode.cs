@@ -108,21 +108,21 @@ namespace UBAzir
                     SpecialVector.AttackOtherObject();
                 }
             }
-            if (ObjManager.All_Basic_Is_Ready)
-            {
-                var target = TargetSelector.GetTarget(1000, DamageType.Magical);
-                if (target != null && target.IsValid && target.HealthPercent <= 15
-                    && !target.IsUnderHisturret() && target.CountEnemiesInRange(875) <= 1
-                    && Config.ComboMenu.Checked(target.ChampionName)
-                    && Config.ComboMenu.Checked("Q")
-                    && Config.ComboMenu.Checked("W")
-                    && Config.ComboMenu.Checked("E"))
-                {
-                    var time = (Player.Instance.Distance(target) / Spells.E.Speed) * (750 - Game.Ping);
-                    var pred = Prediction.Position.PredictUnitPosition(target, (int)time).To3D();
-                    Flee(pred);
-                }
-            }
+            //if (ObjManager.All_Basic_Is_Ready)
+            //{
+            //    var target = TargetSelector.GetTarget(1000, DamageType.Magical);
+            //    if (target != null && target.IsValid && target.HealthPercent <= 15
+            //        && !target.IsUnderHisturret() && target.CountEnemiesInRange(875) <= 1
+            //        && Config.ComboMenu.Checked(target.ChampionName)
+            //        && Config.ComboMenu.Checked("Q")
+            //        && Config.ComboMenu.Checked("W")
+            //        && Config.ComboMenu.Checked("E"))
+            //    {
+            //        var time = (Player.Instance.Distance(target) / Spells.E.Speed) * (750 - Game.Ping);
+            //        var pred = Prediction.Position.PredictUnitPosition(target, (int)time).To3D();
+            //        Flee(pred);
+            //    }
+            //}
         }
         #endregion
 
@@ -237,20 +237,13 @@ namespace UBAzir
         #region Flee
         public static void Flee(Vector3 destination, bool Insec = false)
         {
-            var WCast = Player.Instance.Position.Extend(destination, Spells.W.Range).To3D();
-            var Qcast = Player.Instance.Position.Extend(destination, Spells.Q.Range).To3D();
-            var ECast = Player.Instance.Position.Extend(destination, Spells.E.Range).To3D();
+            var WCast = Player.Instance.Position.Extend(destination, Spells.W.Range).To3DWorld();
+            var Qcast = Player.Instance.Position.Extend(destination, Spells.Q.Range).To3DWorld();
+            var ECast = Player.Instance.Position.Extend(destination, Spells.W.Range).To3DWorld();
             var value = Insec ? 2 : Config.Flee["flee"].Cast<ComboBox>().CurrentValue;
             if (ObjManager.All_Basic_Is_Ready)
-            {
-                if (ObjManager.CountAzirSoldier == 0)
-                {
-                    Spells.W.Cast(WCast);
-                }
-                if (Player.Instance.Position.Distance(destination) < ObjManager.Soldier_Nearest_Azir.Distance(destination))
-                {
-                    Spells.W.Cast(WCast);
-                }
+            {                
+                Spells.W.Cast(WCast);                
             }
             switch (value)
             {
