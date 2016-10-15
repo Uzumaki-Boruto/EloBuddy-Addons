@@ -50,7 +50,7 @@ namespace UBStreaming
         {
             Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Orbwalker.OnPostAttack += AfterAttack;
-            Player.OnIssueOrder += OnIssueOrder;
+            //Player.OnIssueOrder += OnIssueOrder;
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += GameOnUpdate;
             CompleteTime = Game.Time;
