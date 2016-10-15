@@ -808,27 +808,33 @@ namespace UBActivator
                     }
                 }
             }
-            foreach (var Ally in EntityManager.Allies.Where(x => x.IsInRange(Player.Instance, Items.Face_of_the_moutain.Range) && Config.Defensive["Face" + x.BaseSkinName].Cast<CheckBox>().CurrentValue))
+            if (Items.Face_of_the_moutain.IsOwned() || Items.Locket_of_the_iron_Solari.IsOwned())
             {
-                if (Ally.IsValid && Config.Defensive["Face"].Cast<CheckBox>().CurrentValue)
+                foreach (var Ally in EntityManager.Allies.Where(x => x.IsInRange(Player.Instance, Items.Face_of_the_moutain.Range) && Config.Defensive["Face" + x.BaseSkinName].Cast<CheckBox>().CurrentValue))
                 {
-                    var predMissingHP = Ally.Health - Prediction.Health.GetPrediction(Ally, 2500);
-                    var ShieldValue = Player.Instance.MaxHealth * 0.1 * Config.FOTMSlider.CurrentValue / 100;
-                    if (predMissingHP >= ShieldValue || Ally.HealthPercent <= 20 || Prediction.Health.GetPrediction(Player.Instance, 2500) <= 0)
+                    if (Ally.IsValid && Config.Defensive["Face"].Cast<CheckBox>().CurrentValue)
                     {
-                        if (Items.Face_of_the_moutain.IsOwned() && Items.Face_of_the_moutain.IsReady())
+                        var predMissingHP = Ally.Health - Prediction.Health.GetPrediction(Ally, 2500);
+                        var ShieldValue = Player.Instance.MaxHealth * 0.1 * Config.FOTMSlider.CurrentValue / 100;
+                        if (predMissingHP >= ShieldValue || Ally.HealthPercent <= 20 || Prediction.Health.GetPrediction(Player.Instance, 2500) <= 0)
                         {
-                            Items.Face_of_the_moutain.Cast(Ally);
+                            if (Items.Face_of_the_moutain.IsOwned() && Items.Face_of_the_moutain.IsReady())
+                            {
+                                Items.Face_of_the_moutain.Cast(Ally);
+                            }
+                        }
+
+                    }
+                }
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+                {
+                    if (Player.Instance.CountAlliesInRange(Items.Locket_of_the_iron_Solari.Range) >= 4 && Player.Instance.CountEnemiesInRange(1300) > 0)
+                    {
+                        if (Items.Locket_of_the_iron_Solari.IsOwned() && Items.Locket_of_the_iron_Solari.IsReady())
+                        {
+                            Items.Locket_of_the_iron_Solari.Cast();
                         }
                     }
-
-                }
-            }
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
-            {
-                if (Player.Instance.CountAlliesInRange(Items.Locket_of_the_iron_Solari.Range) >= 4 && Player.Instance.CountEnemiesInRange(1300) > 0)
-                {
-                    Items.Locket_of_the_iron_Solari.Cast();
                 }
             }
         }

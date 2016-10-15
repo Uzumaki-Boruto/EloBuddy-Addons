@@ -285,6 +285,7 @@ namespace UBActivator
                         case 1:
                             {
                                 Chat.Print("Change your trinket", System.Drawing.Color.HotPink);
+                                LastRemind = Game.Time;
                             }
                             break;
                         case 2:
