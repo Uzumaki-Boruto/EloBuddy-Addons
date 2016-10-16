@@ -248,6 +248,10 @@ namespace UBAzir
             {
                 Spells.E.Cast(ObjManager.Soldier_Nearest_Enemy);
             }
+            else
+            {
+                Player.IssueOrder(GameObjectOrder.MoveTo, Object);
+            }
             #region I should Make new
             /*
             var target = TargetSelector.GetTarget(1100, DamageType.Magical);

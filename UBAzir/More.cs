@@ -39,17 +39,18 @@ namespace UBAzir
             Drawing.OnEndScene += Damages.Damage_Indicator;
             Orbwalker.OnUnkillableMinion += Mode.On_Unkillable_Minion;
             Gapcloser.OnGapcloser += Extension.OnGapCloser;
-            AIHeroClient.OnProcessSpellCast += delegate(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-            {
-                if (sender.IsMe)
-                    if (Config.Insec.Checked("godInsec", false))
-                    {
-                        if (args.Slot == SpellSlot.Q)
-                        {
-                            Player.CastSpell(SpellSlot.R, Insec.RPosGod, true);
-                        }
-                    }
-            };
+            //AIHeroClient.OnProcessSpellCast += delegate(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+            //{
+            //    if (sender.IsMe)
+            //        if (Config.Insec.Checked("godInsec", false))
+            //        {
+            //            if (args.Slot == SpellSlot.Q)
+            //            {
+            //                var CastR = 
+            //                Player.CastSpell(SpellSlot.R, Insec.RPosGod, true);
+            //            }
+            //        }
+            //};
             Dash.OnDash += delegate(Obj_AI_Base sender, Dash.DashEventArgs args)
             {
                 if (!Spells.Q.IsReady()) return;
@@ -117,13 +118,20 @@ namespace UBAzir
             {
                 Circle.Draw(Spells.R.IsLearned ? Color.Yellow : Color.Zero, 325, Player.Instance.Position);
             }
-            if (Config.DrawMenu.Checked("InsecPos") && Insec.PositionSelected != new Vector3())
+            if (Config.DrawMenu.Checked("InsecPos") && (Insec.PositionSelected != new Vector3() || Insec.AllySelected != null))
             {
-                Insec.PositionSelected.DrawCircle(60, Color.Red, 8);
+                if (Insec.AllySelected != null)
+                {
+                    Insec.AllySelected.Position.DrawCircle(60, Color.Red, 10);
+                }
+                else
+                {
+                    Insec.PositionSelected.DrawCircle(60, Color.Red, 10);
+                }
             }
             if (Config.DrawMenu.Checked("InsecPos") && Insec.PositionGotoSelected != new Vector3())
             {
-                Insec.PositionGotoSelected.DrawCircle(60, Color.Cyan, 8);
+                Insec.PositionGotoSelected.DrawCircle(60, Color.Cyan, 10);
             }
         }
     }

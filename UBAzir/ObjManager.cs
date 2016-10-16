@@ -48,19 +48,6 @@ namespace UBAzir
                 else return Orbwalker.AzirSoldiers.LastOrDefault().Position;
             }
         }
-        /*public static List<Obj_AI_Minion> AzirSoldiers = new List<Obj_AI_Minion>();
-        static void Obj_AI_Base_OnCreate(GameObject sender, EventArgs args)
-        {
-            if (sender.Name == "AzirSoldier" && sender.IsAlly)
-            {
-                AzirSoldiers.Add((Obj_AI_Minion) sender);
-            }
-
-            if (sender.Name == "Azir_Base_W_Soldier_Dissipate.troy" && AzirSoldiers.Count > 0)
-            {
-                AzirSoldiers.Remove(AzirSoldiers.Aggregate((curMin, x) => (curMin == null || x.Distance(sender.Position) < curMin.Distance(sender.Position) ? x : curMin)));
-            }      
-        }*/
         public static void ManyThingInHere(EventArgs args)
         {
             if (Game.Time > Time + 1f)
