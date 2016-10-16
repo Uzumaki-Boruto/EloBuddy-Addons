@@ -181,7 +181,7 @@ namespace UBAzir
                 DrawMenu.Add("R", new CheckBox("Draw R"));
                 DrawMenu.Add("InsecPos", new CheckBox("Draw your InsecPosition"));
                 DrawMenu.Add("drawdamage", new CheckBox("Draw Damage Indicator"));
-                DrawMenu.Add("Color", new ColorPicker("Damage Indicator Color", Color.FromArgb(255, 255, 236, 0)));
+                DrawMenu.Add("Color", new ColorPicker("Damage Indicator Color", SaveColor.Load()));
             }
 
             //MiscMenu          

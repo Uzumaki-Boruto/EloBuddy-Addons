@@ -234,15 +234,17 @@ namespace UBAzir
         public static void Do_God_Insec()
         {
             if (!CanInsec) return;
-            var target = TargetSelector.GetTarget(Spells.R.Range, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
+            var target = TargetSelector.GetTarget(Spells.R.Range > Spells.R.Width ? (int)Spells.R.Range : Spells.R.Width, DamageType.Magical, ObjManager.Soldier_Nearest_Enemy);
             if (target == null) return;
             var god1 = Config.Insec["god.1"].Cast<ComboBox>().CurrentValue;
             //var god2 = Config.Insec["god.2"].Cast<ComboBox>().CurrentValue;
             var Objectnumber = Config.Insec["godgoto"].Cast<ComboBox>().CurrentValue;
             var Object = Objectnumber == 0 ?
                 Player.Instance.Position : Objectnumber == 1 ?
-                Game.CursorPos : Objectnumber == 2 ? (target != null ? target.Position : Game.CursorPos) : Vector3.Zero;           
-            if (target.IsValidTarget(Spells.R.Width, true, ObjManager.Soldier_Nearest_Enemy))
+                Game.CursorPos : Objectnumber == 2 ? (target != null ? target.Position : Game.CursorPos) : Vector3.Zero;
+            var pred = Spells.R.GetPrediction(target);
+            if (target.IsValidTarget(Spells.R.Range > Spells.R.Width ? (int)Spells.R.Range : Spells.R.Width, true, ObjManager.Soldier_Nearest_Enemy)
+                && pred.CastPosition.IsInRange(ObjManager.Soldier_Nearest_Enemy, Spells.R.Range > Spells.R.Width ? (int)Spells.R.Range : Spells.R.Width))
             {
                 Spells.E.Cast(ObjManager.Soldier_Nearest_Enemy);
             }

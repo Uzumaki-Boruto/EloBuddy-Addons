@@ -53,7 +53,12 @@ namespace UBAzir
             Dash.OnDash += delegate(Obj_AI_Base sender, Dash.DashEventArgs args)
             {
                 if (!Spells.Q.IsReady()) return;
-                if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.Flee || Config.Insec.Checked("normalInsec", false))
+                if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.Flee)
+                {
+                    var End = args.EndPos.Extend(Game.CursorPos, Spells.Q.Range).To3DWorld();
+                    Core.DelayAction(() => Player.CastSpell(SpellSlot.Q, End, true), args.Duration - Game.Ping - 5);
+                }
+                if (Config.Insec.Checked("normalInsec", false))
                 {
                     var End = Player.Instance.Position.Extend(args.EndPos, Player.Instance.Distance(args.EndPos) + Spells.Q.Range).To3DWorld();
                     Core.DelayAction(() => Player.CastSpell(SpellSlot.Q, End, true), args.Duration - Game.Ping - 5);
