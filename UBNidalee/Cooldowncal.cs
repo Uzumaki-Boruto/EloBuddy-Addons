@@ -44,44 +44,42 @@ namespace UBNidalee
             {
                 var unit = args.Target as AIHeroClient;
                 if (unit.IsValidTarget() && Event.IsPassive(unit))
-                    Event.TimeStore["Pounce"] = Game.Time + (5 + (5 * Player.Instance.PercentCooldownMod)) * 0.3f;
+                    Event.TimeStore["Pounce"] = Game.Time + args.SData.CooldownTime * 0.3f;
                 else
-                    Event.TimeStore["Pounce"] = Game.Time + (5 + (5 * Player.Instance.PercentCooldownMod));
+                    Event.TimeStore["Pounce"] = Game.Time + args.SData.CooldownTime;
             }
 
             if (sender.IsMe && args.SData.Name.ToLower() == "swipe")
             {
-                Event.TimeStore["Swipe"] = Game.Time + (5 + (5 * Player.Instance.PercentCooldownMod));
+                Event.TimeStore["Swipe"] = Game.Time + args.SData.CooldownTime;
             }
 
             if (sender.IsMe && args.SData.Name.ToLower() == "primalsurge")
             {
-                Event.TimeStore["Primalsurge"] = Game.Time + (12 + (12 * Player.Instance.PercentCooldownMod));
+                Event.TimeStore["Primalsurge"] = Game.Time + args.SData.CooldownTime;
             }
 
             if (sender.IsMe && args.SData.Name.ToLower() == "bushwhack")
             {
-                var wperlevel = new[] { 0, 13, 12, 11, 10, 9 }[Spells.W.Level];
-                Event.TimeStore["Bushwhack"] = Game.Time +
-                                                    (wperlevel + (wperlevel * Player.Instance.PercentCooldownMod));
+                Event.TimeStore["Bushwhack"] = Game.Time + args.SData.CooldownTime;
             }
 
             if (sender.IsMe && args.SData.Name.ToLower() == "javelintoss")
             {
-                Event.TimeStore["Javelintoss"] = Game.Time + (6 + (6 * Player.Instance.PercentCooldownMod));
+                Event.TimeStore["Javelintoss"] = Game.Time + args.SData.CooldownTime;
             }
 
             if (sender.IsMe && args.SData.Name.ToLower() == "takedown" /*&& Player.Instance.HasBuff("Takedown") && Orbwalker.IsAutoAttacking*/)
             {
                 if (!Event.Humanform() && !Player.Instance.HasBuff("Takedown"))
                 {
-                    Event.TimeStore["Takedown"] = Game.Time + (5 + (5 * Player.Instance.PercentCooldownMod));
+                    Event.TimeStore["Takedown"] = Game.Time + args.SData.CooldownTime;
                 }
             }
 
             if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar")
             {
-                Event.TimeStore["Aspect"] = Game.Time + (3 + (3 * Player.Instance._PercentCooldownMod));
+                Event.TimeStore["Aspect"] = Game.Time + args.SData.CooldownTime;
             }
         }
     }
