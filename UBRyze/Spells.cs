@@ -28,7 +28,7 @@ namespace UBRyze
 
         public static void UpdateSpells(EventArgs args)
         {
-            if (R.Level == 2 && R.Range == 1750)
+            if (R.Level == 2 && R.Range < 2250)
             {
                 R = new Spell.Skillshot(SpellSlot.R, 3000, SkillShotType.Circular, 2250, int.MaxValue, 475);
             }

@@ -214,10 +214,6 @@ namespace UBRyze
                 }
                 if (Config.LaneClear.Checked("E") && Spells.E.IsReady())
                 {
-                    if (Extensions.MinionHasEBuff == null && Extensions.MinionEDie == null)
-                    {
-                        Spells.E.Cast(minionnear);
-                    }
                     if (Extensions.MinionHasEBuff != null)
                     {
                         Spells.E.Cast(Extensions.MinionHasEBuff);
@@ -225,7 +221,11 @@ namespace UBRyze
                     if (Extensions.MinionEDie != null)
                     {
                         Spells.E.Cast(Extensions.MinionEDie);
-                    }             
+                    }  
+                    if (Extensions.MinionHasEBuff == null && Extensions.MinionEDie == null)
+                    {
+                        Spells.E.Cast(minionnear);
+                    }                               
                 }
             }
         }

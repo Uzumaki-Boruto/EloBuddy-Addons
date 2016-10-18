@@ -26,6 +26,7 @@ namespace UBRyze
                 Notifications.Show(notStart, 5000);
             }
             Game.OnTick += GameOnTick;
+            Game.OnTick += Spells.UpdateSpells;
             Game.OnTick += Mode.Zhonya;
             Game.OnUpdate += Mode.AutoHarass;
             Game.OnUpdate += Mode.Killsteal;
