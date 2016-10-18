@@ -31,6 +31,24 @@ namespace UBRyze
             Game.OnUpdate += Mode.AutoHarass;
             Game.OnUpdate += Mode.Killsteal;
 
+            Spellbook.OnCastSpell += delegate(Spellbook sender, SpellbookCastSpellEventArgs args)
+            {
+                if (!Config.Menu.Checked("human"))
+                if (sender.Owner.IsMe)
+                {
+                    var Delay = Config.Menu.GetValue("style") == 0 ? Config.Menu.GetValue("delay1") : new Random().Next(Config.Menu.GetValue("delay1") * 10, Config.Menu.GetValue("delay2") * 10);
+                    if (Extensions.LastCast * 1000 + Delay >= Game.Time)
+                    {
+                        args.Process = true;
+                    }
+                    else
+                    {
+                        args.Process = false;
+                    }
+                    //Will this work? Pray ( ͡° ͜ʖ ͡°)
+                }
+            };
+
             Gapcloser.OnGapcloser += Mode.Gapcloser_OnGapcloser;
 
             Drawing.OnDraw += OnDraw;
@@ -40,7 +58,7 @@ namespace UBRyze
 
             Obj_AI_Base.OnProcessSpellCast += Extensions.Obj_AI_Base_OnProcessSpellCast;
         }
-              
+
         private static void GameOnTick(EventArgs args)
         {
             if (Player.Instance.IsDead) return;

@@ -61,10 +61,15 @@ namespace UBRyze
         {
             get { return EntityManager.MinionsAndMonsters.EnemyMinions.Where(m => m.Health <= Damages.EDamage(m) && m.IsValid && Spells.E.IsInRange(m)).OrderBy(m => m.MaxHealth).FirstOrDefault(); }
         }
+        public static float LastCast;
         public static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            var Target = TargetSelector.GetTarget(Spells.W.Range + 475, DamageType.Magical);
+            var Target = TargetSelector.GetTarget(Spells.W.Range, DamageType.Magical);
             if (!sender.IsMe) return;
+            if ((new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E }).Contains(args.Slot))
+            {
+                LastCast = Game.Time;
+            }
             if (args.SData.Name.Contains("SummonerFlash"))
             {
                 if (Target != null)
