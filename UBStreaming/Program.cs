@@ -48,22 +48,52 @@ namespace UBStreaming
 
         static void OnLoadComplete(EventArgs args)
         {
+            Hacks.IngameChat = false;
+            Hacks.DisableTextures = true;
+            Hacks.TowerRanges = false;
+
             Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Orbwalker.OnPostAttack += AfterAttack;
+            Game.OnWndProc += Game_OnWndProc;
             //Player.OnIssueOrder += OnIssueOrder;
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += GameOnUpdate;
             CompleteTime = Game.Time;
 
             Menu = MainMenu.AddMenu("UB Streaming", "UBStreaming");
-            Menu.AddLabel("Make by Uzumaki Boruto");
+            Menu.AddGroupLabel("Make by Uzumaki Boruto");
             Menu.Add("Randommin", new Slider("Min random Delay per click {0} milisec", 150, 0, 400));
             Menu.Add("Randommax", new Slider("Max random Delay per click {0} milisec", 250, 0, 450));
             Menu.AddLabel("Note: Press Shift won't show menu if Both true");
             Menu.Add("Menu", new KeyBind("Show menu key", true, KeyBind.BindTypes.PressToggle, '.'));
             Menu.Add("Chat", new KeyBind("Please Don't Change this key", false, KeyBind.BindTypes.HoldActive, 16));
+            Menu.AddLabel("For almost player");
+            Menu.AddLabel("Remember that after you check it, Double click to your Champ to show menu again");
+            Menu.AddLabel("Or F5 :kappa:");
+            var Off = Menu.Add("Off", new CheckBox("Turn off drawing", false));
+            Off.CurrentValue = false;
+            var Realy = Menu.Add("Sure", new CheckBox("Are you sure?", false));
+            Realy.CurrentValue = false;
+            Realy.IsVisible = false;
+            Off.OnValueChange += delegate(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs a)
+            {
+                if (a.NewValue)
+                {
+                    Realy.IsVisible = a.NewValue;
+                }
+            };
         }
 
+        static void Game_OnWndProc(WndEventArgs args)
+        {
+            if (args.Msg == (uint)WindowMessages.LeftButtonDoubleClick)
+            {
+                if (Game.CursorPos.Distance(player) <= 170)
+                {
+                    Menu["Sure"].Cast<CheckBox>().CurrentValue = false;
+                }
+            }
+        }
         private static void Drawing_OnDraw(EventArgs args)
         {
             if (Pre)
@@ -74,23 +104,20 @@ namespace UBStreaming
 
         private static void GameOnUpdate(EventArgs args)
         {
-            if (Stream)
+            if (Menu["Sure"].Cast<CheckBox>().CurrentValue || Stream)
             {
                 Hacks.DisableDrawings = true;
                 Hacks.RenderWatermark = false;
             }
-            if (!Stream)
+            if (!Stream && !Menu["Sure"].Cast<CheckBox>().CurrentValue)
             {
                 Hacks.DisableDrawings = false;
                 Hacks.RenderWatermark = true;
             }
-            if (player.IsDead)
+            if (player.IsDead || player.IsZombie)
             {
                 Pre = false;
             }
-            Hacks.IngameChat = false;
-            Hacks.DisableTextures = true;
-            Hacks.TowerRanges = false;
         }
         private static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
