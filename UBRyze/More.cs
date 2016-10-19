@@ -33,7 +33,7 @@ namespace UBRyze
 
             Spellbook.OnCastSpell += delegate(Spellbook sender, SpellbookCastSpellEventArgs args)
             {
-                if (!Config.Menu.Checked("human"))
+                if (!Config.Menu.Checked("human")) return;
                 if (sender.Owner.IsMe)
                 {
                     var Delay = Config.Menu.GetValue("style") == 0 ? Config.Menu.GetValue("delay1") : new Random().Next(Config.Menu.GetValue("delay1") * 10, Config.Menu.GetValue("delay2") * 10);
