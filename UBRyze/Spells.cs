@@ -16,8 +16,8 @@ namespace UBRyze
 
         public static void InitSpells()
         {
-            Q = new Spell.Skillshot(SpellSlot.Q, 1000, SkillShotType.Linear, 250, 1700, 70);     
-
+            Q = new Spell.Skillshot(SpellSlot.Q);
+            
             W = new Spell.Targeted(SpellSlot.W, 600);
             
             E = new Spell.Targeted(SpellSlot.E, 600);

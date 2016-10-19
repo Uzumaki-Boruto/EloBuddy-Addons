@@ -67,7 +67,7 @@ namespace UBRyze
         public static void Do_Flee_Combo(Menu mode)
         {
             if (!Extensions.CanNextSpell) return;
-            if (mode.Checked("W") && Spells.W.IsReady() && !Spells.Q.IsReady())
+            if (mode.Checked("W") && Spells.W.IsReady())
             {
                 var target = TargetSelector.GetTarget(Spells.W.Range, DamageType.Magical);
                 {

@@ -65,7 +65,7 @@ namespace UBRyze
         {
             get
             {
-                var Delay = Config.Menu.GetValue("style") == 0 ? Config.Menu.GetValue("delay1") : new Random().Next(Config.Menu.GetValue("delay1") * 10, Config.Menu.GetValue("delay2") * 10);
+                var Delay = Config.Menu.GetValue("style", false) == 0 ? Config.Menu.GetValue("delay1") : new Random().Next(Config.Menu.GetValue("delay1") * 10, Config.Menu.GetValue("delay2") * 10);
                 return !Config.Menu.Checked("human") || Extensions.LastCast * 1000 + Delay <= Game.Time * 1000;
             }
         } 
