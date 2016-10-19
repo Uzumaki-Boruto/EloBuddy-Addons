@@ -30,7 +30,10 @@ namespace UBRyze
                     if (target != null && target.IsValid())
                     {
                         var pred = Spells.Q.GetPrediction(target);
-                        Spells.Q.Cast(pred.CastPosition);
+                        if (pred.CollisionObjects.Count() == 0)
+                        {
+                            Spells.Q.Cast(pred.CastPosition);
+                        }
                     }
                 }
             }
@@ -84,7 +87,10 @@ namespace UBRyze
                     if (target != null && target.IsValid())
                     {
                         var pred = Spells.Q.GetPrediction(target);
-                        Spells.Q.Cast(pred.CastPosition);
+                        if (pred.CollisionObjects.Count() == 0)
+                        {
+                            Spells.Q.Cast(pred.CastPosition);
+                        }
                     }
                 }
             }
