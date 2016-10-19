@@ -32,7 +32,10 @@ namespace UBKennen
                 if (Focus != null)
                 {
                     var pred = Spells.Q.GetPrediction(Focus);
-                    Spells.Q.Cast(pred.CastPosition);
+                    if (pred.CollisionObjects.Count() == 0)
+                    {
+                        Spells.Q.Cast(pred.CastPosition);
+                    }
                 }
             }
 
@@ -72,7 +75,10 @@ namespace UBKennen
                 if (target != null && target.IsValidTarget())
                 {
                     var pred = Spells.Q.GetPrediction(target);
-                    Spells.Q.Cast(pred.CastPosition);
+                    if (pred.CollisionObjects.Count() == 0)
+                    {
+                        Spells.Q.Cast(pred.CastPosition);
+                    }
                 }
             }
             if (Spells.W.IsReady())
