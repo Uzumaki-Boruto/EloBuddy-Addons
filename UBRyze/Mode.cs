@@ -12,6 +12,7 @@ namespace UBRyze
         #region Combo
         public static void Do_Damage_Combo(Menu mode)
         {
+            if (!Extensions.CanNextSpell) return;
             if (mode.Checked("W") && Spells.W.IsReady() && !Spells.Q.IsReady())
             {
                 var target = TargetSelector.GetTarget(Spells.W.Range, DamageType.Magical);
@@ -65,6 +66,7 @@ namespace UBRyze
         }
         public static void Do_Flee_Combo(Menu mode)
         {
+            if (!Extensions.CanNextSpell) return;
             if (mode.Checked("W") && Spells.W.IsReady() && !Spells.Q.IsReady())
             {
                 var target = TargetSelector.GetTarget(Spells.W.Range, DamageType.Magical);
