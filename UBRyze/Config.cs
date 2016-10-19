@@ -26,9 +26,9 @@ namespace UBRyze
             Menu.AddLabel("Dattenosa");
             Menu.Add("human", new CheckBox("Humanizer?", false));
             var sty = Menu.Add("style", new ComboBox("Delay", 1, "Exact Value", "Random Value"));
-            var delay1 = Menu.Add("delay1", new Slider(Menu.GetValue("style") == 1 ? "Min Delay {0}0" : "Delay {0}0", 0, 0, 100));
+            var delay1 = Menu.Add("delay1", new Slider(Menu.GetValue("style", false) == 1 ? "Min Delay {0}0" : "Delay {0}0", 0, 0, 100));
             var delay2 = Menu.Add("delay2", new Slider("Max delay {0}0", 1, 0, 100));
-            delay2.IsVisible = Menu.GetValue("style") == 1;
+            delay2.IsVisible = Menu.GetValue("style", false) == 1;
             sty.OnValueChange += delegate(ValueBase<int> sender, ValueBase<int>.ValueChangeArgs args)
             {
                 if (args.NewValue == 0)
