@@ -101,7 +101,7 @@ namespace UBActivator
             if (Smite != null)
             {
                 var Important = Config.Spell["esmite3r"].Cast<CheckBox>().CurrentValue;
-                var minion = ObjectManager.Get<Obj_AI_Minion>().FirstOrDefault(m => m.IsMonster && m.IsValidTarget(Smite.Range) && Extensions.IsImportant(m));
+                var minion = ObjectManager.Get<Obj_AI_Minion>().FirstOrDefault(m => m != null && m.IsMonster && Extensions.IsImportant(m) && Smite.IsInRange(m));
                 var Red = ObjectManager.Get<Obj_AI_Minion>().Where(r => r.IsMonster && r.IsValidTarget(Smite.Range) && r.Name.Contains("Red")).OrderBy(x => x.MaxHealth).LastOrDefault();
                 var Blue = ObjectManager.Get<Obj_AI_Minion>().Where(b => b.IsMonster && b.IsValidTarget(Smite.Range) && b.Name.Contains("Blue")).OrderBy(x => x.MaxHealth).LastOrDefault();
                 if (minion != null && minion.IsValid && Important)
@@ -113,14 +113,14 @@ namespace UBActivator
                 }
                 if (Red != null && Red.IsValid && Config.Spell["esmitered"].Cast<CheckBox>().CurrentValue)
                 {
-                    if (Red.Health <= Player.Instance.GetSummonerSpellDamage(minion, DamageLibrary.SummonerSpells.Smite))
+                    if (Red.Health <= Player.Instance.GetSummonerSpellDamage(Red, DamageLibrary.SummonerSpells.Smite))
                     {
                         Smite.Cast(Red);
                     }
                 }
                 if (Blue != null && Blue.IsValid && Config.Spell["esmiteblue"].Cast<CheckBox>().CurrentValue)
                 {
-                    if (Blue.Health <= Player.Instance.GetSummonerSpellDamage(minion, DamageLibrary.SummonerSpells.Smite))
+                    if (Blue.Health <= Player.Instance.GetSummonerSpellDamage(Blue, DamageLibrary.SummonerSpells.Smite))
                     {
                         Smite.Cast(Blue);
                     }
