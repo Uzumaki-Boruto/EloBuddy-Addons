@@ -209,7 +209,7 @@ namespace UBKennen
                 && sender != null
                 && sender.IsEnemy
                 && sender.IsValid
-                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 100 || args.End.IsInRange(Player.Instance, 100))
+                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 100)
                 && Config.MiscMenu["useEAG"].Cast<CheckBox>().CurrentValue)
             {
                 Spells.E.Cast(sender);
