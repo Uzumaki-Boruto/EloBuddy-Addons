@@ -27,7 +27,10 @@ namespace UBKennen
                 if (target != null && Focus == null && target.IsValidTarget())
                 {
                     var pred = Spells.Q.GetPrediction(target);
-                    Spells.Q.Cast(pred.CastPosition);
+                    if (pred.CollisionObjects.Count() == 0)
+                    {
+                        Spells.Q.Cast(pred.CastPosition);
+                    }
                 }
                 if (Focus != null)
                 {
@@ -184,6 +187,7 @@ namespace UBKennen
                 if (target != null)
                 {
                     var pred = Spells.Q.GetPrediction(target);
+                    if (pred.CollisionObjects.Count() == 0)
                     {
                         Spells.Q.Cast(pred.CastPosition);
                     }
@@ -212,7 +216,7 @@ namespace UBKennen
                 && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 100)
                 && Config.MiscMenu["useEAG"].Cast<CheckBox>().CurrentValue)
             {
-                Spells.E.Cast(sender);
+                Spells.E.Cast();
             }
             if (Spells.Q.IsReady()
                 && sender != null
