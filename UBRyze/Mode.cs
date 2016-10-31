@@ -324,7 +324,7 @@ namespace UBRyze
                 var NearestTurret = EntityManager.Turrets.Allies.Where(x => !x.IsDead).OrderBy(x => x.Distance(Player.Instance.Position)).FirstOrDefault();
                 if (Spells.R.IsInRange(NearestTurret))
                 {
-                    if (Spells.R.Cast(NearestTurret))
+                    if (Spells.R.Cast(NearestTurret.Position))
                     Spells.Zhonya.Cast();
                 }
                 else 
