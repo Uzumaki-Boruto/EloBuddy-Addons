@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using SharpDX;
+using System;
+using System.Linq;
 
 
 namespace UBKennen
@@ -52,6 +52,7 @@ namespace UBKennen
         }
         public static void Damage_Indicator(EventArgs args)
         {
+            if (Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue)
             if (Config.DrawMenu["dmg"].Cast<CheckBox>().CurrentValue)
             {
                 foreach (var unit in EntityManager.Heroes.Enemies.Where(u => u.IsValidTarget() && u.IsHPBarRendered)

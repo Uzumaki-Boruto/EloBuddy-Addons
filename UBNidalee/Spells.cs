@@ -59,7 +59,7 @@ namespace UBNidalee
 
         public static void InitSpells()
         {
-            Q = new Spell.Skillshot(SpellSlot.Q, 1500, SkillShotType.Linear, 250, 1300, 55);
+            Q = new Spell.Skillshot(SpellSlot.Q/*, 1500, SkillShotType.Linear, 250, 1300, 55*/);
             Q2 = new Spell.Active(SpellSlot.Q);
             W = new Spell.Skillshot(SpellSlot.W, 900, SkillShotType.Circular, 750, int.MaxValue, 40);
             W2 = new Spell.Skillshot(SpellSlot.W, 375, SkillShotType.Linear, 250, 1500, 75)

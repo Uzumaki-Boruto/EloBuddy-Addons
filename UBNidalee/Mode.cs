@@ -24,7 +24,7 @@ namespace UBNidalee
                     if (target != null)
                     {
                         var Qgp = Spells.Q.GetPrediction(target);
-                        if (target.IsValidTarget() && Qgp.HitChancePercent >= Qhitchance && Qgp.CollisionObjects.Count() == 0)
+                        if (target.IsValidTarget() && Qgp.HitChancePercent >= Qhitchance && Qgp.CollisionObjects.Length == 0)
                         {
                             Spells.Q.Cast(Qgp.UnitPosition);
                         }
@@ -284,7 +284,7 @@ namespace UBNidalee
                     if (target != null)
                     {
                         var Qgp = Spells.W.GetPrediction(target);
-                        if (target != null && target.IsValidTarget() && Qgp.HitChancePercent >= Qhitchance && Qgp.CollisionObjects.Count() == 0)
+                        if (target != null && target.IsValidTarget() && Qgp.HitChancePercent >= Qhitchance && Qgp.CollisionObjects.Length == 0)
                         {
                             Spells.Q.Cast(Qgp.CastPosition);
                         }
@@ -441,7 +441,7 @@ namespace UBNidalee
                     if (target != null)
                     {
                         var pred = Spells.Q.GetPrediction(target);
-                        if (pred.CollisionObjects.Count() == 0)
+                        if (pred.CollisionObjects.Length == 0)
                         {
                             Spells.Q.Cast(pred.CastPosition);
                         }

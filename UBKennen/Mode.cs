@@ -1,14 +1,8 @@
-﻿using System;
-using System.Linq;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Constants;
-using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
-using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
-using EloBuddy.SDK.Rendering;
-using SharpDX;
+using System.Linq;
 
 
 namespace UBKennen
@@ -27,7 +21,7 @@ namespace UBKennen
                 if (target != null && Focus == null && target.IsValidTarget())
                 {
                     var pred = Spells.Q.GetPrediction(target);
-                    if (pred.CollisionObjects.Count() == 0)
+                    if (pred.CollisionObjects.Length == 0)
                     {
                         Spells.Q.Cast(pred.CastPosition);
                     }
@@ -35,7 +29,7 @@ namespace UBKennen
                 if (Focus != null)
                 {
                     var pred = Spells.Q.GetPrediction(Focus);
-                    if (pred.CollisionObjects.Count() == 0)
+                    if (pred.CollisionObjects.Length == 0)
                     {
                         Spells.Q.Cast(pred.CastPosition);
                     }
@@ -78,7 +72,7 @@ namespace UBKennen
                 if (target != null && target.IsValidTarget())
                 {
                     var pred = Spells.Q.GetPrediction(target);
-                    if (pred.CollisionObjects.Count() == 0)
+                    if (pred.CollisionObjects.Length == 0)
                     {
                         Spells.Q.Cast(pred.CastPosition);
                     }
@@ -187,7 +181,7 @@ namespace UBKennen
                 if (target != null)
                 {
                     var pred = Spells.Q.GetPrediction(target);
-                    if (pred.CollisionObjects.Count() == 0)
+                    if (pred.CollisionObjects.Length == 0)
                     {
                         Spells.Q.Cast(pred.CastPosition);
                     }
@@ -222,7 +216,7 @@ namespace UBKennen
                 && sender != null
                 && sender.IsEnemy
                 && sender.IsValid
-                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 100 || args.End.IsInRange(Player.Instance, Spells.W.Range))
+                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 250 || args.End.IsInRange(Player.Instance, Spells.W.Range))
                 && Config.MiscMenu["useQAG"].Cast<CheckBox>().CurrentValue)
             {
                 Spells.Q.Cast(args.End);
@@ -232,7 +226,7 @@ namespace UBKennen
                 && sender.IsEnemy
                 && sender.IsValid
                 && sender.HasBuff("kennenmarkofstorm")
-                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 100 || args.End.IsInRange(Player.Instance, Spells.W.Range))
+                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 250 || args.End.IsInRange(Player.Instance, Spells.W.Range))
                 && Config.MiscMenu["useWAG"].Cast<CheckBox>().CurrentValue)
             {
                 Spells.W.Cast();

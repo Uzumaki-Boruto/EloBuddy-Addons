@@ -1,6 +1,6 @@
-﻿using System.Drawing;
-using EloBuddy.SDK.Menu;
+﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
+using System.Drawing;
 
 
 namespace UBKennen
@@ -81,6 +81,7 @@ namespace UBKennen
                 DrawMenu.Add("drawQ", new CheckBox("Draw Q"));
                 DrawMenu.Add("drawW", new CheckBox("Draw W"));
                 DrawMenu.Add("drawR", new CheckBox("Draw R"));
+                DrawMenu.Add("Time", new CheckBox("Passive Timer", false));
                 DrawMenu.Add("dmg", new CheckBox("Draw Damage Indicator"));
                 DrawMenu.Add("Color", new ColorPicker("Damage Indicator Color", Color.FromArgb(255, 255, 236, 0)));
             }

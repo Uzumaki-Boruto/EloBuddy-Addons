@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
-using SharpDX;
 
 namespace UBKennen
 {
@@ -16,7 +13,7 @@ namespace UBKennen
 
         public static void InitSpells()
         {
-            Q = new Spell.Skillshot(SpellSlot.Q, 1050, SkillShotType.Linear, 250, 1650, 50)
+            Q = new Spell.Skillshot(SpellSlot.Q/*, 1050, SkillShotType.Linear, 250, 1650, 50*/)
             {
                 AllowedCollisionCount = 0,
             };

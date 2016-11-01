@@ -17,12 +17,12 @@ namespace UBTaliyah
         {
             Q = new Spell.Skillshot(SpellSlot.Q, 1000, SkillShotType.Linear, 250, 3600, 50);
 
-            W = new Spell.Skillshot(SpellSlot.W, 900, SkillShotType.Circular, 500, int.MaxValue, 80)
+            W = new Spell.Skillshot(SpellSlot.W, 900, SkillShotType.Circular, 650, int.MaxValue, 80)
             {
                 AllowedCollisionCount = int.MaxValue,
             };
 
-            E = new Spell.Skillshot(SpellSlot.E, 600, SkillShotType.Cone, 250, 500, 40)
+            E = new Spell.Skillshot(SpellSlot.E, 650, SkillShotType.Cone, 250, 500, 40)
             {
                 AllowedCollisionCount = int.MaxValue,
             };

@@ -23,7 +23,7 @@ namespace UBTaliyah
                     if ((Config.ComboMenu.GetValue("Q", false) == 1 && !Extension.In_Q_Side) || Config.ComboMenu.GetValue("Q", false) == 2)
                     {
                         var pred = Spells.Q.GetPrediction(Target);
-                        if (pred.CollisionObjects.Count() == 0)
+                        if (pred.CollisionObjects.Length == 0)
                         {
                             Spells.Q.Cast(pred.CastPosition);
                         }
@@ -87,7 +87,7 @@ namespace UBTaliyah
                     if ((Config.HarassMenu.GetValue("Q") == 1 && !Extension.In_Q_Side) || Config.HarassMenu.GetValue("Q") == 2)
                     {
                         var pred = Spells.Q.GetPrediction(Target);
-                        if (pred.CollisionObjects.Count() == 0)
+                        if (pred.CollisionObjects.Length == 0)
                         {
                             Spells.Q.Cast(pred.CastPosition);
                         }
@@ -218,7 +218,7 @@ namespace UBTaliyah
                 if (target != null && !target.Unkillable())
                 {
                     var pred = Spells.Q.GetPrediction(target);
-                    if (pred.CollisionObjects.Count() == 0)
+                    if (pred.CollisionObjects.Length == 0)
                     {
                         Spells.Q.Cast(pred.CastPosition);
                     }
@@ -291,7 +291,7 @@ namespace UBTaliyah
                     if ((Config.HarassMenu.GetValue("Q", false) == 1 && !Extension.In_Q_Side) || Config.HarassMenu.GetValue("Q", false) == 2)
                     {
                         var pred = Spells.Q.GetPrediction(Target);
-                        if (pred.CollisionObjects.Count() == 0)
+                        if (pred.CollisionObjects.Length == 0)
                         {
                             Spells.Q.Cast(pred.CastPosition);
                         }

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Menu;
+using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
-using EloBuddy.SDK.Events;
 using SharpDX;
+using System;
+using System.Linq;
 
 
 namespace UBKennen
@@ -27,11 +26,9 @@ namespace UBKennen
             Gapcloser.OnGapcloser += Mode.Gapcloser_OnGapcloser;
             Orbwalker.OnUnkillableMinion += Mode.Orbwalker_OnUnkillableMinion;
             Game.OnTick += GameOnTick;
-            if (Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue)
-            {
-                Drawing.OnDraw += OnDraw;
-                Drawing.OnEndScene += Damages.Damage_Indicator;
-            }
+            Drawing.OnDraw += OnDraw;
+            Drawing.OnEndScene += Damages.Damage_Indicator;
+            
             Game.OnUpdate += OnUpdate;
         }
         private static void OnUpdate(EventArgs args)
@@ -54,17 +51,32 @@ namespace UBKennen
         }
         private static void OnDraw(EventArgs args)
         {
-            if (Config.DrawMenu["drawQ"].Cast<CheckBox>().CurrentValue)
+            if (Config.DrawMenu["draw"].Cast<CheckBox>().CurrentValue)
             {
-                Circle.Draw(Spells.Q.IsLearned ? Color.HotPink : Color.Zero , Spells.Q.Range, Player.Instance.Position);
-            }
-            if (Config.DrawMenu["drawW"].Cast<CheckBox>().CurrentValue)
-            {
-                Circle.Draw(Spells.W.IsLearned ? Color.Cyan : Color.Zero, Spells.W.Range, Player.Instance.Position);
-            }
-            if (Config.DrawMenu["drawR"].Cast<CheckBox>().CurrentValue)
-            {
-                Circle.Draw(Spells.R.IsLearned ? Color.Yellow : Color.Zero, Spells.R.Range, Player.Instance.Position);
+                if (Config.DrawMenu["drawQ"].Cast<CheckBox>().CurrentValue)
+                {
+                    Circle.Draw(Spells.Q.IsLearned ? Color.HotPink : Color.Zero, Spells.Q.Range, Player.Instance.Position);
+                }
+                if (Config.DrawMenu["drawW"].Cast<CheckBox>().CurrentValue)
+                {
+                    Circle.Draw(Spells.W.IsLearned ? Color.Cyan : Color.Zero, Spells.W.Range, Player.Instance.Position);
+                }
+                if (Config.DrawMenu["drawR"].Cast<CheckBox>().CurrentValue)
+                {
+                    Circle.Draw(Spells.R.IsLearned ? Color.Yellow : Color.Zero, Spells.R.Range, Player.Instance.Position);
+                }
+                if (Config.DrawMenu["Time"].Cast<CheckBox>().CurrentValue)
+                {
+                    foreach (var unit in EntityManager.Heroes.Enemies.Where(x => x.HasBuff("kennenmarkofstorm") && !x.IsDead))
+                    {
+                        var buffinfo = unit.GetBuff("kennenmarkofstorm");
+                        if (buffinfo != null)
+                        {                           
+                            var PercentRemaining = (Game.Time - buffinfo.EndTime) / 6f * 100;
+                            unit.Position.To2D().DrawArc(100, System.Drawing.Color.Cyan, 0, PercentRemaining / 15.5f, 4);
+                        }
+                    }
+                }
             }
         }
     }

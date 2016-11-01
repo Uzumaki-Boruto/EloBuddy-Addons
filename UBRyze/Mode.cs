@@ -30,7 +30,7 @@ namespace UBRyze
                     if (target != null && target.IsValid())
                     {
                         var pred = Spells.Q.GetPrediction(target);
-                        if (pred.CollisionObjects.Count() == 0)
+                        if (pred.CollisionObjects.Length == 0)
                         {
                             Spells.Q.Cast(pred.CastPosition);
                         }
@@ -87,14 +87,14 @@ namespace UBRyze
                     if (target != null && target.IsValid())
                     {
                         var pred = Spells.Q.GetPrediction(target);
-                        if (pred.CollisionObjects.Count() == 0)
+                        if (pred.CollisionObjects.Length == 0)
                         {
                             Spells.Q.Cast(pred.CastPosition);
                         }
                     }
                 }
             }
-            if (mode.Checked("E") && Spells.E.IsReady() && !Spells.Q.IsReady())
+            if (mode.Checked("E") && Spells.E.IsReady())
             {
                 if (Extensions.MinionEDie != null)
                 {
@@ -369,6 +369,7 @@ namespace UBRyze
                 if (target != null && Extensions.Unkillable(target) == false)
                 {
                     var pred = Spells.Q.GetPrediction(target);
+                    if (pred.CollisionObjects.Length == 0)
                     {
                         Spells.Q.Cast(pred.CastPosition);
                     }
@@ -419,8 +420,8 @@ namespace UBRyze
                 && sender != null
                 && sender.IsEnemy
                 && sender.IsValid
-                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 225 /*|| args.End.IsInRange(Player.Instance, Spells.W.Range)*/)
-                && (sender.Spellbook.CastEndTime - Game.Time) * 1000 <= Spells.E.CastDelay
+                && (sender.IsAttackingPlayer || Player.Instance.Distance(args.End) < 250 /*|| args.End.IsInRange(Player.Instance, Spells.W.Range)*/)
+                && (sender.Spellbook.CastEndTime - Game.Time) * 1000 <= Spells.W.CastDelay
                 && Config.MiscMenu.Checked("gapcloser"))
             {
                 Spells.W.Cast(sender);
