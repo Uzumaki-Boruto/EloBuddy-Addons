@@ -179,7 +179,7 @@ namespace UBActivator
                         {
                             if (Items.Hextech_Protobelt_01.IsOwned() && Items.Hextech_Protobelt_01.IsReady())
                             {
-                                if (!Player.Instance.IsInAutoAttackRange(target) && Player.Instance.Distance(pred.UnitPosition) <= Player.Instance.GetAutoAttackRange() + 325)
+                                if (!Player.Instance.IsInRange(target, Player.Instance.GetAutoAttackRange()) && Player.Instance.Distance(pred.UnitPosition) <= Player.Instance.GetAutoAttackRange() + 355)
                                     Items.Hextech_Protobelt_01.Cast(Player.Instance.Position.Extend(pred.CastPosition, 275).To3DWorld());
                             }
                         }
