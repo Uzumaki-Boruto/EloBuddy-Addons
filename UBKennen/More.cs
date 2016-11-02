@@ -67,7 +67,9 @@ namespace UBKennen
                 }
                 if (Config.DrawMenu["Time"].Cast<CheckBox>().CurrentValue)
                 {
-                    foreach (var unit in EntityManager.Heroes.Enemies.Where(x => x.HasBuff("kennenmarkofstorm") && !x.IsDead))
+                    var Heros = EntityManager.Heroes.Enemies.Where(x => x.HasBuff("kennenmarkofstorm") && !x.IsDead);
+                    if (Heros == null) return;
+                    foreach (var unit in Heros)
                     {
                         var buffinfo = unit.GetBuff("kennenmarkofstorm");
                         if (buffinfo != null)
