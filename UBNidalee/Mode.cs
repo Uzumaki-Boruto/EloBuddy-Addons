@@ -14,7 +14,7 @@ namespace UBNidalee
         #region Combo
         public static void Combo()
         {
-            if (Event.Humanform())
+            if (Event.Humanform)
             {
                 var Qhitchance = Config.QMenu["hitQcb"].Cast<Slider>().CurrentValue;
                 if (Config.QMenu["Qcb"].Cast<CheckBox>().CurrentValue
@@ -43,29 +43,12 @@ namespace UBNidalee
                         }
                     }
                 }
-                if (Config.RMenu["Rform"].Cast<ComboBox>().CurrentValue <= 1)
+                if (Config.RMenu["Rform"].Cast<ComboBox>().CurrentValue == 0)
                 {
-                    if (Config.RMenu["Rform"].Cast<ComboBox>().CurrentValue == 0)
+                    var target = TargetSelector.GetTarget(Spells.W2p.Range, DamageType.Mixed);
+                    if (target != null)
                     {
-                        var target = TargetSelector.GetTarget(Spells.W2p.Range, DamageType.Mixed);
-                        if (target != null)
-                        {
-                            if (!Spells.Q.IsReady() && !Config.WMenu["Wcb"].Cast<CheckBox>().CurrentValue && Spells.R.IsReady())
-                            {
-                                Spells.R.Cast();
-                                Orbwalker.ResetAutoAttack();
-                            }
-                            if (!Spells.Q.IsReady() && !Spells.W.IsReady() && Spells.R.IsReady())
-                            {
-                                Spells.R.Cast();
-                                Orbwalker.ResetAutoAttack();
-                            }
-                        }
-                    }
-                    if (Config.RMenu["Rform"].Cast<ComboBox>().CurrentValue == 1)
-                    {
-                        var target = TargetSelector.GetTarget(1000, DamageType.Mixed);
-                        if (target != null && Event.IsPassive(target))
+                        if (!Spells.Q.IsReady() && (!Spells.W.IsReady() || !Config.WMenu["Wcb"].Cast<CheckBox>().CurrentValue) && Spells.R.IsReady())
                         {
                             Spells.R.Cast();
                             Orbwalker.ResetAutoAttack();
@@ -73,7 +56,7 @@ namespace UBNidalee
                     }
                 }
             }
-            if (!Event.Humanform())
+            if (!Event.Humanform)
             {
                 if (Config.EMenu["E2cb"].Cast<CheckBox>().CurrentValue
                     && Spells.E2.IsReady())
@@ -101,12 +84,26 @@ namespace UBNidalee
                 }
                 if (Config.RMenu["Rform"].Cast<ComboBox>().CurrentValue <= 1)
                 {
-                    if (!Spells.Q2.IsReady() && !Spells.W2.IsReady() && !Spells.E2.IsReady() && Spells.R.IsReady())
+                    if (Config.RMenu["Rform"].Cast<ComboBox>().CurrentValue == 1)
                     {
-                        Spells.R.Cast();
-                        Orbwalker.ResetAutoAttack();
+                        var AttackTarget = TargetSelector.GetTarget(Player.Instance.GetAutoAttackRange(), DamageType.Physical);
+                        if (AttackTarget == null)
+                        {
+                            if (!Spells.Q2.IsReady() && !Spells.W2.IsReady() && !Spells.E2.IsReady() && Spells.R.IsReady())
+                            {
+                                Spells.R.Cast();
+                                Orbwalker.ResetAutoAttack();
+                            }
+                        }
                     }
-
+                    else
+                    {
+                        if (!Spells.Q2.IsReady() && !Spells.W2.IsReady() && !Spells.E2.IsReady() && Spells.R.IsReady())
+                        {
+                            Spells.R.Cast();
+                            Orbwalker.ResetAutoAttack();
+                        }
+                    }
                 }
             }
             if (Config.MiscMenu["smcb"].Cast<CheckBox>().CurrentValue && SmiteManager.CanUseOnChamp)
@@ -119,7 +116,7 @@ namespace UBNidalee
             }
             //W Cougar logic
             #region W Cougar logic
-            if (!Event.Humanform() && Config.WMenu["W2cb"].Cast<ComboBox>().CurrentValue > 0)
+            if (!Event.Humanform && Config.WMenu["W2cb"].Cast<ComboBox>().CurrentValue > 0)
             {
                 if (Config.WMenu["W2cb"].Cast<ComboBox>().CurrentValue == 1)
                 {
@@ -272,7 +269,7 @@ namespace UBNidalee
         #region Harass
         public static void Harass()
         {
-            if (Event.Humanform())
+            if (Event.Humanform)
             {
                 var Qhitchance = Config.QMenu["hitQhr"].Cast<Slider>().CurrentValue;
                 if (Config.QMenu["Qhr"].Cast<CheckBox>().CurrentValue
@@ -298,7 +295,7 @@ namespace UBNidalee
         public static void LaneClear()
         {
             var minions = EntityManager.MinionsAndMonsters.GetLineFarmLocation(EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, ObjectManager.Player.Position, Spells.W2.Range), Spells.W2.Width, (int)Spells.W2.Range);
-            if (!Event.Humanform())
+            if (!Event.Humanform)
             {
                 if (Config.WMenu["W2lc"].Cast<CheckBox>().CurrentValue
                 && Spells.W2.IsReady())
@@ -317,7 +314,7 @@ namespace UBNidalee
         #region JungleClear
         public static void JungleClear()
         {
-            if (Event.Humanform())
+            if (Event.Humanform)
             {
                 var monster = ObjectManager.Get<Obj_AI_Minion>().Where(x => x.IsMonster && x.IsValidTarget(Spells.Q.Range)).OrderBy(x => x.MaxHealth).LastOrDefault();
                 if (monster == null || !monster.IsValid) return;
@@ -341,7 +338,7 @@ namespace UBNidalee
                     Spells.W.Cast(wmonster.ServerPosition);
                 }
             }
-            if (!Event.Humanform())
+            if (!Event.Humanform)
             {
                 var monster = ObjectManager.Get<Obj_AI_Minion>().Where(x => x.IsMonster && x.IsValidTarget(Spells.W2.Range)).OrderBy(x => x.MaxHealth).LastOrDefault();
                 if (monster == null || !monster.IsValid) return;
@@ -373,7 +370,7 @@ namespace UBNidalee
             }
             if (Config.RMenu["Rformjc"].Cast<CheckBox>().CurrentValue)
             {
-                if (Event.Humanform())
+                if (Event.Humanform)
                 {
                     if (!Spells.Q.IsReady() && !Config.WMenu["Wcb"].Cast<CheckBox>().CurrentValue && Spells.R.IsReady())
                     {
@@ -384,7 +381,7 @@ namespace UBNidalee
                         Spells.R.Cast();
                     }
                 }
-                if (!Event.Humanform())
+                if (!Event.Humanform)
                 {
                     if (!Spells.Q2.IsReady() && !Spells.W2.IsReady() && !Spells.E2.IsReady() && Spells.R.IsReady())
                     {
@@ -422,14 +419,14 @@ namespace UBNidalee
                 var target = EntityManager.Heroes.Enemies.FirstOrDefault(
                         t =>
                             t.IsValidTarget(Spells.Ignite.Range) &&
-                            t.Health <= Damage.SmiteDamage(t));
+                            t.Health <= Player.Instance.GetSummonerSpellDamage(t, DamageLibrary.SummonerSpells.Smite));
 
                 if (target != null && Spells.Smite.IsReady())
                 {
                     Spells.Smite.Cast(target);
                 }
             }
-            if (Event.Humanform())
+            if (Event.Humanform)
             {
                 if (Spells.Q.IsReady() && useQ)
                 {
@@ -448,7 +445,7 @@ namespace UBNidalee
                     }
                 }
             }
-            if (!Event.Humanform())
+            if (!Event.Humanform)
             {
                 if (Spells.W2.IsReady() && useW)
                 {
@@ -477,7 +474,7 @@ namespace UBNidalee
         #region AutoE
         public static void AutoE(EventArgs args)
         {
-            if (!Event.Humanform())
+            if (!Event.Humanform)
             {
                 return;
             }
@@ -545,11 +542,11 @@ namespace UBNidalee
             if (Config.QMenu["Qjs"].Cast<CheckBox>().CurrentValue)
             {
                 var Qmonster = ObjectManager.Get<Obj_AI_Minion>().Where(x => x != null && JungleMonster.Contains(x.BaseSkinName) && x.IsValidTarget(Spells.Q.Range)).OrderBy(x => x.MaxHealth).LastOrDefault();
-                if (Qmonster != null && Event.Humanform() && Qmonster.Health <= Damage.QHumanDamage(Qmonster) && Spells.Q.IsReady())
+                if (Qmonster != null && Event.Humanform && Qmonster.Health <= Damage.QHumanDamage(Qmonster) && Spells.Q.IsReady())
                 {
                     Spells.Q.Cast(Qmonster);
                 }
-                if (Qmonster != null && !Event.Humanform() && Event.IsReady(Event.CD["Javelintoss"]) && Spells.R.IsReady() && Qmonster.Health <= Damage.QHumanDamage(Qmonster))
+                if (Qmonster != null && !Event.Humanform && Event.IsReady(Event.CD["Javelintoss"]) && Spells.R.IsReady() && Qmonster.Health <= Damage.QHumanDamage(Qmonster))
                 {
                     Spells.R.Cast();
                     Spells.Q.Cast(Qmonster);

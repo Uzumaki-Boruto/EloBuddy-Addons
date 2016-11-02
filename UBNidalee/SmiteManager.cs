@@ -35,7 +35,7 @@ namespace UBNidalee
         {
             if (Spells.Smite != null)
             {
-                Game.OnTick += Game_OnTick;
+                Game.OnUpdate += Game_OnTick;
             }
         }
         public static void Game_OnTick(EventArgs agrs)
@@ -44,7 +44,7 @@ namespace UBNidalee
             var minion = ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsMonster && m.IsValidTarget(Spells.Smite.Range) && IsImportant(m)).OrderBy(x => x.MaxHealth).LastOrDefault();
             if (minion != null && minion.IsValid && Important)
             {
-                if (minion.Health <= Damage.SmiteDamage(minion))
+                if (minion.Health <= Player.Instance.GetSummonerSpellDamage(minion, DamageLibrary.SummonerSpells.Smite))
                 {
                     Spells.Smite.Cast(minion);
                 }

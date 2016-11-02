@@ -33,7 +33,6 @@ namespace UBNidalee
                 QMenu.AddLabel("Human Q");
                 QMenu.Add("Qcb", new CheckBox("Use Q"));
                 QMenu.Add("hitQcb", new Slider("Q hit chance", 75));
-                //QMenu.Add("Qrange", new Slider("Lower for more accuracy, Higher for range (66 recommended)", 66)); 
                 QMenu.Add("autoQ", new CheckBox("Auto Q if target in immobilize"));
                 QMenu.AddLabel("Cougar Q");
                 QMenu.Add("Q2cb", new CheckBox("Use Q"));
@@ -105,38 +104,10 @@ namespace UBNidalee
             RMenu = Menu.AddSubMenu("R Settings");
             {
                 RMenu.AddGroupLabel("R Setting");
-                RMenu.Add("R", new CheckBox("Use R to reset a.a (logic)"));
-                RMenu.Add("Rform", new ComboBox("I want change form when: ", 0 ,"My human spell is cooldown", "Has a passive target around me", "I want change form myself"));
+                RMenu.Add("Rform", new ComboBox("Logic R:", 0, "Human/Cougar Load", "Reset A.A"));
                 RMenu.Add("Rformjc", new CheckBox("Logic R in JungleClear"));
             }
-
-            //ItemMenu
-            ItemMenu = Menu.AddSubMenu("Item Menu");
-            {
-                ItemMenu.Add("item1", new CheckBox("Auto use Zhonya's Hourglass"));
-                ItemMenu.Add("item.1MyHp", new Slider("My HP less than {0}%", 50));
-                ItemMenu.AddSeparator();
-
-                ItemMenu.Add("item2", new CheckBox("Auto use Seraph's Embrace"));
-                ItemMenu.Add("item2MyHp", new Slider("My HP less than {0}%", 75));
-                ItemMenu.AddSeparator();
-
-                ItemMenu.Add("item3", new CheckBox("Auto use Bilgewater Cutlass"));
-                ItemMenu.Add("item4", new CheckBox("Auto use Hextech Gunblade"));
-                ItemMenu.Add("item34EnemyHP", new Slider("Enemy HP less than {0}%", 75));
-                ItemMenu.AddSeparator();
-
-                ItemMenu.Add("item5", new CheckBox("Auto use Randuin's Omen"));
-                ItemMenu.Add("item5Enemy", new Slider("Enemy around to use", 3, 1, 5));
-                ItemMenu.AddSeparator();
-
-                ItemMenu.Add("item6", new CheckBox("Auto use Righteous Glory (Logic)"));
-                ItemMenu.Add("item6Ally", new Slider("Use it if buff {0} ally", 3, 1, 4));
-                ItemMenu.AddSeparator();
-
-                ItemMenu.Add("item7", new CheckBox("Auto use Locket of the Iron Solari"));
-                ItemMenu.Add("item7Ally", new Slider("Use it if buff {0} ally", 4, 1, 4));
-            }
+           
             //MiscMenu          
             MiscMenu = Menu.AddSubMenu("MiscMenu");
             {
@@ -148,14 +119,24 @@ namespace UBNidalee
                 MiscMenu.Add("sm", new CheckBox("Use Smite to killsteal"));
                 MiscMenu.Add("smjc", new CheckBox("Smite on Important buff"));
                 MiscMenu.AddLabel("Auto Jump System");
-                var JumpKey = MiscMenu.Add("jump", new KeyBind("Enable Auto jump system", true, KeyBind.BindTypes.PressToggle, 'G'));
-                JumpKey.OnValueChange += delegate
+                var switchkey = MiscMenu.Add("switchkey", new KeyBind("Switch Key", false, KeyBind.BindTypes.HoldActive, 'S'));
+                switchkey.OnValueChange += delegate(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
                 {
-                    var On = new SimpleNotification("Auto Jump System :", "Activated. ");
-                    var Off = new SimpleNotification("Auto Jump System:", "Disable. ");
-
-                    Notifications.Show(JumpKey.CurrentValue ? On : Off, 2000);
+                    if (args.NewValue)
+                    {
+                        var value = MiscMenu["jumptype"].Cast<ComboBox>().CurrentValue;
+                        if (value == 2)
+                        {
+                            value = 0;
+                        }
+                        else
+                        {
+                            value++;
+                        }
+                    }
                 };
+                MiscMenu.Add("jumptype", new ComboBox("Dash Type", 0, "Don't W Jump", "Flee Active", "Auto Dash"));
+                MiscMenu.Add("jumpclickrange", new Slider("Range of Click", 50, 20, 100));
             }
 
             //DrawMenu

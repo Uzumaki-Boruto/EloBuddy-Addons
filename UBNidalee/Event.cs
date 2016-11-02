@@ -11,9 +11,12 @@ namespace UBNidalee
 {
     class Event
     {
-        public static bool Humanform()
+        public static bool Humanform
         {
-            return Player.Instance.GetAutoAttackRange() > 300;
+            get
+            {
+                return Player.Instance.Model == "Nidalee";
+            }
         }
         public static bool IsPassive(Obj_AI_Base target)
         {

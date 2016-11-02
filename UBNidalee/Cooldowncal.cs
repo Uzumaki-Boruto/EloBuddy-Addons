@@ -71,7 +71,7 @@ namespace UBNidalee
 
             if (sender.IsMe && args.SData.Name.ToLower() == "takedown" /*&& Player.Instance.HasBuff("Takedown") && Orbwalker.IsAutoAttacking*/)
             {
-                if (!Event.Humanform() && !Player.Instance.HasBuff("Takedown"))
+                if (!Event.Humanform && !Player.Instance.HasBuff("Takedown"))
                 {
                     Event.TimeStore["Takedown"] = Game.Time + args.SData.CooldownTime;
                 }

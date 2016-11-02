@@ -61,7 +61,6 @@
     <Compile Include="Drawings.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Flee.cs" />
-    <Compile Include="Items.cs" />
     <Compile Include="Mode.cs" />
     <Compile Include="More.cs" />
     <Compile Include="Nidalee.cs" />

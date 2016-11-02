@@ -80,125 +80,152 @@ namespace UBNidalee
         }
         public static void Special_Draw(EventArgs args)
         {
-            if (Checked && Event.Humanform() && !Spells.Q.IsLearned)
+            if (Checked && Event.Humanform)
             {
                 Takedown_grey.Draw(new Vector2(275 + XBonus, 200 + YBonus));
-                Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.Red, "Not learn");
+                string status = Spells.Q.IsLearned ? Event.IsReady(Event.CD["Takedown"]) ? "Ready" : Event.CD["Takedown"].ToString() : "Not learn";
+                Colour color = Spells.Q.IsLearned ? Event.IsReady(Event.CD["Takedown"]) ? Colour.Green : Colour.White : Colour.Red;
+                Drawing.DrawText(275 + XBonus, 275 + YBonus, color, status);
             }
-            if (Checked && Event.Humanform() && !Spells.W.IsLearned)
+            if (Checked && Event.Humanform)
             {
                 Pounce_grey.Draw(new Vector2(345 + XBonus, 200 + YBonus));
-                Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.Red, "Not learn");
+                string status = Spells.W.IsLearned ? Event.IsReady(Event.CD["Pounce"]) ? "Ready" : Event.CD["Pounce"].ToString() : "Not learn";
+                Colour color = Spells.W.IsLearned ? Event.IsReady(Event.CD["Pounce"]) ? Colour.Green : Colour.White : Colour.Red;
+                Drawing.DrawText(345 + XBonus, 275 + YBonus, color, status);
             }
-            if (Checked && Event.Humanform() && !Spells.E.IsLearned)
+            if (Checked && Event.Humanform)
             {
                 Swipe_grey.Draw(new Vector2(415 + XBonus, 200 + YBonus));
-                Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.Red, "Not learn");
+                string status = Spells.E.IsLearned ? Event.IsReady(Event.CD["Swipe"]) ? "Ready" : Event.CD["Swipe"].ToString() : "Not learn";
+                Colour color = Spells.E.IsLearned ? Event.IsReady(Event.CD["Swipe"]) ? Colour.Green : Colour.White : Colour.Red;
+                Drawing.DrawText(415 + XBonus, 275 + YBonus, color, status);
             }
             //--------------------------------------------------------------------------//
-            if (Checked && !Event.Humanform() && !Spells.Q2.IsLearned)
+            if (Checked && !Event.Humanform)
             {
                 Javelin_Toss_grey.Draw(new Vector2(275 + XBonus, 200 + YBonus));
-                Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.Red, "Not learn");
+                string status = Spells.Q.IsLearned ? Event.IsReady(Event.CD["Javelintoss"]) ? "Ready" : Event.CD["Javelintoss"].ToString() : "Not learn";
+                Colour color = Spells.Q.IsLearned ? Event.IsReady(Event.CD["Javelintoss"]) ? Colour.Green : Colour.White : Colour.Red;
+                Drawing.DrawText(275 + XBonus, 275 + YBonus, color, status);
             }
-            if (Checked && !Event.Humanform() && !Spells.W2.IsLearned)
+            if (Checked && !Event.Humanform)
             {
                 Bushwhack_grey.Draw(new Vector2(345 + XBonus, 200 + YBonus));
-                Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.Red, "Not learn");
+                string status = Spells.W.IsLearned ? Event.IsReady(Event.CD["Bushwhack"]) ? "Ready" : Event.CD["Bushwhack"].ToString() : "Not learn";
+                Colour color = Spells.W.IsLearned ? Event.IsReady(Event.CD["Bushwhack"]) ? Colour.Green : Colour.White : Colour.Red;
+                Drawing.DrawText(345 + XBonus, 275 + YBonus, color, status);
             }
-            if (Checked && !Event.Humanform() && !Spells.E2.IsLearned)
+            if (Checked && !Event.Humanform)
             {
                 Primal_Surge_grey.Draw(new Vector2(415 + XBonus, 200 + YBonus));
-                Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.Red, "Not learn");
+                string status = Spells.E.IsLearned ? Event.IsReady(Event.CD["Primalsurge"]) ? "Ready" : Event.CD["Primalsurge"].ToString() : "Not learn";
+                Colour color = Spells.E.IsLearned ? Event.IsReady(Event.CD["Primalsurge"]) ? Colour.Green : Colour.White : Colour.Red;
+                Drawing.DrawText(415 + XBonus, 275 + YBonus, color, status);
             }
-        }
-        public static void Special_Draw_2(EventArgs agrs)
-        {
-            if (Checked && Event.Humanform() && Spells.Q.IsLearned && Event.IsReady(Event.CD["Takedown"]))
-            {
-                Takedown.Draw(new Vector2(275 + XBonus, 200 + YBonus));
-                Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.Green, "Ready");
-            }
-            if (Checked && Event.Humanform() && Spells.W.IsLearned && Event.IsReady(Event.CD["Pounce"]))
-            {
-                Pounce.Draw(new Vector2(345 + XBonus, 200 + YBonus));
-                Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.Green, "Ready");
-            }
-            if (Checked && Event.Humanform() && Spells.E.IsLearned && Event.IsReady(Event.CD["Swipe"]))
-            {
-                Swipe.Draw(new Vector2(415 + XBonus, 200 + YBonus));
-                Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.Green, "Ready");
-            }
-            if (Checked && Event.Humanform() && Event.IsReady(Event.CD["Aspect"]))
+            //---------------------------------------------------------------------------//
+            if (Checked && Event.Humanform)
             {
                 R1.Draw(new Vector2(485 + XBonus, 200 + YBonus));
-                Drawing.DrawText(485 + XBonus, 275 + YBonus, Colour.Green, "Ready");
+                string status = Spells.R.IsLearned ? Event.IsReady(Event.CD["Aspect"]) ? "Ready" : Event.CD["Aspect"].ToString() : "Not learn";
+                Colour color = Spells.R.IsLearned ? Event.IsReady(Event.CD["Aspect"]) ? Colour.Green : Colour.White : Colour.Red;
+                Drawing.DrawText(485 + XBonus, 275 + YBonus, color, status);
             }
-            //-----------------------------------------------------------------------------//
-            if (Checked && !Event.Humanform() && Spells.Q2.IsLearned && Event.IsReady(Event.CD["Javelintoss"]))
-            {
-                Javelin_Toss.Draw(new Vector2(275 + XBonus, 200 + YBonus));
-                Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.Green, "Ready");
-            }
-            if (Checked && !Event.Humanform() && Spells.W2.IsLearned && Event.IsReady(Event.CD["Bushwhack"]))
-            {
-                Bushwhack.Draw(new Vector2(345 + XBonus, 200 + YBonus));
-                Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.Green, "Ready");
-            }
-            if (Checked && !Event.Humanform() && Spells.E2.IsLearned && Event.IsReady(Event.CD["Primalsurge"]))
-            {
-                Primal_Surge.Draw(new Vector2(415 + XBonus, 200 + YBonus));
-                Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.Green, "Ready");
-            }
-            if (Checked && !Event.Humanform() && Event.IsReady(Event.CD["Aspect"]))
-            {
-                Aspect_of_the_Cougar.Draw(new Vector2(485 + XBonus, 200 + YBonus));
-                Drawing.DrawText(485 + XBonus, 275 + YBonus, Colour.Green, "Ready");
-            }
-        }
-        public static void Special_Draw_3(EventArgs agrs)
-        {
-            if (Checked && Event.Humanform() && Spells.Q.IsLearned && !Event.IsReady(Event.CD["Takedown"]))
-            {
-                Takedown_grey.Draw(new Vector2(275 + XBonus, 200 + YBonus));
-                Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Takedown"]);
-            }
-            if (Checked && Event.Humanform() && Spells.W.IsLearned && !Event.IsReady(Event.CD["Pounce"]))
-            {
-                Pounce_grey.Draw(new Vector2(345 + XBonus, 200 + YBonus));
-                Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Pounce"]);
-            }
-            if (Checked && Event.Humanform() && Spells.E.IsLearned && !Event.IsReady(Event.CD["Swipe"]))
-            {
-                Swipe_grey.Draw(new Vector2(415 + XBonus, 200 + YBonus));
-                Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Swipe"]);
-            }
-            if (Checked && Event.Humanform() && !Event.IsReady(Event.CD["Aspect"]))
-            {
-                R2.Draw(new Vector2(485 + XBonus, 200 + YBonus));
-                Drawing.DrawText(485 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Aspect"]);
-            }
-            //--------------------------------------------------------------------------//
-            if (Checked && !Event.Humanform() && Spells.Q2.IsLearned && !Event.IsReady(Event.CD["Javelintoss"]))
-            {
-                Javelin_Toss_grey.Draw(new Vector2(275 + XBonus, 200 + YBonus));
-                Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Javelintoss"]);
-            }
-            if (Checked && !Event.Humanform() && Spells.W2.IsLearned && !Event.IsReady(Event.CD["Bushwhack"]))
-            {
-                Bushwhack_grey.Draw(new Vector2(345 + XBonus, 200 + YBonus));
-                Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Bushwhack"]);
-            }
-            if (Checked && !Event.Humanform() && Spells.E2.IsLearned && !Event.IsReady(Event.CD["Primalsurge"]))
-            {
-                Primal_Surge_grey.Draw(new Vector2(415 + XBonus, 200 + YBonus));
-                Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Primalsurge"]);
-            }
-            if (Checked && !Event.Humanform() && !Event.IsReady(Event.CD["Aspect"]))
+            if (Checked && !Event.Humanform)
             {
                 Aspect_of_the_Cougar_grey.Draw(new Vector2(485 + XBonus, 200 + YBonus));
-                Drawing.DrawText(485 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Aspect"]);
+                string status = Spells.R.IsLearned ? Event.IsReady(Event.CD["Aspect"]) ? "Ready" : Event.CD["Aspect"].ToString() : "Not learn";
+                Colour color = Spells.R.IsLearned ? Event.IsReady(Event.CD["Aspect"]) ? Colour.Green : Colour.White : Colour.Red;
+                Drawing.DrawText(485 + XBonus, 275 + YBonus, color, status);
             }
         }
+        //public static void Special_Draw_2(EventArgs agrs)
+        //{
+        //    if (Checked && Event.Humanform && Spells.Q.IsLearned && Event.IsReady(Event.CD["Takedown"]))
+        //    {
+        //        Takedown.Draw(new Vector2(275 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.Green, "Ready");
+        //    }
+        //    if (Checked && Event.Humanform && Spells.W.IsLearned && Event.IsReady(Event.CD["Pounce"]))
+        //    {
+        //        Pounce.Draw(new Vector2(345 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.Green, "Ready");
+        //    }
+        //    if (Checked && Event.Humanform && Spells.E.IsLearned && Event.IsReady(Event.CD["Swipe"]))
+        //    {
+        //        Swipe.Draw(new Vector2(415 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.Green, "Ready");
+        //    }
+        //    if (Checked && Event.Humanform && Event.IsReady(Event.CD["Aspect"]))
+        //    {
+        //        R1.Draw(new Vector2(485 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(485 + XBonus, 275 + YBonus, Colour.Green, "Ready");
+        //    }
+        //    //-----------------------------------------------------------------------------//
+        //    if (Checked && !Event.Humanform && Spells.Q2.IsLearned && Event.IsReady(Event.CD["Javelintoss"]))
+        //    {
+        //        Javelin_Toss.Draw(new Vector2(275 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.Green, "Ready");
+        //    }
+        //    if (Checked && !Event.Humanform && Spells.W2.IsLearned && Event.IsReady(Event.CD["Bushwhack"]))
+        //    {
+        //        Bushwhack.Draw(new Vector2(345 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.Green, "Ready");
+        //    }
+        //    if (Checked && !Event.Humanform && Spells.E2.IsLearned && Event.IsReady(Event.CD["Primalsurge"]))
+        //    {
+        //        Primal_Surge.Draw(new Vector2(415 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.Green, "Ready");
+        //    }
+        //    if (Checked && !Event.Humanform && Event.IsReady(Event.CD["Aspect"]))
+        //    {
+        //        Aspect_of_the_Cougar.Draw(new Vector2(485 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(485 + XBonus, 275 + YBonus, Colour.Green, "Ready");
+        //    }
+        //}
+        //public static void Special_Draw_3(EventArgs agrs)
+        //{
+        //    if (Checked && Event.Humanform && Spells.Q.IsLearned && !Event.IsReady(Event.CD["Takedown"]))
+        //    {
+        //        Takedown_grey.Draw(new Vector2(275 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Takedown"]);
+        //    }
+        //    if (Checked && Event.Humanform && Spells.W.IsLearned && !Event.IsReady(Event.CD["Pounce"]))
+        //    {
+        //        Pounce_grey.Draw(new Vector2(345 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Pounce"]);
+        //    }
+        //    if (Checked && Event.Humanform && Spells.E.IsLearned && !Event.IsReady(Event.CD["Swipe"]))
+        //    {
+        //        Swipe_grey.Draw(new Vector2(415 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Swipe"]);
+        //    }
+        //    if (Checked && Event.Humanform && !Event.IsReady(Event.CD["Aspect"]))
+        //    {
+        //        R2.Draw(new Vector2(485 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(485 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Aspect"]);
+        //    }
+        //    //--------------------------------------------------------------------------//
+        //    if (Checked && !Event.Humanform && Spells.Q2.IsLearned && !Event.IsReady(Event.CD["Javelintoss"]))
+        //    {
+        //        Javelin_Toss_grey.Draw(new Vector2(275 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(275 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Javelintoss"]);
+        //    }
+        //    if (Checked && !Event.Humanform && Spells.W2.IsLearned && !Event.IsReady(Event.CD["Bushwhack"]))
+        //    {
+        //        Bushwhack_grey.Draw(new Vector2(345 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(345 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Bushwhack"]);
+        //    }
+        //    if (Checked && !Event.Humanform && Spells.E2.IsLearned && !Event.IsReady(Event.CD["Primalsurge"]))
+        //    {
+        //        Primal_Surge_grey.Draw(new Vector2(415 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(415 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Primalsurge"]);
+        //    }
+        //    if (Checked && !Event.Humanform && !Event.IsReady(Event.CD["Aspect"]))
+        //    {
+        //        Aspect_of_the_Cougar_grey.Draw(new Vector2(485 + XBonus, 200 + YBonus));
+        //        Drawing.DrawText(485 + XBonus, 275 + YBonus, Colour.White, "" + Event.CD["Aspect"]);
+        //    }
+        //}
     }
 }

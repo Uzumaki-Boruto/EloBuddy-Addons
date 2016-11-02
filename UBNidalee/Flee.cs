@@ -20,51 +20,41 @@ namespace UBNidalee
         private static float currentDistance;
         private static bool jumped;
 
-
-        /*public static Vector3[] GetPoint()
-        {
-            return Points
-                .Where(x => Player.Instance.Distance(x[0]) <= 725)
-                .OrderBy(x => Player.Instance.Distance(x[0]))
-                .FirstOrDefault();
-        }*/
         public static Vector3 LastMoveCommand
         {
-            get { Player.Instance.Path.LastOrDefault(); return LastMoveCommand; }            
+            get { return Player.Instance.Path.LastOrDefault(); }            
         }
         public static Vector3[] GetJumpSpot()
         {
             return JumpSpots
-                .Where(x => Player.Instance.Distance(x[0]) <= 100)
-                .OrderBy(x =>  Game.ActiveCursorPos.Distance(x[0]))
+                 .Where(x => LastMoveCommand.Distance(x[0]) <= Config.MiscMenu["jumpclickrange"].Cast<Slider>().CurrentValue)
+                 .OrderBy(x => Player.Instance.Distance(x[0]))
                 .FirstOrDefault();
         }
         public static void JumpSystem(EventArgs args)
         {
-            if (!Config.MiscMenu["jump"].Cast<KeyBind>().CurrentValue) { return; }
+            var Value = Config.MiscMenu["jumptype"].Cast<ComboBox>().CurrentValue;
+            if (Value == 0) return;
+            if (Event.Humanform) return;
+            if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.Flee || Value == 2)
             {
                 var spot = GetJumpSpot();
-                if (Event.Humanform()) return;
                 if (Spells.W2f.IsReady()
-                    && !Event.Humanform()
                     && spot != null
                     && Environment.TickCount - lastMoveClick > 100)
                 {
-                    if (Player.Instance.Distance(spot[0]) <= 10)
+                    if (LastMoveCommand.Distance(spot[0]) <= Config.MiscMenu["jumpclickrange"].Cast<Slider>().CurrentValue && Player.Instance.Distance(spot[0]) <= 10)
                     {
                         Spells.W2f.Cast(spot[1]);
-                        lastMoveClick = Environment.TickCount;
                         jumped = true;
                     }
-                    else if (Player.Instance.Distance(spot[0]) > 10
-                        && Player.Instance.Distance(spot[0]) < 100)
+                    else if (Player.Instance.Distance(spot[0]) > 10 && Player.Instance.Distance(spot[0]) < Config.MiscMenu["jumpclickrange"].Cast<Slider>().CurrentValue)
                     {
                         lastDistance = currentDistance;
                         currentDistance = Player.Instance.Distance(spot[0]);
                         if (lastDistance == currentDistance)
                         {
                             Spells.W2f.Cast(spot[1]);
-                            lastMoveClick = Environment.TickCount;
                         }
                     }
                     else
@@ -75,16 +65,13 @@ namespace UBNidalee
                 }
             }
         }
-
         public static void DrawJumpSpot(EventArgs agrs)
         {
             if (Config.DrawMenu["drawjump"].Cast<CheckBox>().CurrentValue)
             {
                 foreach (var spot in JumpSpots.Where(s => Player.Instance.Distance(s[0]) <= 2000))
                 {
-                    Circle.Draw(Colour.Blue, 70f, 3f, spot[0]);
-                    Circle.Draw(Colour.BlueViolet, 50f, 3f, spot[0]);
-                    Drawing.DrawLine(Drawing.WorldToScreen(spot[0]), Drawing.WorldToScreen(spot[1]), 3f, System.Drawing.Color.Yellow);
+                    Drawing.DrawCircle(spot[0], Config.MiscMenu["jumpclickrange"].Cast<Slider>().CurrentValue, System.Drawing.Color.GreenYellow);
                 }
             }
         }

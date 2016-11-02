@@ -8,49 +8,14 @@ namespace UBNidalee
 {
     class Spells
     {
-        /// <summary>
-        /// Javelin Toss
-        /// </summary>
         public static Spell.Skillshot Q { get; private set; }
-
-        /// <summary>
-        /// Takedown
-        /// </summary>
         public static Spell.Active Q2 { get; private set; }
-
-        /// <summary>
-        /// Bushwhack
-        /// </summary>
         public static Spell.Skillshot W { get; private set; }
-
-        /// <summary>
-        /// Pounce
-        /// </summary>
         public static Spell.Skillshot W2 { get; private set; }
-
-        /// <summary>
-        /// Pounce(With Passive)
-        /// </summary>
         public static Spell.Skillshot W2p { get; private set; }
-
-        /// <summary>
-        /// Pouce for Auto system
-        /// </summary>
         public static Spell.Skillshot W2f { get; private set; }
-
-        /// <summary>
-        /// Primal Surge
-        /// </summary>
         public static Spell.Targeted E { get; private set; }
-
-        /// <summary>
-        /// Swipe
-        /// </summary>
         public static Spell.Skillshot E2 { get; private set; }
-
-        /// <summary>
-        /// Aspect of the Cougar
-        /// </summary>
         public static Spell.Active R { get; private set; }
         public static Spell.Targeted Smite { get; private set; }
         public static Spell.Targeted Ignite { get; private set; }

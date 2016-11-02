@@ -26,8 +26,7 @@ namespace UBNidalee
             var finalExtra2 = extraDmg2 <= 250f ? extraDmg2 / 100f : 2.5f;
 
             return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical,
-                (new[] { 0, 60, 77.5f, 95, 112.5f, 130 }[Spells.Q.Level] +
-                 (Player.Instance.TotalMagicalDamage * (0.4f)))) * finalExtra2;
+                (new[] { 0, 70f, 85f, 100f, 115f, 130f }[Spells.Q.Level] + Player.Instance.TotalMagicalDamage * 0.4f) * finalExtra2);
         }
         public static float QCougarDamage(Obj_AI_Base target)
         {
@@ -42,21 +41,18 @@ namespace UBNidalee
 
             if (Event.IsPassive(target))
             {
-                return Player.Instance.CalculateDamageOnUnit(target, DamageType.Mixed,
-                    (new[] { 0f, 5.3f, 26.7f, 66.7f, 120f }[Spells.R.Level] +
-                     (Player.Instance.TotalAttackDamage * finalExtra) +
-                     (Player.Instance.TotalMagicalDamage * (0.48f * finalExtra))));
+                return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical,
+                    new[] { 0f, 5.3f, 26.7f, 66.7f, 120f }[Spells.R.Level] + Player.Instance.TotalAttackDamage * 1.05f * finalExtra + Player.Instance.TotalMagicalDamage * 0.56f * finalExtra);
             }
-            return Player.Instance.CalculateDamageOnUnit(target, DamageType.Mixed,
-                (new[] { 0f, 4f, 20f, 50f, 90f }[Spells.R.Level] +
-                 (Player.Instance.TotalAttackDamage * (0.75f * finalExtra)) +
-                 (Player.Instance.TotalMagicalDamage * (0.36f * finalExtra))));
+            else
+                return Player.Instance.CalculateDamageOnUnit(target, DamageType.Mixed,
+                    new[] { 0f, 4f, 20f, 50f, 90f }[Spells.R.Level] + Player.Instance.TotalAttackDamage * 0.75f * finalExtra + Player.Instance.TotalMagicalDamage * 0.36f * finalExtra);
         }
         public static float WHumanDamage(Obj_AI_Base target)
         {
 
             return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical,
-                   new[] { 0, 10, 20, 30, 40, 50 }[Spells.W.Level] + (Player.Instance.TotalMagicalDamage * 0.05f));
+                   (new[] { 0, 10, 20, 30, 40, 50 }[Spells.W.Level] + Player.Instance.TotalMagicalDamage * 0.05f) * 4);
 
         }
         public static float WCougarDamage(Obj_AI_Base target)
@@ -70,7 +66,7 @@ namespace UBNidalee
             return Player.Instance.CalculateDamageOnUnit(target, DamageType.Magical,
                 new[] { 0, 70, 130, 190, 250 }[Spells.R.Level] + (Player.Instance.TotalMagicalDamage * 0.45f));
         }
-        public static float SmiteDamage(Obj_AI_Base target)
+        /*public static float SmiteDamage(Obj_AI_Base target)
         {
             if (target.IsValidTarget() && Spells.Smite.IsReady())
             {
@@ -87,7 +83,7 @@ namespace UBNidalee
                 }
             }
             return 0;
-        }
+        }*/
         public static float DamageinHumanform(Obj_AI_Base target, bool Q, bool W)
         {
             if (target == null)
