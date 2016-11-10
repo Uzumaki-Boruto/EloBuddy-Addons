@@ -59,7 +59,6 @@ namespace UBActivator
 
                 Obj_AI_Base.OnProcessSpellCast += Defense.OnProcessSpellCast;
                 Obj_AI_Base.OnProcessSpellCast += Defensive.OnProcessSpellCast;
-                Obj_AI_Base.OnProcessSpellCast += Ward.Obj_AI_Base_OnProcessSpellCast;
 
                 Obj_AI_Base.OnBasicAttack += Defensive.Obj_AI_Base_OnBasicAttack;
 
@@ -83,7 +82,6 @@ namespace UBActivator
             Spells.KillSteal();
             Spells.UseHeal();
             Ward.OnTick();
-            Ward.OnTick2();
         }
         
     }
