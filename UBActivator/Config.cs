@@ -288,26 +288,7 @@ namespace UBActivator
             Ward = Menu.AddSubMenu("Auto Reveal");
             {
                 Ward.Add("enableward", new CheckBox("Enable Reveal"));
-                Ward.Add("enablebrush", new CheckBox("Anti Bush"));
-                foreach (var champ in EntityManager.Heroes.Enemies)
-                {
-                    if (champ.ChampionName == "Akali")
-                        Ward.Add("akali", new CheckBox("Anti Akali"));
-                    if (champ.ChampionName == "Rengar")
-                        Ward.Add("rengar", new CheckBox("Anti Rengar"));
-                    if (champ.ChampionName == "Shaco")
-                        Ward.Add("shaco", new CheckBox("Anti Shaco"));
-                    if (champ.ChampionName == "Wukong")
-                        Ward.Add("shaco", new CheckBox("Anti Wukong", false));
-                    //if (champ.ChampionName == "Leblanc")
-                    //    Ward.Add("leblanc", new CheckBox("Anti Leblanc"));
-                    if (champ.ChampionName == "KhaZix")
-                        Ward.Add("khazik", new CheckBox("Anti KhaZix"));
-                    if (champ.ChampionName == "Twitch")
-                        Ward.Add("twitch", new CheckBox("Anti Twitch"));
-                    if (champ.ChampionName == "Vayne")
-                        Ward.Add("vayne", new CheckBox("Anti Vayne"));
-                }
+                Ward.Add("enablebrush", new CheckBox("Anti Bush"));                
                 WardButton = Ward.Add("wardhuman", new CheckBox("Use random value", false));
                 WardButton.OnValueChange += WardButton_OnValueChange;
                 WardSlider = Ward.Add("warddelay", new Slider("Delay", 500, 0, 2000));
