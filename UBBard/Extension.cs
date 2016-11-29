@@ -69,8 +69,8 @@ namespace UBBard
         {
             var EndPoint = Player.Instance.Position.Extend(pred.CastPosition, Spells.Q.Range).To3D();
             var Rectangle = new Geometry.Polygon.Rectangle(Player.Instance.Position, EndPoint, Spells.Q.Width);
-            var Count = ObjectManager.Get<Obj_AI_Base>().Where(x => x.IsValid && Rectangle.IsInside(x)).Count();
-            if (pred.CollisionObjects.Count() == 1)
+            var Count = ObjectManager.Get<Obj_AI_Base>().Where(x => x.IsValidTarget() && Rectangle.IsInside(x)).Count();
+            if (pred.CollisionObjects.Any())
             {
                 return true;
             }
@@ -80,10 +80,9 @@ namespace UBBard
             }
             var Distance = Spells.Q.Range - Player.Instance.Distance(pred.UnitPosition);
             float checkDistance = Distance / 50f;
-            var Dir = (pred.UnitPosition - ObjectManager.Player.ServerPosition).Normalized();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i <= 50; i++)
             {
-                Vector3 finalPosition = pred.UnitPosition + (Dir * checkDistance * i);
+                Vector3 finalPosition = Player.Instance.Position.Extend(pred.UnitPosition, Player.Instance.Distance(pred.UnitPosition) + i * checkDistance).To3DWorld();
                 if (finalPosition.IsWall() || finalPosition.IsBuilding())
                 {
                     return true;
