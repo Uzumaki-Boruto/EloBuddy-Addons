@@ -35,10 +35,12 @@ namespace UBActivator
                 var Count = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, 400).Count();
                 var impMonster = ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsMonster && m.IsValidTarget(400) && Extensions.IsImportant(m)).OrderBy(x => x.MaxHealth).LastOrDefault();
 
-                if (Count >= Config.Offensive["TiamatLccount"].Cast<Slider>().CurrentValue)
+                if (Count >= Config.Offensive["TiamatJccount"].Cast<Slider>().CurrentValue)
                 {
-                    if (Items.Tiamat.IsOwned() && Items.Tiamat.IsReady()) Items.Tiamat.Cast();
-                    else if (Items.Ravenous_Hydra.IsOwned() && Items.Ravenous_Hydra.IsReady()) Items.Ravenous_Hydra.Cast();
+                    if (Items.Tiamat.IsOwned() && Items.Tiamat.IsReady())
+                        Items.Tiamat.Cast();
+                    else if (Items.Ravenous_Hydra.IsOwned() && Items.Ravenous_Hydra.IsReady())
+                        Items.Ravenous_Hydra.Cast();
                     else if (Items.Titanic_Hydra.IsOwned() && Items.Titanic_Hydra.IsReady())
                     {
                         Items.Titanic_Hydra.Cast();

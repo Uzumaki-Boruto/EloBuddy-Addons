@@ -16,10 +16,7 @@ namespace UBActivator
         }
 
         static void Loading_OnLoadingComplete(EventArgs args)
-        {
-            var notStart = new SimpleNotification("UBActivator Load Status", "UBActivator sucessfully loaded.");
-            Notifications.Show(notStart, 5000);
-
+        {          
             Spells.InitSpells();
             Config.Dattenosa();
             Items.InitItems();
@@ -29,6 +26,8 @@ namespace UBActivator
             if (Spells.Barrier != null)
             Barrier.Initialize();
             InitEvent();
+            var notStart = new SimpleNotification("UBActivator Load Status", "UBActivator sucessfully loaded.");
+            Notifications.Show(notStart, 5000);
         }
         static void InitEvent()
         {
