@@ -12,6 +12,7 @@ namespace UBActivator
         public static void Ontick()
         {
             //if (Items.Tiamat == null && Items.Ravenous_Hydra == null) return;
+            if (!Player.Instance.IsVisible) return;
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear))
             {
                 var Count = EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, Player.Instance.Position, 400).Count();
@@ -30,6 +31,7 @@ namespace UBActivator
         public static void OnTick2()
         {
             //if (Items.Tiamat == null && Items.Ravenous_Hydra == null) return;
+            if (!Player.Instance.IsVisible) return;
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 var Count = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, 400).Count();
@@ -68,6 +70,7 @@ namespace UBActivator
             var TiamatTarget = TargetSelector.GetTarget(400, DamageType.Physical);
             var CutlassTarget = TargetSelector.GetTarget(550, DamageType.Magical);
             var HextechTarget = TargetSelector.GetTarget(700, DamageType.Magical);
+            if (!Player.Instance.IsVisible) return;
             if (TiamatTarget != null)
             {
                 var distance = Player.Instance.Distance(TiamatTarget);
@@ -158,6 +161,7 @@ namespace UBActivator
         }
         public static void OnTick4()
         {
+            if (!Player.Instance.IsVisible) return;
             if (!Items.Hextech_Protobelt_01.IsOwned()) return;
             if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) return;
             if (Config.Offensive["Hextech01"].Cast<CheckBox>().CurrentValue) return;
