@@ -12,7 +12,7 @@ namespace UBActivator
                 (new[] { 0f, 100f, 106f, 112f, 118f, 124f, 130f, 136f, 141f, 147f, 153f, 159f, 165f, 171f, 176f, 182f, 188f, 194f, 200f }[Player.Instance.Level]) + 0.35f * Player.Instance.TotalMagicalDamage);
             var DamageFire = Player.Instance.CalculateDamageOnUnit(
                 target, DamageType.Magical,
-                (new[] { 0f, 75f, 79f, 83f, 88f, 92f, 97f, 101f, 106f, 110f, 115f, 119f, 124f, 128f, 132f, 137f, 141f, 146f, 150f }[Player.Instance.Level]) + 0.35f * Player.Instance.TotalMagicalDamage);
+                (new[] { 0f, 75f, 79f, 83f, 88f, 92f, 97f, 101f, 106f, 110f, 115f, 119f, 124f, 128f, 132f, 137f, 141f, 146f, 150f }[Player.Instance.Level]) + 0.25f * Player.Instance.TotalMagicalDamage);
             var DamageGunblade = Player.Instance.CalculateDamageOnUnit(
                 target, DamageType.Magical, 250 + 0.3f * Player.Instance.TotalMagicalDamage);
             

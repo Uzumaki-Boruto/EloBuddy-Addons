@@ -35,6 +35,11 @@ namespace UBNidalee
         {
             Game.OnTick += GameOnTick;
             Obj_AI_Base.OnProcessSpellCast += Cooldowncal.Obj_AI_Base_OnProcessSpellCast;
+            Obj_AI_Base.OnProcessSpellCast += delegate(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+            {
+                var Time = args.SData.CooldownTime;
+                //Time always return base cooldown
+            };
             Game.OnUpdate += Mode.AutoE;
             Game.OnUpdate += Event.AutoQ;
             Game.OnUpdate += Cooldowncal.SpellsOnUpdate;

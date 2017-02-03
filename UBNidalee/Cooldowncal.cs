@@ -76,7 +76,6 @@ namespace UBNidalee
                     Event.TimeStore["Takedown"] = Game.Time + args.SData.CooldownTime;
                 }
             }
-
             if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar")
             {
                 Event.TimeStore["Aspect"] = Game.Time + args.SData.CooldownTime;
